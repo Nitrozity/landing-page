@@ -1292,12 +1292,10 @@ body .accessories-page .btn.out-of-stock:hover {
   color: #00bfff;
 }
 
-/* Light mode override */
-body.light-mode #mobile-menu {
-  background-color: #f0f0f0; /* light background */
-  color: #111;                /* dark text */
+body.light-mode #mobile-menu a {
+  color: #000000; /* black text in light mode */
 }
 
-body.light-mode #mobile-menu a {
-  color: #00bfff;             /* links in light mode */
+body.light-mode #mobile-menu a:hover {
+  color: #00bfff; /* hover stays blue */
 }
