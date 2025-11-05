@@ -1254,24 +1254,58 @@ body .accessories-page .btn.out-of-stock:hover {
     background: #7a7a7a;  /* keep grey on hover */
 }
 
-/* Mobile menu links - dark mode default */
+/* ===== MOBILE MENU ===== */
+
+/* Default (dark mode) */
+#mobile-menu {
+  position: relative;
+  top: 0;
+  width: 100%;
+  background-color: #111;  /* dark background */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  z-index: 999;
+}
+
+/* Menu visible when toggled */
+#mobile-menu.show {
+  max-height: 500px;  /* adjust based on number of links */
+  opacity: 1;
+}
+
+/* Menu items */
+#mobile-menu ul {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
 #mobile-menu ul li a {
-  color: #fff; /* default white for dark mode */
+  color: #fff;               /* dark mode default */
   text-decoration: none;
   font-size: 1.1rem;
   transition: color 0.3s;
 }
 
-/* Hover */
 #mobile-menu ul li a:hover {
-  color: #00bfff;
+  color: #00bfff;           /* hover in dark mode */
 }
 
-/* Light mode overrides */
+/* ===== LIGHT MODE MOBILE MENU ===== */
+body.light-mode #mobile-menu {
+  background-color: #fdfdfd;  /* match light mode background */
+}
+
 body.light-mode #mobile-menu ul li a {
-  color: #000000 !important; /* force black in light mode */
+  color: #121212 !important;   /* force black for mobile nav links */
 }
 
 body.light-mode #mobile-menu ul li a:hover {
-  color: #00bfff;
+  color: #00bfff !important;   /* hover remains blue */
 }
