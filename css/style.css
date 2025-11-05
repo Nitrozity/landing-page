@@ -1309,3 +1309,28 @@ body.light-mode #mobile-menu ul li a {
 body.light-mode #mobile-menu ul li a:hover {
   color: #00bfff !important;   /* hover remains blue */
 }
+
+
+/* Only show hamburger on mobile */
+@media screen and (max-width: 768px) {
+    #desktop-nav { display: none; }
+    #menu-toggle { display: block; }
+}
+
+/* Mobile menu hidden by default */
+#mobile-menu {
+    display: none;
+    position: absolute; /* slide down from top of header */
+    top: 60px; /* adjust to header height */
+    left: 0;
+    width: 100%;
+    background: #121212;
+    text-align: center;
+    z-index: 999;
+}
+
+/* Show when toggled */
+#mobile-menu.show { display: block; }
+
+#mobile-menu a { display: block; padding: 10px; color: #fff; text-decoration: none; }
+#mobile-menu a:hover { color: #00bfff; }
