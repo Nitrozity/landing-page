@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send-In Services | RGH NATION</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+	  <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+</header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h2>Xbox 360 S/E RGH Service</h2>
+            <p>Send us your Xbox 360 S or E and we'll mod it for you! Expected turnaround: 2-5 days. Tested & working consoles only.</p>
+        </div>
+    </section>
+
+<!-- Send-In Gallery -->
+<div class="sendin-gallery">
+    <img src="images/sendin-console1.jpg" class="thumbnail" alt="Send-In Console 1">
+    <img src="images/sendin-console2.jpg" class="thumbnail" alt="Send-In Console 2">
+    <img src="images/sendin-console3.jpg" class="thumbnail" alt="Send-In Console 3">
+    <img src="images/sendin-console4.jpg" class="thumbnail" alt="Send-In Console 4">
+</div>
+
+<!-- Modal -->
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+    <img class="modal-content" id="modalImg">
+</div>
+
+
+    <!-- Info Dropdowns -->
+    <section class="sendin-info">
+        <div class="container">
+            <!-- Info -->
+            <div class="dropdown">
+                <button class="dropbtn">Info</button>
+                <div class="dropdown-content">
+                    <p>Payment accepted: Zelle, Cash App, Venmo (friends), Cash in box. United States only. Cash discount: Save $10.</p>
+                </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="dropdown">
+                <button class="dropbtn">Requirements</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li>Console must be tested and working (except disc drive if Option 2 or 3)</li>
+                        <li>Include power supply and cables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- LED Colors -->
+            <div class="dropdown">
+                <button class="dropbtn">LED Colors</button>
+                <div class="dropdown-content">
+                    <p>Custom Ring of Lights and Fan LEDs installed for Options 2 & 3. Choose your color preferences when contacting us.</p>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="dropdown">
+                <button class="dropbtn">Contact Info</button>
+                <div class="dropdown-content">
+                    <p>Email: <a href="mailto:support@rghnation.com">support@rghnation.com</a></p>
+                    <p>Discord: RGH NATION #1234</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Options -->
+    <section class="sendin-options">
+        <div class="container">
+            <h3>Available Options</h3>
+
+            <div class="option">
+                <h4>Option 1 - $94.99</h4>
+                <ul>
+                    <li>RGH3 or RGH1.2 Install</li>
+                    <li>New Thermal Paste Applied</li>
+                    <li>Hard Drive Pre-Loading</li>
+                    <li>Cleaning & Sanitation</li>
+                    <li>Return Shipping</li>
+                </ul>
+            </div>
+
+            <div class="option">
+                <h4>Option 2 - $125</h4>
+                <ul>
+                    <li>RGH3 or RGH1.2 Install</li>
+                    <li>New Thermal Paste Applied</li>
+                    <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+                    <li>Custom Ring of Lights Installed</li>
+                    <li>Hard Drive Pre-Loading</li>
+                    <li>Cleaning & Sanitation</li>
+                    <li>Return Shipping</li>
+                </ul>
+            </div>
+
+            <div class="option">
+                <h4>Option 3 - $135</h4>
+                <ul>
+                    <li>RGH3 or RGH1.2 Install</li>
+                    <li>New Thermal Paste Applied</li>
+                    <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+                    <li>Custom Ring of Lights Installed</li>
+                    <li>Custom Fan LEDs Installed</li>
+                    <li>Hard Drive Pre-Loading</li>
+                    <li>Cleaning & Sanitation</li>
+                    <li>Return Shipping</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Carousel JS -->
+    <script>
+        const carouselImages = document.querySelectorAll('.sendin-carousel img');
+        let currentIndex = 0;
+        setInterval(() => {
+            carouselImages[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % carouselImages.length;
+            carouselImages[currentIndex].classList.add('active');
+        }, 4000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGH NATION</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+
+  <!-- Theme toggle -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+
+  <!-- Hamburger Icon -->
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+
+  <!-- Desktop nav -->
+  <nav id="desktop-nav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Mobile sliding menu -->
+<nav id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+    <li><a href="sendin.html">Send-In Services</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <h2>The #1 Source for Xbox 360 Hardware Modding</h2>
+    <p>Custom consoles, expert installations, fast shipping, and around-the-clock support!</p>
+    <div class="hero-buttons">
+      <a href="prebuilt.html" class="btn">Shop RGH Consoles</a>
+      <a href="sendin.html" class="btn btn-secondary">Send-In Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+  <div class="container">
+    <div class="feature">
+      <h3>Top Notch Consoles</h3>
+      <p>All consoles come fully refurbished, sanitized and well tested while also using the most reliable RGH or JTAG methods</p>
+    </div>
+    <div class="feature">
+      <h3>Priority Shipping</h3>
+      <p>Unlike competitors, we often ship orders on the same or next available business day ensuring you receive your console quickly.</p>
+    </div>
+    <div class="feature">
+      <h3>24-7 Tech Support</h3>
+      <p>Stay connected & chat with us on Discord or Email regarding any questions or concerns. We're more than happy to help!</p>
+    </div>
+    <div class="feature">
+      <h3>Fully Updated, Online Ready</h3>
+      <p>Our consoles run the latest dashboard making them capable of going online quite simply!</p>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews">
+  <div class="container">
+    <h3>What Our Customers Say</h3>
+    <div class="quote-container">
+      <p class="quote">"RGH NATION transformed my Xbox 360! Fast, professional, and reliable."</p>
+      <p class="quote">"Excellent service and top-quality modding. Highly recommended!"</p>
+      <p class="quote">"Quick shipping, responsive support, and my console works perfectly."</p>
+      <p class="quote">"Very satisfied with the RGH install, everything works as promised!"</p>
+      <p class="quote">"Bricked my 360 because they recommended xbGuard. Would not recommend.."</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact">
+  <div class="container">
+    <h3>Contact Us</h3>
+    <p>Email us at <a href="mailto:support@rghnation.com">support@rghnation.com</a> for inquiries or orders.</p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+</footer>
+
+<!-- ===== THEME TOGGLE SCRIPT ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+
+  const toggle = document.getElementById('theme-toggle');
+  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('dark-mode');
+
+    if(document.body.classList.contains('light-mode')) {
+      localStorage.setItem('theme', 'light');
+      toggle.textContent = '☀️';
+    } else {
+      localStorage.setItem('theme', 'dark');
+      toggle.textContent = '🌙';
+    }
+  });
+});
+</script>
+
+<!-- ===== QUOTES SLIDER SCRIPT ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const quotes = document.querySelectorAll('.quote');
+  let current = 0;
+  const slideDuration = 4000;
+
+  function showNextQuote() {
+    const prev = current;
+    current = (current + 1) % quotes.length;
+
+    quotes[prev].style.transform = 'translateY(-50%) translateX(100%)';
+    quotes[prev].style.opacity = 0;
+
+    quotes[current].style.transition = 'none';
+    quotes[current].style.transform = 'translateY(-50%) translateX(-100%)';
+    quotes[current].style.opacity = 0;
+    quotes[current].offsetHeight; // force reflow
+    quotes[current].style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+    quotes[current].style.transform = 'translateY(-50%) translateX(0)';
+    quotes[current].style.opacity = 1;
+  }
+
+  quotes[0].style.transform = 'translateY(-50%) translateX(0)';
+  quotes[0].style.opacity = 1;
+
+  setInterval(showNextQuote, slideDuration);
+});
+</script>
+
+<!-- ===== MOBILE MENU SCRIPT ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('show');
+  });
+});
+</script>
+
+</body>
+</html>

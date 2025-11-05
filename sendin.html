@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send-In Services - RGH NATION</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ====== Base Styles ====== */
+body {
+    background-color: #0e0e0e;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a {
+    color: #00bfff;
+    transition: color 0.3s;
+}
+
+/* ====== Service Card Styles ====== */
+.service-card {
+    background-color: #1a1a1a;
+    color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.service-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    background: inherit;
+    object-fit: unset;
+}
+
+/* ====== Spacing between cards and footer ====== */
+.sendin-services {
+    margin-bottom: 60px;
+}
+
+/* ====== Light Mode Service Cards ====== */
+body.light-mode .service-card {
+    background-color: #cce6ff; /* light card background */
+    color: #000;
+}
+
+body.light-mode .service-card h3,
+body.light-mode .service-card p {
+    color: #000;
+}
+
+body.light-mode a {
+    color: #007bff;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html" class="active">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+</header>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="container">
+    <h2>Send-In Services</h2>
+    <p>Already have a console? Send it in and let us handle the modding professionally.</p>
+  </div>
+</section>
+
+<!-- Send-In Services Section -->
+<section class="sendin-services">
+  <div class="container">
+    <div class="service-grid">
+
+      <!-- Service 1 -->
+      <div class="service-card">
+        <a href="sendin-rgh.html">
+          <img src="images/sendin-rgh.jpg" alt="Send-In RGH Service">
+          <h3>Xbox 360 S/E RGH Service</h3>
+          <p>Ship your Xbox 360 to us for a professional RGH installation. We handle everything from glitch chip install to setup and testing.</p>
+        </a>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-card">
+        <a href="sendin-upgrade.html">
+          <img src="images/sendin-upgrade.jpg" alt="Modchip Upgrade Service">
+          <h3>Modchip Upgrade Service</h3>
+          <p>Experiencing long or inconsistent boot times? Our Modchip Upgrade Service is designed to fix that. We can upgrade your existing install to SMC+ RGH1.2 or completely remove the chip for a professional RGH3 conversion — giving you faster startups every time.</p>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+</footer>
+
+<!-- Theme Toggle Script -->
+<script>
+const toggle = document.getElementById('theme-toggle');
+
+// Apply saved theme on page load
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    toggle.textContent = '☀️';
+} else {
+    toggle.textContent = '🌙';
+}
+
+// Toggle light/dark mode and save preference
+toggle?.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        toggle.textContent = '☀️';
+    } else {
+        localStorage.setItem('theme', 'dark');
+        toggle.textContent = '🌙';
+    }
+});
+</script>
+
+</body>
+</html>

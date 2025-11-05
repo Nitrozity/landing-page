@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop RGH Consoles - RGH NATION</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+	  <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+</header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h2>Pre-Built Consoles</h2>
+            <p>To make a purchase, please contact us on Discord or Email.</p>
+        </div>
+    </section>
+
+    <!-- Prebuilt Info Section -->
+    <section class="prebuilt-info">
+        <div class="container">
+            <h3>All Bundle Deals Include:</h3>
+            <ul>
+                <li>Fully Refurbished & Sanitized RGH Console</li>
+                <li>Pre-Loaded Hard Drive (Includes)</li>
+                <li>Nand & KV Info Backups</li>
+                <li>Fully Updated & Online Ready</li>
+                <li>Arctic Silver Thermal Paste Installed</li>
+                <li>30 Day Warranty</li>
+            </ul>
+            <p>Accessories are sold separately. If you need them, see our Accessories page for prices & availability.</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container">
+            <h3>Our Pre-Built RGH Consoles</h3>
+
+            <div class="product-grid">
+                <!-- Product Card Example -->
+                <div class="product-card">
+                    <img src="images/console1.jpg" alt="Console 1">
+                    <h4>RGH Console Bundle 1</h4>
+                    <p>Fully pre-built console with installed RGH and pre-loaded games.</p>
+                    <a href="#" class="btn" id="contactBtn1">Contact to Purchase</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/console2.jpg" alt="Console 2">
+                    <h4>RGH Console Bundle 2</h4>
+                    <p>Dual Nand setup with pre-loaded hard drive and 30-day warranty.</p>
+                    <a href="#" class="btn" id="contactBtn2">Contact to Purchase</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/console3.jpg" alt="Console 3">
+                    <h4>RGH Console Bundle 3</h4>
+                    <p>Triple Nand setup, sanitized, updated, ready to play online.</p>
+                    <a href="#" class="btn" id="contactBtn3">Contact to Purchase</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal (Single modal reused for all buttons) -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Contact Us to Purchase</h3>
+            <p>Reach us via:</p>
+            <ul>
+                <li>Discord: <a href="https://discord.gg/yourdiscord" target="_blank">Join Server</a></li>
+                <li>Email: <a href="mailto:support@rghnation.com">support@rghnation.com</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('contactModal');
+        const contactButtons = document.querySelectorAll('[id^="contactBtn"]');
+        const closeBtn = document.querySelector('.modal .close');
+
+        contactButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.style.display = 'block';
+            });
+        });
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

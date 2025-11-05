@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessories - RGH NATION</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ================== MODAL STYLES ================== */
+.modal {
+    display: none; /* hidden by default */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="accessories.html" class="active">Accessories</a></li>
+    </ul>
+  </nav>
+  <!-- Theme toggle button -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+</header>
+
+<section class="page-hero">
+    <div class="container">
+        <h2>Accessories</h2>
+        <p>Still need power cords, controllers, or additional add-ons?<br>RGH NATION HAS YOU COVERED!</p>
+    </div>
+</section>
+
+<section class="products">
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="images/accessory1.jpg" alt="Accessory 1">
+                <h4>Wireless Controller</h4>
+                <p class="price">$14.99</p>
+                <a href="#" class="btn out-of-stock">Out of Stock</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory2.jpg" alt="Accessory 2">
+                <h4>Hard Drive Upgrade</h4>
+                <p class="price">$0.00</p>
+                <a href="#" class="btn-purchase">Contact to Purchase</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory4.jpg" alt="Accessory 4">
+                <h4>OEM Slim Power Supply</h4>
+                <p class="price">$26.99</p>
+                <a href="#" class="btn-purchase">Contact to Purchase</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory5.jpg" alt="Accessory 5">
+                <h4>OEM Phat Power Supply</h4>
+                <p class="price">$26.99</p>
+                <a href="#" class="btn out-of-stock">Out of Stock</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory3.jpg" alt="Accessory 3">
+                <h4>HDMI Cable</h4>
+                <p class="price">$4.99</p>
+                <a href="#" class="btn-purchase">Contact to Purchase</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory6.jpg" alt="Accessory 6">
+                <h4>AV/RCA Cable</h4>
+                <p class="price">$4.99</p>
+                <a href="#" class="btn-purchase">Contact to Purchase</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory7.jpg" alt="Accessory 7">
+                <h4>Kinect Sensor</h4>
+                <p class="price">$9.99</p>
+                <a href="#" class="btn-purchase">Contact to Purchase</a>
+            </div>
+            <div class="product-card">
+                <img src="images/accessory8.jpg" alt="Accessory 8">
+                <h4>Phat Wi-Fi Adapter</h4>
+                <p class="price">$26.99</p>
+                <a href="#" class="btn out-of-stock">Out of Stock</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Contact Us to Purchase</h3>
+        <p>Reach us via:</p>
+        <ul>
+            <li>Discord: <a href="https://discord.gg/yourdiscord" target="_blank">Join Server</a></li>
+            <li>Email: <a href="mailto:support@rghnation.com">support@rghnation.com</a></li>
+        </ul>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('contactModal');
+    const contactButtons = document.querySelectorAll('.btn-purchase');
+    const closeBtn = modal.querySelector('.close');
+
+    // Open modal on button click
+    contactButtons.forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault(); // prevent scrolling to top
+            modal.classList.add('active');
+        });
+    });
+
+    // Close modal on close button click
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    // Close modal if clicking outside the modal content
+    window.addEventListener('click', e => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+});
+</script>
+
+<!-- Theme Toggle Script -->
+<script>
+const toggle = document.getElementById('theme-toggle');
+
+// Apply saved theme on page load
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    toggle.textContent = '☀️';
+} else {
+    toggle.textContent = '🌙';
+}
+
+// Toggle light/dark mode and save preference
+toggle?.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        toggle.textContent = '☀️';
+    } else {
+        localStorage.setItem('theme', 'dark');
+        toggle.textContent = '🌙';
+    }
+});
+</script>
+
+</body>
+</html>

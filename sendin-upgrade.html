@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modchip Upgrade Service - RGH NATION</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* --- Product Section & Tabs --- */
+.product-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+  gap: 40px;
+}
+
+.product-image {
+  flex: 1 1 400px;
+  text-align: center;
+}
+
+.product-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.product-details {
+  flex: 1 1 600px;
+}
+
+.tabs {
+  margin-top: 30px;
+}
+
+.tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tab-buttons button {
+  flex: 1 1 auto;
+  padding: 12px 15px;
+  background: #1a1a1a;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab-buttons button.active {
+  background: #00bfff;
+  color: #000;
+}
+
+.tab-content {
+  background: #121212;
+  border-radius: 0 0 8px 8px;
+  padding: 20px;
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content h3 {
+  color: #00bfff;
+  margin-top: 0;
+}
+
+.tab-content ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.tab-content ul li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .product-section {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER (unchanged) ===== -->
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+
+  <!-- Theme toggle -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+
+  <!-- Hamburger Icon -->
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+
+  <!-- Desktop nav -->
+  <nav id="desktop-nav">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html" class="active">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Mobile sliding menu -->
+<nav id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+    <li><a href="sendin.html" class="active">Send-In Services</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+  </ul>
+</nav>
+
+<!-- ===== PRODUCT SECTION ===== -->
+<section class="product-section">
+  <div class="product-image">
+    <img src="images/sendin-upgrade.jpg" alt="Modchip Upgrade Service">
+  </div>
+
+  <div class="product-details">
+    <h2>Modchip Upgrade Service</h2>
+    <p>Upgrade your pre-modded Xbox 360 with a professional modchip installation for improved performance and reduced boot times. Perfect for replacing old chips or enhancing your console’s RGH setup.</p>
+
+    <div class="tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="service-info">Service Info</button>
+        <button class="tab-btn" data-tab="requirements">Requirements</button>
+        <button class="tab-btn" data-tab="options">Options</button>
+        <button class="tab-btn" data-tab="led-colors">LED Colors</button>
+        <button class="tab-btn" data-tab="repair-info">Repair Info</button>
+        <button class="tab-btn" data-tab="contact">Contact Us</button>
+        <button class="tab-btn" data-tab="faq">Questions & Answers</button>
+      </div>
+
+      <div id="service-info" class="tab-content active">
+        <h3>Send us your Xbox 360 S or E!</h3>
+        <p>Expected turnaround time: <strong>3-7 days</strong>. We accept only tested and working consoles, except for disc drive issues in Option 2 or 3.</p>
+        <p>Payment accepted via: Zelle, Cash App, Venmo (Friends/Family), or Cash in Box. United States shipping only.</p>
+        <p><strong>NOTICE:</strong> Save $10 when paying with cash! Mail your console with cash to receive the discount.</p>
+      </div>
+
+      <div id="requirements" class="tab-content">
+        <h3>Requirements</h3>
+        <ul>
+          <li>Console must be clean and free of pests</li>
+          <li>No consoles with failed prior repair attempts</li>
+          <li>Send only the console (no cords). Compatible hard drives can be included for preloads.</li>
+        </ul>
+        <p>Non-qualifying consoles will be returned with the service fee applied, minus return shipping.</p>
+      </div>
+
+      <div id="options" class="tab-content">
+        <h3>Service Options</h3>
+        <ul>
+          <li><strong>Option 1 - $94.99</strong>
+            <ul>
+              <li>RGH3 or RGH1.2 Install (whichever works best)</li>
+              <li>New Thermal Paste Applied</li>
+              <li>Hard Drive Pre-Loading</li>
+              <li>Cleaning & Sanitation</li>
+              <li>Return Shipping</li>
+            </ul>
+          </li>
+          <li><strong>Option 2 - $125</strong>
+            <ul>
+              <li>RGH3 or RGH1.2 Install</li>
+              <li>New Thermal Paste Applied</li>
+              <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+              <li>Custom Ring of Lights Installed</li>
+              <li>Hard Drive Pre-Loading</li>
+              <li>Cleaning & Sanitation</li>
+              <li>Return Shipping</li>
+            </ul>
+          </li>
+          <li><strong>Option 3 - $135</strong>
+            <ul>
+              <li>RGH3 or RGH1.2 Install</li>
+              <li>New Thermal Paste Applied</li>
+              <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+              <li>Custom Ring of Lights Installed</li>
+              <li>Custom Fan LEDs Installed</li>
+              <li>Hard Drive Pre-Loading</li>
+              <li>Cleaning & Sanitation</li>
+              <li>Return Shipping</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div id="led-colors" class="tab-content">
+        <h3>LED Colors</h3>
+        <p><strong>Power Button:</strong> Red, Blue, Green, Cyan, White, Warm White, UV/Purple, Orange, Pink</p>
+        <p><strong>Fan LEDs:</strong> Red, Blue, Green, White, Purple</p>
+      </div>
+
+      <div id="repair-info" class="tab-content">
+        <h3>Repair Info</h3>
+        <p>Disc Drive repairs are offered with Options 2 and 3 and cannot be ordered separately.</p>
+        <ul>
+          <li>Open Tray Error</li>
+          <li>Unrecognized Disc</li>
+          <li>Stuck Tray</li>
+          <li>Play DVD</li>
+        </ul>
+        <p>This service can also address issues caused by a low-quality RGH install, including:</p>
+        <ul>
+          <li>Freezing</li>
+          <li>Display Artifacts</li>
+          <li>Slow or Inconsistent Boot Times</li>
+        </ul>
+      </div>
+
+      <div id="contact" class="tab-content">
+        <h3>Contact Us</h3>
+        <p>Please contact us on <strong>Discord</strong> for the quickest response. Email orders are accepted, but Discord communication is preferred.</p>
+        <p><a href="https://discord.gg/yourdiscord" target="_blank" style="color:#00bfff;">Join our Discord</a></p>
+        <p>By using this service, you agree to all terms above.</p>
+      </div>
+
+      <div id="faq" class="tab-content">
+        <h3>Frequently Asked Questions</h3>
+        <p>You can find answers to common questions on our FAQ page. Click the "Send In Service Questions" tab to learn more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Tabs functionality
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tab).classList.add('active');
+  });
+});
+
+// Theme Toggle
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  if(savedTheme === 'light') document.body.classList.add('light-mode');
+
+  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if(document.body.classList.contains('light-mode')) {
+      localStorage.setItem('theme', 'light');
+      toggle.textContent = '☀️';
+    } else {
+      localStorage.setItem('theme', 'dark');
+      toggle.textContent = '🌙';
+    }
+  });
+});
+
+// Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
+});
+</script>
+
+</body>
+</html>

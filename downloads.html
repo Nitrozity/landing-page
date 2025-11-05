@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads - RGH NATION</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .downloads-section {
+      background-color: #111;
+      padding: 60px 0;
+      color: #fff;
+    }
+
+    .downloads-section .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .download-item {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .download-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .download-info h3 {
+      color: #00aaff;
+      margin-bottom: 10px;
+    }
+
+    .download-info p {
+      margin: 0;
+      color: #ccc;
+    }
+
+    .download-btn {
+      background: #00aaff;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .download-btn:hover {
+      background: #0088cc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+        <li><a href="sendin.html">Send-In Services</a></li>
+        <li><a href="accessories.html">Accessories</a></li>
+      </ul>
+    </nav>
+	  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h2>Downloads</h2>
+      <p>Access the latest files, updates, and tools from RGH NATION.</p>
+    </div>
+  </section>
+
+  <!-- Downloads Section -->
+  <section class="downloads-section">
+    <div class="container">
+
+      <div class="download-item">
+        <div class="download-info">
+          <h3>RGH Nation Pre-Loads</h3>
+          <p>This contains everything pre-loaded on our systems - Preview</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+
+      <div class="download-item">
+        <div class="download-info">
+          <h3>Xbox 360 Neighborhood</h3>
+          <p>File Transfer Protocol for your RGH/JTAG Console, use this tool on PC to transfer files with ease!</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+
+      <div class="download-item">
+        <div class="download-info">
+          <h3>XeXMenu 1.2</h3>
+          <p>File Transfer Protocol for your RGH/JTAG Console, use this tool on your console to transfer files, launch games, and copy files with ease!</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+
+      <div class="download-item">
+        <div class="download-info">
+          <h3>Simple 360 NAND Flasher</h3>
+          <p>Nand read/writing tool, required to use during Dashboard Updates.</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+	  
+      <div class="download-item">
+        <div class="download-info">
+          <h3>J-Runner with Extras</h3>
+          <p>The Ultimate RGH/JTAG App. Primarily used when updating or installing RGH.</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+	  
+      <div class="download-item">
+        <div class="download-info">
+          <h3>XM360</h3>
+          <p>View, manage & store your content such as: XBLA, DLC, Title Updates & Game Saves.</p>
+        </div>
+        <a href="downloads/PLACEHOLDER.zip" class="download-btn">Download</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+  </footer>
+  
+  <!-- Theme Toggle Script -->
+<script>
+const toggle = document.getElementById('theme-toggle');
+
+// Apply saved theme on page load
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    toggle.textContent = '☀️';
+} else {
+    toggle.textContent = '🌙';
+}
+
+// Toggle light/dark mode and save preference
+toggle?.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        toggle.textContent = '☀️';
+    } else {
+        localStorage.setItem('theme', 'dark');
+        toggle.textContent = '🌙';
+    }
+});
+</script>
+
+
+</body>
+</html>

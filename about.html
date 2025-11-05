@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RGH NATION</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Header / Top Banner -->
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+    </ul>
+  </nav>
+
+  <!-- Theme toggle button -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">
+    🌙
+  </button>
+</header>
+
+<!-- About Hero Section -->
+<section class="page-hero">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>Learn more about RGH Nation, our experience, and the work we do.</p>
+    </div>
+</section>
+
+<!-- About Info Section -->
+<section class="about-info">
+    <div class="container">
+        <h2>Who We Are & What We Do</h2>
+        <p>
+          At <strong>RGH Nation</strong>, we’ve been working with Xbox consoles for over 15 years. 
+          In nearly a decade of business, we’ve focused on providing 
+          <strong>reliable and affordable RGH and JTAG installs</strong> that our customers can trust.
+        </p>
+
+        <p>
+          Every console we work on receives the same level of care and expertise that has earned us 
+          the trust of the modding community. Whether you're sending in a console for service or purchasing 
+          one directly, you can expect <strong>professional installations and lasting performance</strong>.
+        </p>
+		<h2>More Links:</h2>
+		<p><a href="faq.html" class="highlight-link">Frequently Asked Questions</a>, <a href="downloads.html" class="highlight-link">Downloads</a> </p>
+    </div>
+</section>
+<!-- Gallery Section -->
+<section class="about-gallery">
+    <div class="container">
+        <h3>View Some of Our Work</h3>
+        <div class="gallery-grid">
+            <img src="images/work1.jpg" alt="Work 1" class="gallery-thumb">
+            <img src="images/work2.jpg" alt="Work 2" class="gallery-thumb">
+            <img src="images/work3.jpg" alt="Work 3" class="gallery-thumb">
+            <img src="images/work4.jpg" alt="Work 4" class="gallery-thumb">
+            <img src="images/work5.jpg" alt="Work 5" class="gallery-thumb">
+            <img src="images/work6.jpg" alt="Work 6" class="gallery-thumb">
+            <img src="images/work7.jpg" alt="Work 7" class="gallery-thumb">
+            <img src="images/work8.jpg" alt="Work 8" class="gallery-thumb">
+            <img src="images/work9.jpg" alt="Work 9" class="gallery-thumb">
+            <img src="images/work10.jpg" alt="Work 10" class="gallery-thumb">
+            <img src="images/work11.jpg" alt="Work 11" class="gallery-thumb">
+            <img src="images/work12.jpg" alt="Work 12" class="gallery-thumb">
+            <img src="images/work13.jpg" alt="Work 13" class="gallery-thumb">
+            <img src="images/work14.jpg" alt="Work 14" class="gallery-thumb">
+            <img src="images/work15.jpg" alt="Work 15" class="gallery-thumb">
+            <img src="images/work16.jpg" alt="Work 16" class="gallery-thumb">
+            <img src="images/work17.jpg" alt="Work 17" class="gallery-thumb">
+            <img src="images/work18.jpg" alt="Work 18" class="gallery-thumb">
+            <img src="images/work19.jpg" alt="Work 19" class="gallery-thumb">
+            <img src="images/work20.jpg" alt="Work 20" class="gallery-thumb">
+            <img src="images/work21.jpg" alt="Work 21" class="gallery-thumb">
+            <img src="images/work22.jpg" alt="Work 22" class="gallery-thumb">
+            <img src="images/work23.jpg" alt="Work 23" class="gallery-thumb">
+            <img src="images/work24.jpg" alt="Work 24" class="gallery-thumb">
+        </div>
+    </div>
+
+    <!-- Modal Preview -->
+    <div class="modal" id="modal">
+        <span class="close">&times;</span>
+        <img class="modal-img" id="modal-img" src="" alt="Preview">
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+</footer>
+
+<!-- Gallery Script -->
+<script>
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modal-img');
+const closeBtn = document.querySelector('.close');
+const thumbs = document.querySelectorAll('.gallery-thumb');
+
+thumbs.forEach(img => {
+    img.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modalImg.src = img.src;
+    });
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+</script>
+
+<!-- Theme Toggle Script -->
+<script>
+const toggle = document.getElementById('theme-toggle');
+
+// Load user preference from localStorage
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    toggle.textContent = '☀️';
+}
+
+// Toggle light/dark mode
+if (toggle) {
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+
+        if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+            toggle.textContent = '☀️';
+        } else {
+            localStorage.setItem('theme', 'dark');
+            toggle.textContent = '🌙';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
