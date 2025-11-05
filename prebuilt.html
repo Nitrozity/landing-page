@@ -115,22 +115,38 @@
 
 <header>
   <div class="logo">
-    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+    <a href="index.html"><img src="images/logo.png" alt="RGH Nation Logo"></a>
   </div>
-  <nav>
+
+  <!-- Theme toggle if you have it -->
+  <button id="theme-toggle">🌙</button>
+
+  <!-- Hamburger menu for mobile -->
+  <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+
+  <!-- Desktop nav -->
+  <nav id="desktop-nav">
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
-      <li><a href="sendin.html">Send-In Services</a></li>
+      <li><a href="prebuilt.html">Prebuilt</a></li>
       <li><a href="accessories.html">Accessories</a></li>
+      <li><a href="send-in.html">Send In</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
-  <!-- Theme toggle button -->
-<button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">
-  🌙
-</button>
+
+  <!-- Mobile nav -->
+  <nav id="mobile-menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="prebuilt.html">Prebuilt</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
+      <li><a href="send-in.html">Send In</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 </header>
+
 
 <section class="page-hero">
     <div class="container" style="text-align: center;">
@@ -254,6 +270,16 @@ if (toggle) {
     });
 }
 </script>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('show');
+  });
+</script>
+
 
 </body>
 </html>
