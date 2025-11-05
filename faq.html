@@ -12,17 +12,35 @@
   <div class="logo">
     <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
   </div>
-  <nav>
+
+  <!-- Theme toggle -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+
+  <!-- Hamburger Icon -->
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+
+  <!-- Desktop Navigation -->
+  <nav id="desktop-nav">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
-      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
       <li><a href="sendin.html">Send-In Services</a></li>
       <li><a href="accessories.html">Accessories</a></li>
     </ul>
   </nav>
-    <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
 </header>
+
+<!-- Mobile Menu -->
+<nav id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+    <li><a href="sendin.html">Send-In Services</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+  </ul>
+</nav>
 
 <!-- Hero Section -->
 <section class="page-hero">
@@ -188,6 +206,17 @@ toggle?.addEventListener('click', () => {
 });
 </script>
 
+  </script>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("show");
+    });
+  </script>
 
 </body>
 </html>

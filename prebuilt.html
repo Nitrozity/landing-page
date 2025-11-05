@@ -5,109 +5,110 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop RGH Consoles - RGH NATION</title>
 <link rel="stylesheet" href="css/style.css">
+
 <style>
-/* ================== MODAL STYLES ================== */
+/* ================== PAGE-SPECIFIC STYLES ================== */
+
+/* --- Modal --- */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
 }
 .modal.active {
-    display: flex;
+  display: flex;
 }
 .modal-content {
-    background: #1a1a1a;
-    color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    position: relative;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  position: relative;
 }
 .close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    color: #fff;
-    cursor: pointer;
-    user-select: none;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* ================== PRICE & BUTTON STYLES ================== */
+/* --- Pricing & Buttons --- */
 .price {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #00ff66;
-    margin: 8px 0 12px 0;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #00ff66;
+  margin: 8px 0 12px 0;
 }
-
-/* Buttons */
 .btn {
-    display: inline-block;
-    background: #007bff;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background 0.3s ease;
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
 }
 .btn:hover {
-    background: #0056b3;
+  background: #0056b3;
 }
 .btn.out-of-stock {
-    background: #7a7a7a;
-    color: #ccc;
-    cursor: not-allowed;
-    pointer-events: none;
+  background: #7a7a7a;
+  color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 .btn.out-of-stock:hover {
-    background: #7a7a7a;
+  background: #7a7a7a;
 }
 
-/* ================== HERO INFO LIST ================== */
+/* --- Bundle Info --- */
 .bundle-info {
-    margin-top: 25px;
-    background: #121212;
-    border-radius: 10px;
-    padding: 20px;
-    display: inline-block;
-    text-align: left;
-    color: #fff;
-    max-width: 600px;
+  margin-top: 25px;
+  background: #121212;
+  border-radius: 10px;
+  padding: 20px;
+  display: inline-block;
+  text-align: left;
+  color: #fff;
+  max-width: 600px;
 }
 .bundle-info h4 {
-    margin-bottom: 10px;
-    color: #00bfff;
-    text-align: center;
+  margin-bottom: 10px;
+  color: #00bfff;
+  text-align: center;
 }
 .bundle-info ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 .bundle-info ul li {
-    padding: 5px 0;
-    position: relative;
+  padding: 5px 0;
+  position: relative;
 }
 .bundle-info ul li::before {
-    content: "• ";
-    color: #00bfff;
+  content: "• ";
+  color: #00bfff;
 }
 .bundle-info p {
-    font-size: 0.95em;
-    color: #bbb;
-    margin-top: 10px;
-    text-align: center;
+  font-size: 0.95em;
+  color: #bbb;
+  margin-top: 10px;
+  text-align: center;
 }
 </style>
 </head>
@@ -117,153 +118,159 @@
   <div class="logo">
     <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
   </div>
-  <nav>
+
+  <!-- Theme toggle -->
+  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
+
+  <!-- Hamburger Icon -->
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+
+  <!-- Desktop Navigation -->
+  <nav id="desktop-nav">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
-      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
+      <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
       <li><a href="sendin.html">Send-In Services</a></li>
-      <li><a href="accessories.html" class="active">Accessories</a></li>
+      <li><a href="accessories.html">Accessories</a></li>
     </ul>
   </nav>
-  <!-- Theme toggle button -->
-  <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
 </header>
 
+<!-- Mobile Menu -->
+<nav id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+    <li><a href="sendin.html">Send-In Services</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+  </ul>
+</nav>
 
-
+<!-- Page Hero -->
 <section class="page-hero">
-    <div class="container" style="text-align: center;">
-        <h2>Pre-Built Consoles</h2>
-        <p>To make a purchase, please contact us on Discord or Email.</p>
-        <p>Check out our <a href="misc-add-ons.html" style="color:#00bfff;">Misc Add-Ons</a> for Warranty Extensions, Shell Upgrades, and more Customization Options.</p>
+  <div class="container" style="text-align:center;">
+    <h2>Pre-Built Consoles</h2>
+    <p>To make a purchase, please contact us on Discord or Email.</p>
+    <p>Check out our <a href="misc-add-ons.html" style="color:#00bfff;">Misc Add-Ons</a> for Warranty Extensions, Shell Upgrades, and more Customization Options.</p>
 
-        <div class="bundle-info">
-            <h4>All Bundle Deals Include:</h4>
-            <ul>
-                <li>Fully Refurbished & Sanitized RGH or JTAG Console</li>
-                <li>Pre-Loaded Hard Drive (Includes)</li>
-                <li>Nand & KV Info Backups</li>
-                <li>Fully Updated & Online Ready</li>
-                <li>New Thermal Paste Installed</li>
-                <li>30 Day Warranty</li>
-            </ul>
-        </div>
+    <div class="bundle-info">
+      <h4>All Bundle Deals Include:</h4>
+      <ul>
+        <li>Fully Refurbished & Sanitized RGH or JTAG Console</li>
+        <li>Pre-Loaded Hard Drive (Includes)</li>
+        <li>Nand & KV Info Backups</li>
+        <li>Fully Updated & Online Ready</li>
+        <li>New Thermal Paste Installed</li>
+        <li>30 Day Warranty</li>
+      </ul>
     </div>
+  </div>
 </section>
 
+<!-- Product Grid -->
 <section class="products">
-    <div class="container">
-        <div class="product-grid">
-            <!-- In stock -->
-            <div class="product-card">
-                <img src="images/console1.jpg" alt="Console 1">
-                <h4>RGH Console Bundle 1</h4>
-                <p>Fully pre-built console with installed RGH and pre-loaded games.</p>
-                <p class="price">$180</p>
-                <a href="#" class="btn" id="contactBtn1">Contact to Purchase</a>
-            </div>
+  <div class="container">
+    <div class="product-grid">
 
-            <!-- Out of stock -->
-            <div class="product-card">
-                <img src="images/console2.jpg" alt="Console 2">
-                <h4>RGH Console Bundle 2</h4>
-                <p>Dual Nand setup with pre-loaded hard drive and 30-day warranty.</p>
-                <p class="price">$240</p>
-                <a href="#" class="btn out-of-stock">Out of Stock</a>
-            </div>
+      <div class="product-card">
+        <img src="images/console1.jpg" alt="Console 1">
+        <h4>RGH Console Bundle 1</h4>
+        <p>Fully pre-built console with installed RGH and pre-loaded games.</p>
+        <p class="price">$180</p>
+        <a href="#" class="btn" id="contactBtn1">Contact to Purchase</a>
+      </div>
 
-            <!-- In stock -->
-            <div class="product-card">
-                <img src="images/console3.jpg" alt="Console 3">
-                <h4>RGH Console Bundle 3</h4>
-                <p>Triple Nand setup, sanitized, updated, ready to play online.</p>
-                <p class="price">$310</p>
-                <a href="#" class="btn" id="contactBtn3">Contact to Purchase</a>
-            </div>
-        </div>
+      <div class="product-card">
+        <img src="images/console2.jpg" alt="Console 2">
+        <h4>RGH Console Bundle 2</h4>
+        <p>Dual Nand setup with pre-loaded hard drive and 30-day warranty.</p>
+        <p class="price">$240</p>
+        <a href="#" class="btn out-of-stock">Out of Stock</a>
+      </div>
+
+      <div class="product-card">
+        <img src="images/console3.jpg" alt="Console 3">
+        <h4>RGH Console Bundle 3</h4>
+        <p>Triple Nand setup, sanitized, updated, ready to play online.</p>
+        <p class="price">$310</p>
+        <a href="#" class="btn" id="contactBtn3">Contact to Purchase</a>
+      </div>
+
     </div>
+  </div>
 </section>
 
 <!-- Modal -->
 <div id="contactModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Contact Us to Purchase</h3>
-        <p>Reach us via:</p>
-        <ul>
-            <li>Discord: <a href="https://discord.gg/yourdiscord" target="_blank">Join Server</a></li>
-            <li>Email: <a href="mailto:support@rghnation.com">support@rghnation.com</a></li>
-        </ul>
-    </div>
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Contact Us to Purchase</h3>
+    <p>Reach us via:</p>
+    <ul>
+      <li>Discord: <a href="https://discord.gg/yourdiscord" target="_blank">Join Server</a></li>
+      <li>Email: <a href="mailto:support@rghnation.com">support@rghnation.com</a></li>
+    </ul>
+  </div>
 </div>
 
 <footer>
-    <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
+  <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
+<!-- Scripts -->
 <script>
+// === Modal Script ===
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('contactModal');
-    const contactButtons = document.querySelectorAll('.btn:not(.out-of-stock)');
-    const closeBtn = modal.querySelector('.close');
+  const modal = document.getElementById('contactModal');
+  const contactButtons = document.querySelectorAll('.btn:not(.out-of-stock)');
+  const closeBtn = modal.querySelector('.close');
 
-    contactButtons.forEach(btn => {
-        btn.addEventListener('click', e => {
-            e.preventDefault();
-            modal.classList.add('active');
-        });
+  contactButtons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      modal.classList.add('active');
     });
+  });
 
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-    });
-
-    window.addEventListener('click', e => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-        }
-    });
+  closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+  window.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
 });
-</script>
 
-<script>
-// === Light / Dark Mode Script ===
+// === Theme Toggle ===
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
 
-// Get the toggle button
-const toggle = document.getElementById('theme-toggle');
+  const toggle = document.getElementById('theme-toggle');
+  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
 
-// Apply saved theme on load
-if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-mode');
-    if (toggle) toggle.textContent = '☀️';
-}
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('dark-mode');
 
-// Add toggle behavior
-if (toggle) {
-    toggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+      localStorage.setItem('theme', 'light');
+      toggle.textContent = '☀️';
+    } else {
+      localStorage.setItem('theme', 'dark');
+      toggle.textContent = '🌙';
+    }
+  });
+});
 
-        if (document.body.classList.contains('light-mode')) {
-            localStorage.setItem('theme', 'light');
-            toggle.textContent = '☀️';
-        } else {
-            localStorage.setItem('theme', 'dark');
-            toggle.textContent = '🌙';
-        }
-    });
-}
-</script>
-
-<script>
+// === Mobile Menu ===
+document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
-
   menuToggle.addEventListener('click', () => {
     mobileMenu.classList.toggle('show');
   });
+});
 </script>
-
 
 </body>
 </html>
