@@ -1254,48 +1254,24 @@ body .accessories-page .btn.out-of-stock:hover {
     background: #7a7a7a;  /* keep grey on hover */
 }
 
-/* ===== MOBILE MENU ===== */
-
-/* Dark mode (default) */
-#mobile-menu {
-  position: relative;
-  top: 0;
-  width: 100%;
-  background-color: #0e0e0e; /* dark background */
-  color: #fff;
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-  z-index: 999;
-}
-
-/* Mobile menu items */
-#mobile-menu ul {
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
-}
-
+/* Mobile menu links - dark mode default */
 #mobile-menu ul li a {
-  color: inherit;
+  color: #fff; /* default white for dark mode */
   text-decoration: none;
   font-size: 1.1rem;
   transition: color 0.3s;
 }
 
+/* Hover */
 #mobile-menu ul li a:hover {
   color: #00bfff;
 }
 
-body.light-mode #mobile-menu a {
-  color: #000000; /* black text in light mode */
+/* Light mode overrides */
+body.light-mode #mobile-menu ul li a {
+  color: #000000 !important; /* force black in light mode */
 }
 
-body.light-mode #mobile-menu a:hover {
-  color: #00bfff; /* hover stays blue */
+body.light-mode #mobile-menu ul li a:hover {
+  color: #00bfff;
 }
