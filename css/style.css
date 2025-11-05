@@ -343,6 +343,11 @@ footer {
 }
 
 
+.product-card button:hover {
+  background-color: #ff5c33;
+}
+
+
 
 /* ========== SEND-IN PAGE ========== */
 .sendin-container {
@@ -1354,4 +1359,150 @@ body.light-mode #mobile-menu a:hover {
   #mobile-menu ul {
     padding-top: 10px;
   }
+}
+
+/* Add spacing between stacked buttons */
+.product-card .btn + .btn {
+    margin-top: 12px; /* adjust to your preferred spacing */
+}
+
+.hidden-info {
+  display: none;      /* hidden by default */
+  color: #ccc;        /* lighter text */
+  margin: 10px 0;     /* spacing */
+  font-size: 0.95em;  /* slightly smaller */
+}
+
+.hidden-info.show {
+  display: block;     /* show when active */
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Modal Base === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* === Two Column Layout === */
+.modal-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-left img {
+  max-width: 100%;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.modal-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-right h3 { margin-bottom: 10px; }
+.modal-right .price { color: #00ff66; margin-bottom: 15px; }
+
+/* === Accordion / Collapsible Panels === */
+.collapsible {
+  background: #121212;
+  color: #fff;
+  cursor: pointer;
+  padding: 12px 16px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.collapsible:hover { background: #222; }
+
+.collapsible.active { background: #333; }
+
+.content-panel {
+  padding: 10px 16px;
+  display: none;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-left: 3px solid #00bfff;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 10px;
+}
+
+.content-panel p { margin: 0; color: #ccc; font-size: 0.9rem; }
+
+
+/* === Contact Modal Specific === */
+#contactModal .modal-content {
+    display: block;           /* Remove flex layout */
+    max-width: 500px;         /* Limit width */
+    text-align: center;       /* Center text */
+    padding: 30px 20px;       /* Padding inside modal */
+}
+
+#contactModal .modal-content ul {
+    list-style: none;         /* Remove bullets */
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+#contactModal .modal-content ul li {
+    margin: 8px 0;            /* Spacing between items */
+}
+
+#contactModal .modal-content a {
+    color: #00bfff;           /* Make links stand out */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#contactModal .modal-content a:hover {
+    text-decoration: underline;
 }

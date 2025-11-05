@@ -7,63 +7,24 @@
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-/* ================== PAGE-SPECIFIC STYLES ================== */
+/* ================= PAGE-SPECIFIC STYLES ================== */
 
-/* --- Modal --- */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-}
-.modal.active {
-  display: flex;
-}
-.modal-content {
-  background: #1a1a1a;
-  color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  position: relative;
-}
-.close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* --- Pricing & Buttons --- */
-.price {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #00ff66;
-  margin: 8px 0 12px 0;
-}
-.btn {
+/* === Buttons === */
+.product-card .btn {
   display: inline-block;
   background: #007bff;
   color: #fff;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 6px;
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background 0.3s ease;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin: 5px 5px 0 0;
 }
-.btn:hover {
+.product-card .btn:hover {
   background: #0056b3;
+  transform: scale(1.05);
 }
 .btn.out-of-stock {
   background: #7a7a7a;
@@ -75,16 +36,42 @@
   background: #7a7a7a;
 }
 
-/* --- Bundle Info --- */
+/* === Product Card === */
+.product-card {
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  text-align: center;
+  margin-bottom: 30px;
+}
+.product-card img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* === Price === */
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 10px 0 15px 0;
+}
+
+/* === Bundle Info === */
 .bundle-info {
   margin-top: 25px;
   background: #121212;
   border-radius: 10px;
   padding: 20px;
-  display: inline-block;
   text-align: left;
   color: #fff;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .bundle-info h4 {
   margin-bottom: 10px;
@@ -107,8 +94,106 @@
 .bundle-info p {
   font-size: 0.95em;
   color: #bbb;
-  margin-top: 10px;
   text-align: center;
+  margin-top: 10px;
+}
+
+/* === Modal Base === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+.modal.active { display: flex; }
+.modal-content {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1100px;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  position: relative;
+}
+.modal-content .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* === Two Column Layout === */
+.modal-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-left img {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.modal-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.modal-right h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+.modal-right .price {
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* === Accordion / Collapsible Panels === */
+.collapsible {
+  background: #121212;
+  color: #fff;
+  cursor: pointer;
+  padding: 16px 20px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.05rem;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+.collapsible:hover { background: #222; }
+.collapsible.active { background: #333; }
+.content-panel {
+  padding: 12px 16px;
+  display: none;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-left: 3px solid #00bfff;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 12px;
+}
+.content-panel p {
+  margin: 0;
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 </style>
 </head>
@@ -118,14 +203,8 @@
   <div class="logo">
     <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
   </div>
-
-  <!-- Theme toggle -->
   <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
-
-  <!-- Hamburger Icon -->
   <div class="menu-toggle" id="menu-toggle">☰</div>
-
-  <!-- Desktop Navigation -->
   <nav id="desktop-nav">
     <ul>
       <li><a href="index.html">Home</a></li>
@@ -137,7 +216,6 @@
   </nav>
 </header>
 
-<!-- Mobile Menu -->
 <nav id="mobile-menu">
   <ul>
     <li><a href="index.html">Home</a></li>
@@ -148,7 +226,6 @@
   </ul>
 </nav>
 
-<!-- Page Hero -->
 <section class="page-hero">
   <div class="container" style="text-align:center;">
     <h2>Pre-Built Consoles</h2>
@@ -169,19 +246,21 @@
   </div>
 </section>
 
-<!-- Product Grid -->
 <section class="products">
   <div class="container">
     <div class="product-grid">
 
+      <!-- PRODUCT 1 -->
       <div class="product-card">
         <img src="images/console1.jpg" alt="Console 1">
         <h4>RGH Console Bundle 1</h4>
         <p>Fully pre-built console with installed RGH and pre-loaded games.</p>
         <p class="price">$180</p>
-        <a href="#" class="btn" id="contactBtn1">Contact to Purchase</a>
+        <a href="javascript:void(0)" class="btn details-btn" data-product="1">More Details</a>
+        <a href="javascript:void(0)" class="btn contact-btn" id="contactBtn1">Contact to Purchase</a>
       </div>
 
+      <!-- PRODUCT 2 -->
       <div class="product-card">
         <img src="images/console2.jpg" alt="Console 2">
         <h4>RGH Console Bundle 2</h4>
@@ -190,19 +269,50 @@
         <a href="#" class="btn out-of-stock">Out of Stock</a>
       </div>
 
+      <!-- PRODUCT 3 -->
       <div class="product-card">
         <img src="images/console3.jpg" alt="Console 3">
         <h4>RGH Console Bundle 3</h4>
         <p>Triple Nand setup, sanitized, updated, ready to play online.</p>
         <p class="price">$310</p>
-        <a href="#" class="btn" id="contactBtn3">Contact to Purchase</a>
+        <a href="javascript:void(0)" class="btn details-btn" data-product="3">More Details</a>
+        <a href="javascript:void(0)" class="btn contact-btn" id="contactBtn3">Contact to Purchase</a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- Modal -->
+<!-- DETAILS MODAL -->
+<div id="detailsModal" class="modal">
+  <div class="modal-content modal-two-column">
+    <span class="close">&times;</span>
+    <div class="modal-left">
+      <img id="detailsImage" src="" alt="Product Image">
+    </div>
+    <div class="modal-right">
+      <h3 id="detailsTitle">Product Name</h3>
+      <p class="price" id="detailsPrice">$0.00</p>
+
+      <div class="accordion">
+        <button class="collapsible">PRODUCT INFO</button>
+        <div class="content-panel">
+          <p id="productInfo">Loading product info...</p>
+        </div>
+        <button class="collapsible">WARRANTY POLICY</button>
+        <div class="content-panel">
+          <p id="warrantyInfo">Loading warranty info...</p>
+        </div>
+        <button class="collapsible">SHIPPING INFO</button>
+        <div class="content-panel">
+          <p id="shippingInfo">Loading shipping info...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
 <div id="contactModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -219,56 +329,95 @@
   <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
-<!-- Scripts -->
 <script>
-// === Modal Script ===
+// ===== DOM Loaded =====
 document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('contactModal');
-  const contactButtons = document.querySelectorAll('.btn:not(.out-of-stock)');
-  const closeBtn = modal.querySelector('.close');
 
-  contactButtons.forEach(btn => {
+  // ===== Theme Toggle =====
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+  const themeToggle = document.getElementById('theme-toggle');
+  themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+  });
+
+  // ===== Mobile Menu =====
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
+
+  // ===== Contact Modal =====
+  const contactModal = document.getElementById('contactModal');
+  const contactButtons = document.querySelectorAll('.contact-btn');
+  const contactClose = contactModal.querySelector('.close');
+  contactButtons.forEach(btn => btn.addEventListener('click', e => {
+    e.preventDefault();
+    contactModal.classList.add('active');
+  }));
+  contactClose.addEventListener('click', () => contactModal.classList.remove('active'));
+  window.addEventListener('click', e => { if(e.target === contactModal) contactModal.classList.remove('active'); });
+
+  // ===== Details Modal =====
+  const detailsModal = document.getElementById('detailsModal');
+  const detailsClose = detailsModal.querySelector('.close');
+  const detailsImage = document.getElementById('detailsImage');
+  const productInfo = document.getElementById('productInfo');
+  const shippingInfo = document.getElementById('shippingInfo');
+  const warrantyInfo = document.getElementById('warrantyInfo');
+
+  const productData = {
+    1: {
+      image: 'images/console1.jpg',
+      product: 'Preloaded 320GB hard drive, full dashboard setup, Aurora configured with latest plugins.',
+      shipping: 'Ships within 2 business days. Free shipping on orders over $200.',
+      warranty: '30-day warranty included. Extended warranty available.'
+    },
+    3: {
+      image: 'images/console3.jpg',
+      product: 'Triple Nand setup. Upgraded cooling and thermal compound. Dashboard updated.',
+      shipping: 'Ships within 1 business day. Express shipping available.',
+      warranty: '30-day warranty included.'
+    }
+  };
+
+  document.querySelectorAll('.details-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      modal.classList.add('active');
+      const productId = btn.dataset.product;
+      const data = productData[productId];
+      if(!data) return;
+const productCard = btn.closest('.product-card');        
+const productTitle = productCard.querySelector('h4').textContent;  
+const productPrice = productCard.querySelector('.price').textContent;  // Grab price
+
+detailsImage.src = data.image;
+document.getElementById('detailsTitle').textContent = productTitle;  
+document.getElementById('detailsPrice').textContent = productPrice;  // Set price in modal
+productInfo.textContent = data.product;
+shippingInfo.textContent = data.shipping;
+warrantyInfo.textContent = data.warranty;
+
+      detailsModal.classList.add('active');
+      document.querySelectorAll('.content-panel').forEach(panel => panel.style.display = 'none');
+      document.querySelectorAll('.collapsible').forEach(c => c.classList.remove('active'));
     });
   });
 
-  closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-  window.addEventListener('click', e => {
-    if (e.target === modal) modal.classList.remove('active');
-  });
-});
+  detailsClose.addEventListener('click', () => detailsModal.classList.remove('active'));
+  window.addEventListener('click', e => { if(e.target === detailsModal) detailsModal.classList.remove('active'); });
 
-// === Theme Toggle ===
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+  // Collapsible Panels
+  const collapsibles = detailsModal.querySelectorAll('.collapsible');
+  collapsibles.forEach(btn => btn.addEventListener('click', () => {
+    btn.classList.toggle('active');
+    const panel = btn.nextElementSibling;
+    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+  }));
 
-  const toggle = document.getElementById('theme-toggle');
-  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-
-  toggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    document.body.classList.toggle('dark-mode');
-
-    if (document.body.classList.contains('light-mode')) {
-      localStorage.setItem('theme', 'light');
-      toggle.textContent = '☀️';
-    } else {
-      localStorage.setItem('theme', 'dark');
-      toggle.textContent = '🌙';
-    }
-  });
-});
-
-// === Mobile Menu ===
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('show');
-  });
 });
 </script>
 

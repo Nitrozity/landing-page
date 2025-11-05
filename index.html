@@ -94,7 +94,9 @@
       <p class="quote">"Excellent service and top-quality modding. Highly recommended!"</p>
       <p class="quote">"Quick shipping, responsive support, and my console works perfectly."</p>
       <p class="quote">"Very satisfied with the RGH install, everything works as promised!"</p>
-      <p class="quote">"Bricked my 360 because they recommended xbGuard. Would not recommend.."</p>
+      <p class="quote">"Placeholder 1"</p>
+      <p class="quote">"Placeholder 2"</p>
+
     </div>
   </div>
 </section>
@@ -103,6 +105,7 @@
 <section class="contact">
   <div class="container">
     <h3>Contact Us</h3>
+    <p>Join us on <a href="discord.gg/serverlink">Discord</a></p>
     <p>Email us at <a href="mailto:support@rghnation.com">support@rghnation.com</a> for inquiries or orders.</p>
   </div>
 </section>
@@ -111,71 +114,130 @@
   <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
-<!-- ===== THEME TOGGLE SCRIPT ===== -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================
+  // === LIGHT/DARK THEME ===
+  // ==========================
   const savedTheme = localStorage.getItem('theme') || 'dark';
   document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
 
-  const toggle = document.getElementById('theme-toggle');
-  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+  const themeToggle = document.getElementById('theme-toggle');
+  themeToggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
 
-  toggle.addEventListener('click', () => {
+  themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     document.body.classList.toggle('dark-mode');
-
-    if(document.body.classList.contains('light-mode')) {
+    if (document.body.classList.contains('light-mode')) {
       localStorage.setItem('theme', 'light');
-      toggle.textContent = '☀️';
+      themeToggle.textContent = '☀️';
     } else {
       localStorage.setItem('theme', 'dark');
-      toggle.textContent = '🌙';
+      themeToggle.textContent = '🌙';
     }
   });
-});
-</script>
 
-<!-- ===== QUOTES SLIDER SCRIPT ===== -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const quotes = document.querySelectorAll('.quote');
-  let current = 0;
-  const slideDuration = 4000;
-
-  function showNextQuote() {
-    const prev = current;
-    current = (current + 1) % quotes.length;
-
-    quotes[prev].style.transform = 'translateY(-50%) translateX(100%)';
-    quotes[prev].style.opacity = 0;
-
-    quotes[current].style.transition = 'none';
-    quotes[current].style.transform = 'translateY(-50%) translateX(-100%)';
-    quotes[current].style.opacity = 0;
-    quotes[current].offsetHeight; // force reflow
-    quotes[current].style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-    quotes[current].style.transform = 'translateY(-50%) translateX(0)';
-    quotes[current].style.opacity = 1;
-  }
-
-  quotes[0].style.transform = 'translateY(-50%) translateX(0)';
-  quotes[0].style.opacity = 1;
-
-  setInterval(showNextQuote, slideDuration);
-});
-</script>
-
-<!-- ===== MOBILE MENU SCRIPT ===== -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+  // ==========================
+  // === MOBILE MENU TOGGLE ===
+  // ==========================
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
 
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('show');
+  // ==========================
+  // === CONTACT MODAL ===
+  // ==========================
+  const contactModal = document.getElementById('contactModal');
+  const contactButtons = document.querySelectorAll('.contact-btn');
+  const contactClose = contactModal.querySelector('.close');
+
+  contactButtons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      contactModal.classList.add('active');
+    });
   });
+
+  contactClose.addEventListener('click', () => contactModal.classList.remove('active'));
+  window.addEventListener('click', e => {
+    if (e.target === contactModal) contactModal.classList.remove('active');
+  });
+
+  // ==========================
+  // === DETAILS MODAL w/ COLLAPSIBLES ===
+  // ==========================
+  const detailsModal = document.getElementById('detailsModal');
+  const detailsClose = detailsModal.querySelector('.close');
+  const detailsImage = document.getElementById('detailsImage');
+  const productInfo = document.getElementById('productInfo');
+  const shippingInfo = document.getElementById('shippingInfo');
+  const warrantyInfo = document.getElementById('warrantyInfo');
+
+  // Product Data
+  const productData = {
+    1: {
+      image: 'images/console1.jpg',
+      product: 'Preloaded 320GB hard drive, full dashboard setup, Aurora configured with latest plugins.',
+      shipping: 'Ships within 2 business days. Free shipping on orders over $200.',
+      warranty: '30-day warranty included. Extended warranty available.'
+    },
+    2: {
+      image: 'images/console2.jpg',
+      product: 'Dual Nand setup with pre-loaded hard drive. Power supply & controller included.',
+      shipping: 'Ships within 3 business days. Standard shipping rates apply.',
+      warranty: '30-day warranty included.'
+    },
+    3: {
+      image: 'images/console3.jpg',
+      product: 'Triple Nand setup. Upgraded cooling and thermal compound. Dashboard updated.',
+      shipping: 'Ships within 1 business day. Express shipping available.',
+      warranty: '30-day warranty included.'
+    }
+  };
+
+  // Open modal when clicking "More Details"
+  document.querySelectorAll('.details-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const productId = btn.dataset.product;
+      const data = productData[productId];
+      if (!data) return;
+
+      // Populate modal
+      detailsImage.src = data.image;
+      productInfo.textContent = data.product;
+      shippingInfo.textContent = data.shipping;
+      warrantyInfo.textContent = data.warranty;
+
+      // Show modal
+      detailsModal.classList.add('active');
+
+      // Collapse all panels by default
+      document.querySelectorAll('.content-panel').forEach(panel => panel.style.display = 'none');
+      document.querySelectorAll('.collapsible').forEach(c => c.classList.remove('active'));
+    });
+  });
+
+  // Close modal
+  detailsClose.addEventListener('click', () => detailsModal.classList.remove('active'));
+  window.addEventListener('click', e => {
+    if (e.target === detailsModal) detailsModal.classList.remove('active');
+  });
+
+  // Collapsible behavior
+  const collapsibles = detailsModal.querySelectorAll('.collapsible');
+  collapsibles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const panel = btn.nextElementSibling;
+      panel.style.display = (panel.style.display === "block") ? "none" : "block";
+    });
+  });
+
 });
 </script>
+
 
 </body>
 </html>
