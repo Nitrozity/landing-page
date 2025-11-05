@@ -315,6 +315,35 @@ footer {
     background: #0056b3;
 }
 
+/* Center product grid perfectly on all screens */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 45px;
+    justify-items: center; /* centers cards horizontally in each column */
+    align-items: start;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 16px; /* slightly reduced side padding for mobile balance */
+    box-sizing: border-box; /* ensures padding doesn't shift the grid */
+}
+
+/* Mobile tweak for perfect centering */
+@media (max-width: 768px) {
+  .product-grid {
+    justify-content: center; /* centers the entire grid on small screens */
+    padding: 20px 12px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    margin: 0 auto; /* ensures each card stays centered */
+  }
+}
+
+
+
 /* ========== SEND-IN PAGE ========== */
 .sendin-container {
     text-align: center;
