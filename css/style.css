@@ -1254,83 +1254,65 @@ body .accessories-page .btn.out-of-stock:hover {
     background: #7a7a7a;  /* keep grey on hover */
 }
 
-/* ===== MOBILE MENU ===== */
-
-/* Default (dark mode) */
+/* Mobile menu hidden by default */
 #mobile-menu {
-  position: relative;
-  top: 0;
-  width: 100%;
-  background-color: #111;  /* dark background */
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-  z-index: 999;
+    display: block;               /* always in DOM */
+    position: absolute;           /* slide down from header */
+    top: 60px;                    /* header height */
+    left: 0;
+    width: 100%;
+    background-color: #111;       /* dark mode background */
+    overflow: hidden;
+    max-height: 0;                /* collapsed */
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    z-index: 999;
 }
 
-/* Menu visible when toggled */
+/* Show menu when toggled */
 #mobile-menu.show {
-  max-height: 500px;  /* adjust based on number of links */
-  opacity: 1;
+    max-height: 500px;            /* adjust depending on number of links */
+    opacity: 1;
 }
 
 /* Menu items */
 #mobile-menu ul {
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 #mobile-menu ul li a {
-  color: #fff;               /* dark mode default */
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: color 0.3s;
+    display: block;
+    padding: 12px 0;
+    color: #fff;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
 #mobile-menu ul li a:hover {
-  color: #00bfff;           /* hover in dark mode */
+    color: #00bfff;
 }
 
-/* ===== LIGHT MODE MOBILE MENU ===== */
+/* Light mode overrides */
 body.light-mode #mobile-menu {
-  background-color: #fdfdfd;  /* match light mode background */
+    background-color: #fdfdfd;
 }
 
 body.light-mode #mobile-menu ul li a {
-  color: #121212 !important;   /* force black for mobile nav links */
+    color: #121212;
 }
 
 body.light-mode #mobile-menu ul li a:hover {
-  color: #00bfff !important;   /* hover remains blue */
+    color: #00bfff;
 }
 
-
 /* Only show hamburger on mobile */
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
     #desktop-nav { display: none; }
     #menu-toggle { display: block; }
 }
-
-/* Mobile menu hidden by default */
-#mobile-menu {
-    display: none;
-    position: absolute; /* slide down from top of header */
-    top: 60px; /* adjust to header height */
-    left: 0;
-    width: 100%;
-    background: #121212;
-    text-align: center;
-    z-index: 999;
-}
-
-/* Show when toggled */
-#mobile-menu.show { display: block; }
-
-#mobile-menu a { display: block; padding: 10px; color: #fff; text-decoration: none; }
-#mobile-menu a:hover { color: #00bfff; }
