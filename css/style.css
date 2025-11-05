@@ -1254,65 +1254,51 @@ body .accessories-page .btn.out-of-stock:hover {
     background: #7a7a7a;  /* keep grey on hover */
 }
 
-/* Mobile menu hidden by default */
 #mobile-menu {
-    display: block;               /* always in DOM */
-    position: absolute;           /* slide down from header */
-    top: 60px;                    /* header height */
-    left: 0;
-    width: 100%;
-    background-color: #111;       /* dark mode background */
-    overflow: hidden;
-    max-height: 0;                /* collapsed */
-    opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.5s ease;
-    z-index: 999;
+  display: none;
+  background: #1a1a1a;
+  width: 100%;
+  text-align: center;
+  position: relative; /* ensure it pushes page content */
+  z-index: 1000;
 }
 
-/* Show menu when toggled */
 #mobile-menu.show {
-    max-height: 500px;            /* adjust depending on number of links */
-    opacity: 1;
+  display: block;
 }
 
-/* Menu items */
 #mobile-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  list-style: none;
+  margin: 0;
+  padding: 15px 0;
+}
+
+#mobile-menu ul li {
+  padding: 10px 0;
 }
 
 #mobile-menu ul li a {
-    display: block;
-    padding: 12px 0;
-    color: #fff;
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: color 0.3s;
+  color: #fff;
+  font-size: 1.1rem;
+  text-decoration: none;
 }
 
 #mobile-menu ul li a:hover {
-    color: #00bfff;
+  color: #00aaff;
 }
 
-/* Light mode overrides */
-body.light-mode #mobile-menu {
-    background-color: #fdfdfd;
-}
-
-body.light-mode #mobile-menu ul li a {
-    color: #121212;
-}
-
-body.light-mode #mobile-menu ul li a:hover {
-    color: #00bfff;
-}
 
 /* Only show hamburger on mobile */
 @media (max-width: 768px) {
     #desktop-nav { display: none; }
     #menu-toggle { display: block; }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 15px 20px; /* more top/bottom space */
+  }
+  #mobile-menu ul {
+    padding-top: 10px;
+  }
 }
