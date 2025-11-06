@@ -230,162 +230,178 @@ Interested in a custom-built console? Fill out your selections <a href="custom-b
 
 <script>
 // ========== Utilities ==========
-// Use relative paths for GitHub Pages
 async function tryFetchText(url){
-  try {
-    const res = await fetch(url, {cache: 'no-store'});
-    return res.ok ? await res.text() : null;
-  } catch {
-    return null;
-  }
+    try{
+        const res=await fetch(url,{cache:'no-store'});
+        return res.ok ? await res.text() : null;
+    } catch { return null; }
 }
 
 async function exists(url){
-  try {
-    const res = await fetch(url, {method: 'HEAD', cache: 'no-store'});
-    return res.ok;
-  } catch {
-    return false;
-  }
+    try{
+        const res=await fetch(url,{method:'HEAD',cache:'no-store'});
+        return res.ok;
+    } catch { return false; }
 }
 
 function parseInfoTxt(text){
-  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-  const obj = {};
-  for(const line of lines){
-    const idx = line.indexOf(':');
-    if(idx>-1){
-      const key = line.slice(0,idx).trim().toLowerCase();
-      const value = line.slice(idx+1).trim();
-      obj[key] = value;
-    } else {
-      if(!obj.title) obj.title = line;
-      else if(!obj.description) obj.description = line;
+    const lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    const obj={};
+    for(const line of lines){
+        const idx=line.indexOf(':');
+        if(idx>-1){
+            const key=line.slice(0,idx).trim().toLowerCase();
+            const value=line.slice(idx+1).trim();
+            obj[key]=value;
+        } else {
+            if(!obj.title)obj.title=line;
+            else if(!obj.description)obj.description=line;
+        }
     }
-  }
-  return obj;
+    return obj;
 }
 
 async function findImageForFolder(folder){
-  const candidates = ['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];
-  for(const c of candidates){
-    const path = `products/${folder}/${c}`; // relative path
-    if(await exists(path)) return path;
-  }
-  return 'images/console1.jpg'; // fallback image
+    const candidates=['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];
+    for(const c of candidates){
+        const path=`/products/${folder}/${c}`;
+        if(await exists(path)) return path;
+    }
+    return '/images/console1.jpg';
 }
 
-// ========== Load Products ==========
+// ========== DOM Loaded ==========
 document.addEventListener('DOMContentLoaded', async () => {
-  const grid = document.getElementById('productGrid');
-  let folders = [];
 
-  // Try manifest first
-  const manifestText = await tryFetchText('products/products.json');
-  if(manifestText){
-    try{
-      const arr = JSON.parse(manifestText);
-      if(Array.isArray(arr)) folders = arr;
-    } catch {}
-  }
+    // ===== Theme Toggle =====
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.remove('light-mode','dark-mode');
+    document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+    themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
 
-  // Fallback: auto-detect p1..p50 folders
-  if(!folders.length){
-    for(let i=1;i<=50;i++){
-      if(await tryFetchText(`products/p${i}/info.txt`)) folders.push(`p${i}`);
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        document.body.classList.toggle('dark-mode');
+        const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+        localStorage.setItem('theme', current);
+        themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
+    });
+
+    // ===== Mobile Menu =====
+    const menuToggle=document.getElementById('menu-toggle');
+    const mobileMenu=document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click',()=>mobileMenu.classList.toggle('show'));
+
+    // ===== Shared Info =====
+    const sharedShipping=(await tryFetchText('/products/_shipping.txt'))?.trim()||'';
+    const sharedWarranty=(await tryFetchText('/products/_warranty.txt'))?.trim()||'';
+
+    // ===== Load Products =====
+    const grid=document.getElementById('productGrid');
+    let folders=[];
+    const manifestText=await tryFetchText('/products/products.json');
+    if(manifestText){
+        try{
+            const arr=JSON.parse(manifestText);
+            if(Array.isArray(arr)) folders=arr;
+        }catch{}
     }
-  }
-
-  if(!folders.length){
-    grid.innerHTML = '<p style="color:#ccc">No products found in products/.</p>';
-    return;
-  }
-
-  const sharedShipping = (await tryFetchText('products/_shipping.txt'))?.trim() || '';
-  const sharedWarranty = (await tryFetchText('products/_warranty.txt'))?.trim() || '';
-
-  const productData = {};
-  for(const folder of folders){
-    const infoTxt = await tryFetchText(`products/${folder}/info.txt`);
-    const info = parseInfoTxt(infoTxt || '');
-    const image = await findImageForFolder(folder);
-    const data = {
-      title: info.title || `Product ${folder}`,
-      description: info.description || '',
-      price: info.price || '',
-      shipping: info['shipping info'] || sharedShipping || 'See product page.',
-      warranty: info['warranty policy'] || sharedWarranty || 'See product page.',
-      image
-    };
-    productData[folder] = data;
-
-    const isOOS = await exists(`products/${folder}/oos.txt`);
-
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${image}" alt="${data.title}">
-      <h4>${data.title}</h4>
-      <p class="price">${data.price}</p>
-      <div class="card-buttons" style="display:flex;justify-content:center;gap:0px;flex-wrap:wrap;">
-        ${isOOS
-          ? `<a href="#" class="btn out-of-stock">Out of Stock</a>`
-          : `<a href="#" class="btn details-btn" data-product="${folder}">More Details</a>
-             <a href="#" class="btn contact-btn" data-product="${folder}">Contact to Purchase</a>`}
-      </div>`;
-    grid.appendChild(card);
-  }
-
-  // Details modal
-  const detailsModal = document.getElementById('detailsModal');
-  const detailsImage = document.getElementById('detailsImage');
-  const detailsTitle = document.getElementById('detailsTitle');
-  const detailsPrice = document.getElementById('detailsPrice');
-  const productInfo = document.getElementById('productInfo');
-  const shippingInfo = document.getElementById('shippingInfo');
-  const warrantyInfo = document.getElementById('warrantyInfo');
-
-  grid.addEventListener('click', e => {
-    const btn = e.target.closest('.details-btn');
-    if(!btn) return;
-    e.preventDefault();
-    const data = productData[btn.dataset.product];
-    if(!data) return;
-    detailsImage.src = data.image;
-    detailsTitle.textContent = data.title;
-    detailsPrice.textContent = data.price;
-    productInfo.textContent = data.description;
-    shippingInfo.textContent = data.shipping;
-    warrantyInfo.textContent = data.warranty;
-    detailsModal.classList.add('active');
-  });
-
-  detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', () => detailsModal.classList.remove('active')));
-  window.addEventListener('click', e => { if(e.target === detailsModal) detailsModal.classList.remove('active'); });
-
-  // Contact modal
-  const contactModal = document.getElementById('contactModal');
-  grid.addEventListener('click', e => {
-    if(e.target.closest('.contact-btn')){
-      e.preventDefault();
-      contactModal.classList.add('active');
+    if(!folders.length){
+        for(let i=1;i<=50;i++){
+            if(await tryFetchText(`/products/p${i}/info.txt`)) folders.push(`p${i}`);
+        }
     }
-  });
-  contactModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', () => contactModal.classList.remove('active')));
-  window.addEventListener('click', e => { if(e.target === contactModal) contactModal.classList.remove('active'); });
+    if(!folders.length){
+        grid.innerHTML='<p style="color:#ccc">No products found in /products/.</p>';
+        return;
+    }
 
-  // Accordion behavior
-  const accordion = detailsModal.querySelector('.accordion');
-  accordion.addEventListener('click', e => {
-    const btn = e.target.closest('.collapsible');
-    if(!btn) return;
-    btn.classList.toggle('active');
-    const panel = btn.nextElementSibling;
-    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-  });
+    const productData={};
+    for(const folder of folders){
+        const infoTxt=await tryFetchText(`/products/${folder}/info.txt`);
+        const info=parseInfoTxt(infoTxt||'');
+        const image=await findImageForFolder(folder);
+        const data={
+            title:info.title||`Product ${folder}`,
+            description:info.description||'',
+            price:info.price||'',
+            shipping:info['shipping info']||sharedShipping||'See product page.',
+            warranty:info['warranty policy']||sharedWarranty||'See product page.',
+            image
+        };
+        productData[folder]=data;
+
+        const isOOS = await exists(`/products/${folder}/oos.txt`);
+
+        const card=document.createElement('div');
+        card.className='product-card';
+        card.innerHTML=`
+          <img src="${image}" alt="${data.title}">
+          <h4>${data.title}</h4>
+          <p class="price">${data.price}</p>
+          <div class="card-buttons" style="display:flex;justify-content:center;gap:0px;flex-wrap:wrap;">
+            ${isOOS
+              ? `<a href="#" class="btn out-of-stock">Out of Stock</a>`
+              : `<a href="#" class="btn details-btn" data-product="${folder}">More Details</a>
+                 <a href="#" class="btn contact-btn" data-product="${folder}">Contact to Purchase</a>`}
+          </div>`;
+        grid.appendChild(card);
+    }
+
+    // ===== Contact Modal =====
+    const contactModal=document.getElementById('contactModal');
+    const openContact=()=>contactModal.classList.add('active');
+    const closeContact=()=>contactModal.classList.remove('active');
+    grid.addEventListener('click',e=>{
+        if(e.target.closest('.contact-btn')){
+            e.preventDefault();
+            openContact();
+        }
+    });
+    contactModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeContact));
+    window.addEventListener('click',e=>{if(e.target===contactModal)closeContact();});
+
+    // ===== Details Modal =====
+    const detailsModal=document.getElementById('detailsModal');
+    const closeDetails=()=>detailsModal.classList.remove('active');
+    const detailsImage=document.getElementById('detailsImage');
+    const detailsTitle=document.getElementById('detailsTitle');
+    const detailsPrice=document.getElementById('detailsPrice');
+    const productInfo=document.getElementById('productInfo');
+    const shippingInfo=document.getElementById('shippingInfo');
+    const warrantyInfo=document.getElementById('warrantyInfo');
+
+    grid.addEventListener('click',e=>{
+        const btn=e.target.closest('.details-btn');
+        if(!btn) return;
+        e.preventDefault();
+        const data=productData[btn.dataset.product];
+        if(!data) return;
+        detailsImage.src=data.image;
+        detailsTitle.textContent=data.title;
+        detailsPrice.textContent=data.price;
+        productInfo.textContent=data.description;
+        shippingInfo.textContent=data.shipping;
+        warrantyInfo.textContent=data.warranty;
+        detailsModal.classList.add('active');
+    });
+
+    detailsModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeDetails));
+    window.addEventListener('click',e=>{if(e.target===detailsModal)closeDetails();});
+
+    // ===== Accordion Behavior =====
+    const accordion=detailsModal.querySelector('.accordion');
+    accordion.addEventListener('click',e=>{
+        const btn=e.target.closest('.collapsible');
+        if(!btn) return;
+        e.preventDefault();
+        btn.classList.toggle('active');
+        const panel=btn.nextElementSibling;
+        panel.style.display=panel.style.display==='block'?'none':'block';
+    });
 
 });
-
 </script>
 
 
