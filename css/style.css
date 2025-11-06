@@ -1506,3 +1506,45 @@ body.light-mode #mobile-menu a:hover {
 #contactModal .modal-content a:hover {
     text-decoration: underline;
 }
+
+/* ✅ Prevent content cutoff inside modals */
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.panel {
+  display: none;
+  padding: 10px 15px;
+  background: #181818;
+  border-top: 1px solid #333;
+  color: #ddd;
+}
+
+/* ✅ Fix cutoff inside product details modal */
+.modal-content {
+  max-height: 95vh;          /* give more space overall */
+  overflow-y: auto;           /* scroll if still too tall */
+  padding: 30px 25px;         /* add inner padding */
+  box-sizing: border-box;
+}
+
+/* ✅ Ensure accordion panels (dropdown content) have enough visible space */
+.panel {
+  display: none;
+  padding: 15px 20px;
+  background: #181818;
+  border-top: 1px solid #333;
+  color: #ddd;
+  line-height: 1.6;
+  max-height: 300px;          /* allow tall text */
+  overflow-y: auto;           /* scroll if text is long */
+  border-radius: 6px;
+  margin-top: 5px;
+}
+
+/* Optional: make the text inside dropdowns more readable */
+.panel p {
+  margin-bottom: 10px;
+  color: #ccc;
+  font-size: 15px;
+}

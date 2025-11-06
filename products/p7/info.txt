@@ -1,0 +1,5 @@
+Title: RGH Bundle 555
+Description: Placeholder description
+Price: $189.99
+Shipping Info: Placeholder Ship Info
+Warranty Policy: Placeholder WP
