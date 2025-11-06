@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom RGH Console Builder - RGH NATION</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0e0e0e;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+.container {
+  max-width: 700px;
+  width: 100%;
+}
+h2 {
+  text-align: center;
+  color: #00bfff;
+  margin-bottom: 25px;
+}
+form {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+fieldset {
+  border: 1px solid #00bfff; /* thinner lines */
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+legend {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #00bfff;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 10px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  margin-top: 5px;
+  background: #0e0e0e;
+  color: #fff;
+}
+.summary-block {
+  background: #121212;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  white-space: pre-wrap;
+  font-family: monospace;
+  border: 1px solid #00bfff; /* thinner border */
+}
+.copy-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.copy-btn:hover {
+  background: #0056b3;
+}
+.contact-info {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #bbb;
+}
+.contact-info a {
+  color: #00bfff;
+  text-decoration: none;
+}
+.contact-info a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Custom RGH Console Builder</h2>
+  <form id="consoleForm">
+    <!-- Console Type -->
+    <fieldset>
+      <legend>Console Type</legend>
+      <label><input type="radio" name="consoleType" value="RGH Slim" data-price="174.99" required> RGH Slim (Trinity, Corona) $174.99</label>
+      <label><input type="radio" name="consoleType" value="RGH Phat" data-price="184.99"> RGH Phat (Falcon, Jasper) $184.99</label>
+    </fieldset>
+
+    <!-- Ring of Light -->
+    <fieldset>
+      <legend>Ring of Light LED Colors ($15, max 5 colors)</legend>
+      <label><input type="checkbox" name="ringLED" value="Red"> Red</label>
+      <label><input type="checkbox" name="ringLED" value="Blue"> Blue</label>
+      <label><input type="checkbox" name="ringLED" value="Green"> Green</label>
+      <label><input type="checkbox" name="ringLED" value="White"> White</label>
+      <label><input type="checkbox" name="ringLED" value="UV Purple"> UV Purple</label>
+      <label><input type="checkbox" name="ringLED" value="Yellow"> Yellow</label>
+      <label><input type="checkbox" name="ringLED" value="Pink"> Pink</label>
+    </fieldset>
+
+    <!-- Fan LED -->
+    <fieldset>
+      <legend>Fan LED Colors ($10, max 3 colors)</legend>
+      <label><input type="checkbox" name="fanLED" value="Red"> Red</label>
+      <label><input type="checkbox" name="fanLED" value="Blue"> Blue</label>
+      <label><input type="checkbox" name="fanLED" value="Green"> Green</label>
+      <label><input type="checkbox" name="fanLED" value="White"> White</label>
+      <label><input type="checkbox" name="fanLED" value="Purple"> Purple</label>
+    </fieldset>
+
+    <!-- Shell Color -->
+    <fieldset id="shellFieldset">
+      <legend>Shell Color</legend>
+<div id="slimShells" style="display:none;">
+  <label><input type="radio" name="shellColor" value="Doesn't matter" data-price="0"> Doesn't matter</label>
+  <label><input type="radio" name="shellColor" value="Matte Black" data-price="0"> Matte Black</label>
+  <label><input type="radio" name="shellColor" value="Glossy Black" data-price="0"> Glossy Black</label>
+  <label><input type="radio" name="shellColor" value="Glossy White" data-price="50"> Glossy White (+$50)</label>
+  <label>
+    <input type="radio" name="shellColor" value="Limited Edition" data-price="75" id="limitedRadio"> Limited Edition (+$75)
+    <input type="text" id="limitedText" placeholder="Describe your limited edition shell" style="margin-top:5px; display:none;">
+  </label>
+</div>
+
+<div id="phatShells" style="display:none;">
+  <label><input type="radio" name="shellColor" value="Doesn't matter" data-price="0"> Doesn't matter</label>
+  <label><input type="radio" name="shellColor" value="White" data-price="0"> White</label>
+  <label><input type="radio" name="shellColor" value="Black" data-price="0"> Black</label>
+</div>
+
+    </fieldset>
+
+    <!-- Shipping -->
+    <fieldset>
+      <legend>Shipping</legend>
+      <label><input type="radio" name="shipping" value="US Standard Shipping" data-price="15" checked> US Standard Shipping ($15)</label>
+    </fieldset>
+
+    <!-- Summary -->
+    <div class="summary-block" id="summary">Your summary will appear here.</div>
+    <button type="button" class="copy-btn" id="copySummary">Copy Summary</button>
+
+    <!-- Contact Info -->
+    <div class="contact-info">
+      Once your selections are complete, forward this summary to confirm your order. Payment in advance is required, and custom-built orders are typically completed and shipped within 2 weeks.<br>
+      Contact our team via <a href="https://discord.gg/yourdiscord" target="_blank">Discord</a> or <a href="mailto:support@rghnation.com">Email</a>.
+    </div>
+  </form>
+</div>
+
+<script>
+const form = document.getElementById('consoleForm');
+const summaryEl = document.getElementById('summary');
+const copyBtn = document.getElementById('copySummary');
+const slimShells = document.getElementById('slimShells');
+const phatShells = document.getElementById('phatShells');
+const limitedText = document.getElementById('limitedText');
+const limitedRadio = document.getElementById('limitedRadio');
+
+// Show relevant shell options and reset obsolete selections
+function updateShellDisplay() {
+  const type = form.consoleType.value;
+  slimShells.style.display = type === 'RGH Slim' ? 'block' : 'none';
+  phatShells.style.display = type === 'RGH Phat' ? 'block' : 'none';
+
+  // Reset Limited Edition input if not Slim
+  if (type !== 'RGH Slim') {
+    limitedText.value = '';
+  }
+
+  // Reset shell selection if current shell is not visible
+  const selectedShell = form.querySelector('input[name="shellColor"]:checked');
+  if (selectedShell) {
+    const parentDiv = selectedShell.closest('div');
+    if (parentDiv.style.display === 'none') {
+      selectedShell.checked = false;
+    }
+  }
+}
+
+// Limit number of selected checkboxes
+function limitCheckboxes(name, max) {
+  const checkboxes = Array.from(form.querySelectorAll(`input[name="${name}"]`));
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = checkboxes.filter(c => c.checked);
+      if (checked.length > max) cb.checked = false;
+      updateSummary();
+    });
+  });
+}
+
+limitCheckboxes('ringLED', 5);
+limitCheckboxes('fanLED', 3);
+
+// Show/hide Limited Edition text box
+form.querySelectorAll('input[name="shellColor"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (limitedRadio.checked) {
+      limitedText.style.display = 'block';
+    } else {
+      limitedText.style.display = 'none';
+      limitedText.value = '';
+    }
+    updateSummary();
+  });
+});
+
+function updateSummary() {
+  let total = 0;
+
+  // Console type
+  const typeRadio = form.querySelector('input[name="consoleType"]:checked');
+  const type = typeRadio?.value || '';
+  total += parseFloat(typeRadio?.dataset.price || 0);
+
+  // LEDs
+  const ring = Array.from(form.querySelectorAll('input[name="ringLED"]:checked')).map(c => c.value);
+  const fan = Array.from(form.querySelectorAll('input[name="fanLED"]:checked')).map(c => c.value);
+  if (ring.length) total += 15;
+  if (fan.length) total += 10;
+
+  // Shell
+  const shellRadio = form.querySelector('input[name="shellColor"]:checked');
+  let shell = shellRadio?.value || '';
+  let shellExtra = parseFloat(shellRadio?.dataset.price || 0);
+  const limitedTextVal = limitedText.value.trim();
+  if (shell === 'Limited Edition' && limitedTextVal) shell = `${shell} (${limitedTextVal})`;
+  total += shellExtra;
+
+  // Shipping
+  const shippingPrice = 15;
+  total += shippingPrice;
+
+  summaryEl.textContent =
+`Console Type: ${type}
+Ring of Light: ${ring.length ? ring.join(', ') : 'Unmodified'}
+Fan LED: ${fan.length ? fan.join(', ') : 'Unmodified'}
+Shell Color: ${shell || 'Unmodified'}
+Shipping: US Standard Shipping ($15)
+Total Price: $${total.toFixed(2)}`;
+}
+
+// Update everything live
+form.addEventListener('input', () => { 
+  updateShellDisplay(); 
+  updateSummary(); 
+});
+
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(summaryEl.textContent).then(() => alert('Summary copied!'));
+});
+
+// Initialize
+updateShellDisplay();
+updateSummary();
+</script>
+</body>
+</html>
