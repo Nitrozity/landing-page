@@ -167,7 +167,7 @@
     <p>To make a purchase, please contact us on Discord or Email.</p>
     <p>Check out our <a href="misc-add-ons.html" style="color:#00bfff;">Misc Add-Ons</a> for Warranty Extensions, Shell Upgrades, and more Customization Options.</p>
     <p>
-Interested in a custom-built console? Fill out your selections <a href="custom-build-form.html" target="_blank">here</a> and contact our technician to finalize your order!
+Interested in a custom-built console? Fill out your selections <a href="custombuild-form.html" target="_blank">here</a> and contact our technician to finalize your order!
 </p>
     <div class="bundle-info">
       <h4>All Bundle Deals Include:</h4>
@@ -230,52 +230,100 @@ Interested in a custom-built console? Fill out your selections <a href="custom-b
 
 <script>
 // ========== Utilities ==========
-async function tryFetchText(url){try{const res=await fetch(url,{cache:'no-store'});return res.ok?await res.text():null}catch{return null;}}
-async function exists(url){try{const res=await fetch(url,{method:'HEAD',cache:'no-store'});return res.ok}catch{return false;}}
-function parseInfoTxt(text){const lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);const obj={};for(const line of lines){const idx=line.indexOf(':');if(idx>-1){const key=line.slice(0,idx).trim().toLowerCase();const value=line.slice(idx+1).trim();obj[key]=value}else{if(!obj.title)obj.title=line;else if(!obj.description)obj.description=line;}}return obj;}
-async function findImageForFolder(folder){const candidates=['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];for(const c of candidates){const path=`/products/${folder}/${c}`;if(await exists(path))return path;}return '/images/console1.jpg';}
+// Use relative paths for GitHub Pages
+async function tryFetchText(url){
+  try {
+    const res = await fetch(url, {cache: 'no-store'});
+    return res.ok ? await res.text() : null;
+  } catch {
+    return null;
+  }
+}
 
-// ========== DOM Loaded ==========
+async function exists(url){
+  try {
+    const res = await fetch(url, {method: 'HEAD', cache: 'no-store'});
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+function parseInfoTxt(text){
+  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const obj = {};
+  for(const line of lines){
+    const idx = line.indexOf(':');
+    if(idx>-1){
+      const key = line.slice(0,idx).trim().toLowerCase();
+      const value = line.slice(idx+1).trim();
+      obj[key] = value;
+    } else {
+      if(!obj.title) obj.title = line;
+      else if(!obj.description) obj.description = line;
+    }
+  }
+  return obj;
+}
+
+async function findImageForFolder(folder){
+  const candidates = ['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];
+  for(const c of candidates){
+    const path = `products/${folder}/${c}`; // relative path
+    if(await exists(path)) return path;
+  }
+  return 'images/console1.jpg'; // fallback image
+}
+
+// ========== Load Products ==========
 document.addEventListener('DOMContentLoaded', async () => {
+  const grid = document.getElementById('productGrid');
+  let folders = [];
 
-  // Theme toggle
-  const savedTheme=localStorage.getItem('theme')||'dark';
-  document.body.classList.add(savedTheme==='light'?'light-mode':'dark-mode');
-  const themeToggle=document.getElementById('theme-toggle');
-  themeToggle.textContent=document.body.classList.contains('light-mode')?'☀️':'🌙';
-  themeToggle.addEventListener('click',()=>{document.body.classList.toggle('light-mode');document.body.classList.toggle('dark-mode');localStorage.setItem('theme',document.body.classList.contains('light-mode')?'light':'dark');themeToggle.textContent=document.body.classList.contains('light-mode')?'☀️':'🌙';});
+  // Try manifest first
+  const manifestText = await tryFetchText('products/products.json');
+  if(manifestText){
+    try{
+      const arr = JSON.parse(manifestText);
+      if(Array.isArray(arr)) folders = arr;
+    } catch {}
+  }
 
-  // Mobile menu
-  const menuToggle=document.getElementById('menu-toggle');
-  const mobileMenu=document.getElementById('mobile-menu');
-  menuToggle.addEventListener('click',()=>mobileMenu.classList.toggle('show'));
+  // Fallback: auto-detect p1..p50 folders
+  if(!folders.length){
+    for(let i=1;i<=50;i++){
+      if(await tryFetchText(`products/p${i}/info.txt`)) folders.push(`p${i}`);
+    }
+  }
 
-  // Shared info
-  const sharedShipping=(await tryFetchText('/products/_shipping.txt'))?.trim()||'';
-  const sharedWarranty=(await tryFetchText('/products/_warranty.txt'))?.trim()||'';
+  if(!folders.length){
+    grid.innerHTML = '<p style="color:#ccc">No products found in products/.</p>';
+    return;
+  }
 
-  // Load products
-  const grid=document.getElementById('productGrid');
-  let folders=[];
-  const manifestText=await tryFetchText('/products/products.json');
-  if(manifestText){try{const arr=JSON.parse(manifestText);if(Array.isArray(arr))folders=arr}catch{}}
-  if(!folders.length){for(let i=1;i<=50;i++){if(await tryFetchText(`/products/p${i}/info.txt`))folders.push(`p${i}`);}}
-  if(!folders.length){grid.innerHTML='<p style="color:#ccc">No products found in /products/.</p>';return;}
+  const sharedShipping = (await tryFetchText('products/_shipping.txt'))?.trim() || '';
+  const sharedWarranty = (await tryFetchText('products/_warranty.txt'))?.trim() || '';
 
-  const productData={};
+  const productData = {};
   for(const folder of folders){
-    const infoTxt=await tryFetchText(`/products/${folder}/info.txt`);
-    const info=parseInfoTxt(infoTxt||'');
-    const image=await findImageForFolder(folder);
-    const data={title:info.title||`Product ${folder}`,description:info.description||'',price:info.price||'',shipping:info['shipping info']||sharedShipping||'See product page.',warranty:info['warranty policy']||sharedWarranty||'See product page.',image};
-    productData[folder]=data;
+    const infoTxt = await tryFetchText(`products/${folder}/info.txt`);
+    const info = parseInfoTxt(infoTxt || '');
+    const image = await findImageForFolder(folder);
+    const data = {
+      title: info.title || `Product ${folder}`,
+      description: info.description || '',
+      price: info.price || '',
+      shipping: info['shipping info'] || sharedShipping || 'See product page.',
+      warranty: info['warranty policy'] || sharedWarranty || 'See product page.',
+      image
+    };
+    productData[folder] = data;
 
-    // Check if Out of Stock
-    const isOOS = await exists(`/products/${folder}/oos.txt`);
+    const isOOS = await exists(`products/${folder}/oos.txt`);
 
-    const card=document.createElement('div');
-    card.className='product-card';
-    card.innerHTML=`
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
       <img src="${image}" alt="${data.title}">
       <h4>${data.title}</h4>
       <p class="price">${data.price}</p>
@@ -288,54 +336,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     grid.appendChild(card);
   }
 
-  // Contact modal
-  const contactModal=document.getElementById('contactModal');
-  const openContact=()=>contactModal.classList.add('active');
-  const closeContact=()=>contactModal.classList.remove('active');
-  grid.addEventListener('click',e=>{if(e.target.closest('.contact-btn')){e.preventDefault();openContact();}});
-  contactModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeContact));
-  window.addEventListener('click',e=>{if(e.target===contactModal)closeContact();});
-
   // Details modal
-  const detailsModal=document.getElementById('detailsModal');
-  const closeDetails=()=>detailsModal.classList.remove('active');
-  const detailsImage=document.getElementById('detailsImage');
-  const detailsTitle=document.getElementById('detailsTitle');
-  const detailsPrice=document.getElementById('detailsPrice');
-  const productInfo=document.getElementById('productInfo');
-  const shippingInfo=document.getElementById('shippingInfo');
-  const warrantyInfo=document.getElementById('warrantyInfo');
+  const detailsModal = document.getElementById('detailsModal');
+  const detailsImage = document.getElementById('detailsImage');
+  const detailsTitle = document.getElementById('detailsTitle');
+  const detailsPrice = document.getElementById('detailsPrice');
+  const productInfo = document.getElementById('productInfo');
+  const shippingInfo = document.getElementById('shippingInfo');
+  const warrantyInfo = document.getElementById('warrantyInfo');
 
-  grid.addEventListener('click',e=>{
-    const btn=e.target.closest('.details-btn');
-    if(!btn)return;
+  grid.addEventListener('click', e => {
+    const btn = e.target.closest('.details-btn');
+    if(!btn) return;
     e.preventDefault();
-    const data=productData[btn.dataset.product];
-    if(!data)return;
-    detailsImage.src=data.image;
-    detailsTitle.textContent=data.title;
-    detailsPrice.textContent=data.price;
-    productInfo.textContent=data.description;
-    shippingInfo.textContent=data.shipping;
-    warrantyInfo.textContent=data.warranty;
+    const data = productData[btn.dataset.product];
+    if(!data) return;
+    detailsImage.src = data.image;
+    detailsTitle.textContent = data.title;
+    detailsPrice.textContent = data.price;
+    productInfo.textContent = data.description;
+    shippingInfo.textContent = data.shipping;
+    warrantyInfo.textContent = data.warranty;
     detailsModal.classList.add('active');
   });
 
-  detailsModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeDetails));
-  window.addEventListener('click',e=>{if(e.target===detailsModal)closeDetails();});
+  detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', () => detailsModal.classList.remove('active')));
+  window.addEventListener('click', e => { if(e.target === detailsModal) detailsModal.classList.remove('active'); });
 
-  // Keep original collapsible behavior
-  const accordion=detailsModal.querySelector('.accordion');
-  accordion.addEventListener('click',e=>{
-    const btn=e.target.closest('.collapsible');
-    if(!btn)return;
-    e.preventDefault();
+  // Contact modal
+  const contactModal = document.getElementById('contactModal');
+  grid.addEventListener('click', e => {
+    if(e.target.closest('.contact-btn')){
+      e.preventDefault();
+      contactModal.classList.add('active');
+    }
+  });
+  contactModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', () => contactModal.classList.remove('active')));
+  window.addEventListener('click', e => { if(e.target === contactModal) contactModal.classList.remove('active'); });
+
+  // Accordion behavior
+  const accordion = detailsModal.querySelector('.accordion');
+  accordion.addEventListener('click', e => {
+    const btn = e.target.closest('.collapsible');
+    if(!btn) return;
     btn.classList.toggle('active');
-    const panel=btn.nextElementSibling;
-    panel.style.display=panel.style.display==='block'?'none':'block';
+    const panel = btn.nextElementSibling;
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   });
 
 });
+
 </script>
 
 
