@@ -229,7 +229,6 @@ Interested in a custom-built console? Fill out your selections <a href="custom-b
 </footer>
 
 <script>
-// ========== Utilities ==========
 async function tryFetchText(url){
     try{
         const res=await fetch(url,{cache:'no-store'});
@@ -264,13 +263,12 @@ function parseInfoTxt(text){
 async function findImageForFolder(folder){
     const candidates=['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];
     for(const c of candidates){
-        const path=`/products/${folder}/${c}`;
+        const path=`products/${folder}/${c}`;
         if(await exists(path)) return path;
     }
-    return '/images/console1.jpg';
+    return 'images/console1.jpg';
 }
 
-// ========== DOM Loaded ==========
 document.addEventListener('DOMContentLoaded', async () => {
 
     // ===== Theme Toggle =====
@@ -293,14 +291,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mobileMenu=document.getElementById('mobile-menu');
     menuToggle.addEventListener('click',()=>mobileMenu.classList.toggle('show'));
 
-    // ===== Shared Info =====
-    const sharedShipping=(await tryFetchText('/products/_shipping.txt'))?.trim()||'';
-    const sharedWarranty=(await tryFetchText('/products/_warranty.txt'))?.trim()||'';
-
     // ===== Load Products =====
     const grid=document.getElementById('productGrid');
     let folders=[];
-    const manifestText=await tryFetchText('/products/products.json');
+    const manifestText=await tryFetchText('products/products.json');
     if(manifestText){
         try{
             const arr=JSON.parse(manifestText);
@@ -309,7 +303,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if(!folders.length){
         for(let i=1;i<=50;i++){
-            if(await tryFetchText(`/products/p${i}/info.txt`)) folders.push(`p${i}`);
+            if(await tryFetchText(`products/p${i}/info.txt`)) folders.push(`p${i}`);
         }
     }
     if(!folders.length){
@@ -319,20 +313,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const productData={};
     for(const folder of folders){
-        const infoTxt=await tryFetchText(`/products/${folder}/info.txt`);
+        const infoTxt=await tryFetchText(`products/${folder}/info.txt`);
         const info=parseInfoTxt(infoTxt||'');
         const image=await findImageForFolder(folder);
         const data={
             title:info.title||`Product ${folder}`,
             description:info.description||'',
             price:info.price||'',
-            shipping:info['shipping info']||sharedShipping||'See product page.',
-            warranty:info['warranty policy']||sharedWarranty||'See product page.',
+            shipping:info['shipping info']||'See product page.',
+            warranty:info['warranty policy']||'See product page.',
             image
         };
         productData[folder]=data;
 
-        const isOOS = await exists(`/products/${folder}/oos.txt`);
+        const isOOS = await exists(`products/${folder}/oos.txt`);
 
         const card=document.createElement('div');
         card.className='product-card';
@@ -403,6 +397,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 </script>
+
 
 
 </body>
