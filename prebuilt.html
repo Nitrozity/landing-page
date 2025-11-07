@@ -91,8 +91,50 @@
 .modal-content .close { position: absolute; top: 15px; right: 20px; font-size: 32px; color: #fff; cursor: pointer; user-select: none; }
 
 /* === Two Column Layout === */
-.modal-left { flex: 1; display: flex; justify-content: center; align-items: center; }
-.modal-left img { max-width: 100%; max-height: 500px; border-radius: 12px; object-fit: contain; }
+.modal-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* stack main image and thumbnails vertically */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.modal-left img#detailsImage {
+  max-width: 100%;
+  max-height: 450px;
+  border-radius: 12px;
+  object-fit: contain;
+  margin-bottom: 10px; /* space between main image and thumbnails */
+}
+.modal-left .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+.modal-left .arrow.left { left: 0; }
+.modal-left .arrow.right { right: 0; }
+
+.thumbnails {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.thumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.thumbnails img.active { border-color: #00bfff; }
+
 .modal-right { flex: 1; display: flex; flex-direction: column; }
 .modal-right h3 { font-size: 1.6rem; margin-bottom: 15px; }
 .modal-right .price { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
@@ -133,6 +175,7 @@
   .modal-left, .modal-right { width: 100%; }
 }
 </style>
+
 </head>
 <body>
 
@@ -167,8 +210,8 @@
     <p>To make a purchase, please contact us on Discord or Email.</p>
     <p>Check out our <a href="misc-add-ons.html" style="color:#00bfff;">Misc Add-Ons</a> for Warranty Extensions, Shell Upgrades, and more Customization Options.</p>
     <p>
-Interested in a custom-built console? Fill out your selections <a href="custom-build-form.html" target="_blank">here</a> and contact our technician to finalize your order!
-</p>
+      Interested in a custom-built console? Fill out your selections <a href="custom-build-form.html" target="_blank">here</a> and contact our technician to finalize your order!
+    </p>
     <div class="bundle-info">
       <h4>All Bundle Deals Include:</h4>
       <ul>
@@ -194,7 +237,10 @@ Interested in a custom-built console? Fill out your selections <a href="custom-b
   <div class="modal-content modal-two-column" role="dialog" aria-modal="true">
     <span class="close" data-target="detailsModal">&times;</span>
     <div class="modal-left">
+      <span class="arrow left" id="prevImage">&#10094;</span>
       <img id="detailsImage" src="" alt="Product Image">
+      <span class="arrow right" id="nextImage">&#10095;</span>
+      <div id="thumbnails" class="thumbnails"></div>
     </div>
     <div class="modal-right">
       <h3 id="detailsTitle">Product Name</h3>
@@ -231,42 +277,46 @@ Interested in a custom-built console? Fill out your selections <a href="custom-b
 <script>
 async function tryFetchText(url){
     try{
-        const res=await fetch(url,{cache:'no-store'});
+        const res = await fetch(url, {cache: 'no-store'});
         return res.ok ? await res.text() : null;
     } catch { return null; }
 }
 
 async function exists(url){
     try{
-        const res=await fetch(url,{method:'HEAD',cache:'no-store'});
+        const res = await fetch(url, {method:'HEAD', cache:'no-store'});
         return res.ok;
     } catch { return false; }
 }
 
 function parseInfoTxt(text){
-    const lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-    const obj={};
+    const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    const obj = {};
     for(const line of lines){
-        const idx=line.indexOf(':');
-        if(idx>-1){
-            const key=line.slice(0,idx).trim().toLowerCase();
-            const value=line.slice(idx+1).trim();
-            obj[key]=value;
+        const idx = line.indexOf(':');
+        if(idx > -1){
+            const key = line.slice(0, idx).trim().toLowerCase();
+            const value = line.slice(idx+1).trim();
+            obj[key] = value;
         } else {
-            if(!obj.title)obj.title=line;
-            else if(!obj.description)obj.description=line;
+            if(!obj.title) obj.title = line;
+            else if(!obj.description) obj.description = line;
         }
     }
     return obj;
 }
 
-async function findImageForFolder(folder){
-    const candidates=['main.jpg','main.png','image.jpg','image.png',`${folder}.jpg`,`${folder}.png`];
-    for(const c of candidates){
-        const path=`products/${folder}/${c}`;
-        if(await exists(path)) return path;
+async function findImagesForFolder(folder){
+    const images = [];
+    let i = 1;
+    while(true){
+        const path = `products/${folder}/${i}.jpg`;
+        if(await exists(path)) images.push(path);
+        else break;
+        i++;
     }
-    return 'images/console1.jpg';
+    if(!images.length) images.push(`images/console1.jpg`);
+    return images;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -277,7 +327,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.classList.remove('light-mode','dark-mode');
     document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
     themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
-
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         document.body.classList.toggle('dark-mode');
@@ -287,22 +336,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // ===== Mobile Menu =====
-    const menuToggle=document.getElementById('menu-toggle');
-    const mobileMenu=document.getElementById('mobile-menu');
-    menuToggle.addEventListener('click',()=>mobileMenu.classList.toggle('show'));
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
 
     // ===== Load Products =====
-    const grid=document.getElementById('productGrid');
-    let folders=[];
-    const manifestText=await tryFetchText('products/products.json');
+    const grid = document.getElementById('productGrid');
+    let folders = [];
+    const manifestText = await tryFetchText('products/products.json');
     if(manifestText){
         try{
-            const arr=JSON.parse(manifestText);
-            if(Array.isArray(arr)) folders=arr;
-        }catch{}
+            const arr = JSON.parse(manifestText);
+            if(Array.isArray(arr)) folders = arr;
+        } catch {}
     }
     if(!folders.length){
-        for(let i=1;i<=50;i++){
+        for(let i=1; i<=50; i++){
             if(await tryFetchText(`products/p${i}/info.txt`)) folders.push(`p${i}`);
         }
     }
@@ -311,27 +360,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    const productData={};
+    const productData = {};
     for(const folder of folders){
-        const infoTxt=await tryFetchText(`products/${folder}/info.txt`);
-        const info=parseInfoTxt(infoTxt||'');
-        const image=await findImageForFolder(folder);
-        const data={
-            title:info.title||`Product ${folder}`,
-            description:info.description||'',
-            price:info.price||'',
-            shipping:info['shipping info']||'See product page.',
-            warranty:info['warranty policy']||'See product page.',
-            image
+        const infoTxt = await tryFetchText(`products/${folder}/info.txt`);
+        const info = parseInfoTxt(infoTxt || '');
+        const images = await findImagesForFolder(folder);
+        const data = {
+            title: info.title || `Product ${folder}`,
+            description: info.description || '',
+            price: info.price || '$0.00',
+            shipping: info['shipping info'] || 'See product page.',
+            warranty: info['warranty policy'] || 'See product page.',
+            images
         };
-        productData[folder]=data;
+        productData[folder] = data;
 
         const isOOS = await exists(`products/${folder}/oos.txt`);
 
-        const card=document.createElement('div');
-        card.className='product-card';
-        card.innerHTML=`
-          <img src="${image}" alt="${data.title}">
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML=`<img src="${images[0]}" alt="${data.title}">
           <h4>${data.title}</h4>
           <p class="price">${data.price}</p>
           <div class="card-buttons" style="display:flex;justify-content:center;gap:0px;flex-wrap:wrap;">
@@ -341,62 +389,154 @@ document.addEventListener('DOMContentLoaded', async () => {
                  <a href="#" class="btn contact-btn" data-product="${folder}">Contact to Purchase</a>`}
           </div>`;
         grid.appendChild(card);
+
+        // ===== Hover: fade to secondary image only =====
+        const imgEl = card.querySelector('img');
+        imgEl.style.transition = 'opacity 0.5s ease';
+        imgEl.addEventListener('mouseenter', () => {
+            if(images.length > 1){
+                imgEl.style.opacity = 0;
+                setTimeout(() => { 
+                    imgEl.src = images[1]; 
+                    imgEl.style.opacity = 1;
+                }, 250);
+            }
+        });
+        imgEl.addEventListener('mouseleave', () => {
+            if(images.length > 1){
+                imgEl.style.opacity = 0;
+                setTimeout(() => {
+                    imgEl.src = images[0]; 
+                    imgEl.style.opacity = 1;
+                }, 250);
+            }
+        });
     }
 
     // ===== Contact Modal =====
-    const contactModal=document.getElementById('contactModal');
-    const openContact=()=>contactModal.classList.add('active');
-    const closeContact=()=>contactModal.classList.remove('active');
-    grid.addEventListener('click',e=>{
+    const contactModal = document.getElementById('contactModal');
+    const openContact = () => contactModal.classList.add('active');
+    const closeContact = () => contactModal.classList.remove('active');
+    grid.addEventListener('click', e => {
         if(e.target.closest('.contact-btn')){
             e.preventDefault();
             openContact();
         }
     });
-    contactModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeContact));
-    window.addEventListener('click',e=>{if(e.target===contactModal)closeContact();});
+    contactModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeContact));
+    window.addEventListener('click', e => { if(e.target === contactModal) closeContact(); });
 
     // ===== Details Modal =====
-    const detailsModal=document.getElementById('detailsModal');
-    const closeDetails=()=>detailsModal.classList.remove('active');
-    const detailsImage=document.getElementById('detailsImage');
-    const detailsTitle=document.getElementById('detailsTitle');
-    const detailsPrice=document.getElementById('detailsPrice');
-    const productInfo=document.getElementById('productInfo');
-    const shippingInfo=document.getElementById('shippingInfo');
-    const warrantyInfo=document.getElementById('warrantyInfo');
+    const detailsModal = document.getElementById('detailsModal');
+    const closeDetails = () => {
+        detailsModal.classList.remove('active');
+        // Reset all accordion panels
+        detailsModal.querySelectorAll('.collapsible').forEach(btn => {
+            btn.classList.remove('active');
+            btn.nextElementSibling.style.maxHeight = null;
+        });
+    };
 
-    grid.addEventListener('click',e=>{
-        const btn=e.target.closest('.details-btn');
+    const detailsImage = document.getElementById('detailsImage');
+    const detailsTitle = document.getElementById('detailsTitle');
+    const detailsPrice = document.getElementById('detailsPrice');
+    const productInfo = document.getElementById('productInfo');
+    const shippingInfo = document.getElementById('shippingInfo');
+    const warrantyInfo = document.getElementById('warrantyInfo');
+    const thumbnailsContainer = document.getElementById('thumbnails');
+    const prevBtn = document.getElementById('prevImage');
+    const nextBtn = document.getElementById('nextImage');
+
+    let currentImages = [];
+    let currentIndex = 0;
+
+    function updateModalImage(){
+        detailsImage.src = currentImages[currentIndex];
+        thumbnailsContainer.querySelectorAll('img').forEach((t,i)=>{
+            t.classList.toggle('active', i===currentIndex);
+        });
+    }
+
+    function updateThumbnails(){
+        thumbnailsContainer.innerHTML = '';
+        currentImages.forEach((img,i)=>{
+            const thumb = document.createElement('img');
+            thumb.src = img;
+            thumb.classList.toggle('active', i===currentIndex);
+            thumb.addEventListener('click', ()=>{
+                currentIndex = i;
+                updateModalImage();
+            });
+            thumbnailsContainer.appendChild(thumb);
+        });
+    }
+
+    nextBtn.addEventListener('click', ()=>{
+        currentIndex = (currentIndex + 1) % currentImages.length;
+        updateModalImage();
+    });
+    prevBtn.addEventListener('click', ()=>{
+        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+        updateModalImage();
+    });
+
+    grid.addEventListener('click', e => {
+        const btn = e.target.closest('.details-btn');
         if(!btn) return;
         e.preventDefault();
-        const data=productData[btn.dataset.product];
+        const data = productData[btn.dataset.product];
         if(!data) return;
-        detailsImage.src=data.image;
-        detailsTitle.textContent=data.title;
-        detailsPrice.textContent=data.price;
-        productInfo.textContent=data.description;
-        shippingInfo.textContent=data.shipping;
-        warrantyInfo.textContent=data.warranty;
+
+        currentImages = [...new Set(data.images)]; // remove duplicates
+        currentIndex = 0;
+        detailsImage.src = currentImages[0];
+        detailsTitle.textContent = data.title;
+        detailsPrice.textContent = data.price;
+        productInfo.textContent = data.description;
+        shippingInfo.textContent = data.shipping;
+        warrantyInfo.textContent = data.warranty;
+
+        updateThumbnails();
         detailsModal.classList.add('active');
+
+        // Reset all accordion panels
+        detailsModal.querySelectorAll('.collapsible').forEach(btn=>{
+            btn.classList.remove('active');
+            btn.nextElementSibling.style.maxHeight = null;
+        });
     });
 
-    detailsModal.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',closeDetails));
-    window.addEventListener('click',e=>{if(e.target===detailsModal)closeDetails();});
+    detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeDetails));
+    window.addEventListener('click', e => { if(e.target === detailsModal) closeDetails(); });
 
-    // ===== Accordion Behavior =====
-    const accordion=detailsModal.querySelector('.accordion');
-    accordion.addEventListener('click',e=>{
-        const btn=e.target.closest('.collapsible');
-        if(!btn) return;
-        e.preventDefault();
-        btn.classList.toggle('active');
-        const panel=btn.nextElementSibling;
-        panel.style.display=panel.style.display==='block'?'none':'block';
+// ===== Accordion Behavior: Only One Open =====
+const accordion = detailsModal.querySelector('.accordion');
+accordion.querySelectorAll('.collapsible').forEach(button => {
+    const panel = button.nextElementSibling;
+    panel.style.overflow = 'hidden';
+    panel.style.maxHeight = null;
+
+    button.addEventListener('click', () => {
+        const isActive = button.classList.contains('active');
+
+        // Close all panels
+        accordion.querySelectorAll('.collapsible').forEach(btn => {
+            btn.classList.remove('active');
+            btn.nextElementSibling.style.maxHeight = null;
+        });
+
+        // Open clicked panel if it was not already active
+        if (!isActive) {
+            button.classList.add('active');
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
     });
+});
 
 });
 </script>
+
+
 
 
 

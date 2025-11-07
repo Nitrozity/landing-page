@@ -1,4 +1,4 @@
-Title: RGH Bundle 555
+Title: RGH Bundle 1
 Description: Placeholder description
 Price: $189.99
 Shipping Info: Placeholder Ship Info
