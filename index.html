@@ -96,6 +96,7 @@
       <p class="quote">"Very satisfied with the RGH install, everything works as promised!"</p>
       <p class="quote">"Placeholder 1"</p>
       <p class="quote">"Placeholder 2"</p>
+      <p class="quote">"Placeholder 3"</p>
 
     </div>
   </div>
@@ -237,6 +238,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const quotes = document.querySelectorAll('.quote');
+  let current = 0;
+
+  if (quotes.length === 0) return;
+
+  // Initialize: hide all quotes off-screen left
+  quotes.forEach((q, i) => {
+    q.style.opacity = '0';
+    q.style.transform = 'translateX(-100%)';
+    q.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+  });
+
+  // Show first quote
+  quotes[current].style.opacity = '1';
+  quotes[current].style.transform = 'translateX(0)';
+
+  setInterval(() => {
+    const prev = current;
+    current = (current + 1) % quotes.length;
+
+    // Slide previous out to right
+    quotes[prev].style.transform = 'translateX(100%)';
+    quotes[prev].style.opacity = '0';
+
+    // Reset next quote off-screen left before animating
+    quotes[current].style.transition = 'none';
+    quotes[current].style.transform = 'translateX(-100%)';
+    quotes[current].style.opacity = '0';
+
+    // Force reflow so the browser registers the starting position
+    quotes[current].offsetHeight;
+
+    // Animate next quote in
+    quotes[current].style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+    quotes[current].style.transform = 'translateX(0)';
+    quotes[current].style.opacity = '1';
+
+  }, 3500);
+});
+</script>
+
+
+
+
 
 
 </body>

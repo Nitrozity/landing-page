@@ -1548,3 +1548,44 @@ body.light-mode #mobile-menu a:hover {
   color: #ccc;
   font-size: 15px;
 }
+
+/* ======== REVIEWS SECTION ANIMATION ======== */
+.reviews {
+  background-color: #0e0e0e;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.reviews h3 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+.quote-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  height: 80px;
+  overflow: hidden;
+}
+
+.quote {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.quote.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.quote.exit {
+  opacity: 0;
+  transform: translateX(100%);
+}
