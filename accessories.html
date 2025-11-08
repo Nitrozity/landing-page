@@ -6,6 +6,12 @@
 <title>Accessories - RGH NATION</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 /* ================== MODAL STYLES ================== */
 .modal {
     display: none; /* hidden by default */
@@ -15,13 +21,15 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5); /* semi-transparent background */
-    justify-content: center;
-    align-items: center;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .modal.active {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -33,7 +41,9 @@
     width: 90%;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    position: relative;
+    
+    /* Add vertical offset */
+    margin-top: 220px; /* <-- increase to lower popup */
 }
 
 .close {
@@ -65,9 +75,9 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
-      <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
       <li><a href="sendin.html">Send-In Services</a></li>
-      <li><a href="accessories.html">Accessories</a></li>
+      <li><a href="accessories.html" class="active">Accessories</a></li>
     </ul>
   </nav>
 </header>
@@ -77,9 +87,9 @@
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About Us</a></li>
-    <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+    <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
     <li><a href="sendin.html">Send-In Services</a></li>
-    <li><a href="accessories.html">Accessories</a></li>
+    <li><a href="accessories.html" class="active">Accessories</a></li>
   </ul>
 </nav>
 
@@ -93,6 +103,7 @@
 <section class="products">
     <div class="container">
         <div class="product-grid">
+            <!-- Product Cards -->
             <div class="product-card">
                 <img src="images/accessory2.jpg" alt="Accessory 2">
                 <h4>Hard Drive Upgrade</h4>
@@ -163,7 +174,7 @@
 </footer>
 
 <script>
-// Wait for DOM to load
+// Modal JS
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('contactModal');
     const contactButtons = document.querySelectorAll('.btn-purchase');
@@ -172,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open modal on button click
     contactButtons.forEach(btn => {
         btn.addEventListener('click', e => {
-            e.preventDefault(); // prevent scrolling to top
+            e.preventDefault();
             modal.classList.add('active');
         });
     });
@@ -189,21 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
 
-<!-- Theme Toggle Script -->
-<script>
+// Theme Toggle
 const toggle = document.getElementById('theme-toggle');
-
-// Apply saved theme on page load
 if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
     toggle.textContent = '☀️';
 } else {
     toggle.textContent = '🌙';
 }
-
-// Toggle light/dark mode and save preference
 toggle?.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     if (document.body.classList.contains('light-mode')) {
@@ -214,20 +219,14 @@ toggle?.addEventListener('click', () => {
         toggle.textContent = '🌙';
     }
 });
+
+// Mobile Menu
+const menuToggle = document.getElementById("menu-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
+menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("show");
+});
 </script>
-
-    <!-- Scripts -->
-  </script>
-
-  <!-- Mobile Menu Script -->
-  <script>
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("show");
-    });
-  </script>
 
 </body>
 </html>

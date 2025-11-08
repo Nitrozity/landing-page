@@ -1466,15 +1466,34 @@ body.light-mode #mobile-menu a:hover {
 
 .collapsible.active { background: #333; }
 
+/* DETAILS MODAL */
+.modal-content {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1100px;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  position: relative;
+
+  /* ADD THESE LINES */
+  max-height: 90vh;       /* Modal can take up to 90% of viewport height */
+  overflow-y: auto;       /* Enable vertical scroll if content is too tall */
+}
+
+/* Optional: give panels some breathing room */
 .content-panel {
-  padding: 10px 16px;
-  display: none;
-  overflow: hidden;
+  padding: 12px 16px;
   background: #1a1a1a;
   border-left: 3px solid #00bfff;
   border-radius: 0 0 5px 5px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  display: none;          /* hidden by default */
 }
+
 
 .content-panel p { margin: 0; color: #ccc; font-size: 0.9rem; }
 
@@ -1588,4 +1607,90 @@ body.light-mode #mobile-menu a:hover {
 .quote.exit {
   opacity: 0;
   transform: translateX(100%);
+}
+
+.collapsible {
+  background: #121212;
+  color: #fff;
+  cursor: pointer;
+  padding: 16px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.collapsible.active::after {
+    transform: rotate(180deg);
+}
+
+.content-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+.content-panel.open {
+    /* max-height will be set dynamically via JS */
+}
+
+/* Fix dropdown expansion for prebuilt product info */
+.product-card {
+    overflow: visible; /* ensure dropdown can expand */
+}
+
+.more-details-btn span.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.more-details-btn.active span.arrow {
+    transform: rotate(180deg);
+}
+
+.product-info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.product-info.active {
+    max-height: 1000px; /* large enough for content */
+}
+
+.content-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.content-panel.open {
+  max-height: 500px; /* enough for most content */
+}
+
+/* === FINAL FIX for cut-off dropdown descriptions === */
+.modal {
+  align-items: flex-start !important;
+}
+
+.modal-content {
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.details-right {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.collapsible-content {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.content-panel {
+  max-height: none !important;
+  overflow: visible !important;
 }
