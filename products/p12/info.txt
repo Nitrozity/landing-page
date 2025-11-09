@@ -1,4 +1,4 @@
-Title: RGH Bundle 1
+Title: RGH1.2 Phat
 Description: Placeholder description
 Price: $189.99
 Shipping Info: Placeholder Ship Info
