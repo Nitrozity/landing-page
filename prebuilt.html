@@ -375,7 +375,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         productData[folder] = data;
 
-        const isOOS = await exists(`products/${folder}/oos.txt`);
+        const oosText = await tryFetchText(`products/${folder}/oos.txt`);
+		const isOOS = oosText !== null;
 
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -420,76 +421,98 @@ document.addEventListener('DOMContentLoaded', async () => {
     contactModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeContact));
     window.addEventListener('click', e => { if(e.target === contactModal) closeContact(); });
 
-    // ===== Details Modal =====
-    const detailsModal = document.getElementById('detailsModal');
-    const closeDetails = () => detailsModal.classList.remove('active');
-    detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeDetails));
-    window.addEventListener('click', e => { if(e.target === detailsModal) closeDetails(); });
+// ===== Details Modal =====
+const detailsModal = document.getElementById('detailsModal');
 
-    const detailsImage = document.getElementById('detailsImage');
-    const detailsTitle = document.getElementById('detailsTitle');
-    const detailsPrice = document.getElementById('detailsPrice');
-    const productInfo = document.getElementById('productInfo');
-    const warrantyInfo = document.getElementById('warrantyInfo');
-    const shippingInfo = document.getElementById('shippingInfo');
-    const thumbnails = document.getElementById('thumbnails');
+// Close modal + reset dropdown states
+const closeDetails = () => {
+    // Close modal
+    detailsModal.classList.remove('active');
 
-    let currentImages = [];
-    let currentIndex = 0;
+    // Reset all collapsible dropdowns so they start fresh next time
+    document.querySelectorAll('.collapsible').forEach(c => {
+        c.classList.remove('active');
+        const panel = c.nextElementSibling;
+        if (panel) panel.style.display = 'none';
+    });
+};
 
-    const showImage = i => {
-        currentIndex = i;
-        detailsImage.src = currentImages[i];
-        thumbnails.querySelectorAll('img').forEach((t, idx) => t.classList.toggle('active', idx===i));
-    }
+// Close when clicking X or outside modal
+detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeDetails));
+window.addEventListener('click', e => {
+    if (e.target === detailsModal) closeDetails();
+});
+
+// Image + details setup
+const detailsImage = document.getElementById('detailsImage');
+const detailsTitle = document.getElementById('detailsTitle');
+const detailsPrice = document.getElementById('detailsPrice');
+const productInfo = document.getElementById('productInfo');
+const warrantyInfo = document.getElementById('warrantyInfo');
+const shippingInfo = document.getElementById('shippingInfo');
+const thumbnails = document.getElementById('thumbnails');
+
+let currentImages = [];
+let currentIndex = 0;
+
+// Image navigation (with active thumbnail highlighting)
+const showImage = i => {
+    currentIndex = i;
+    detailsImage.src = currentImages[i];
+    thumbnails.querySelectorAll('img').forEach((t, idx) =>
+        t.classList.toggle('active', idx === i)
+    );
+};
+
 
     document.getElementById('prevImage').addEventListener('click', () => showImage((currentIndex-1+currentImages.length)%currentImages.length));
     document.getElementById('nextImage').addEventListener('click', () => showImage((currentIndex+1)%currentImages.length));
 
-    grid.addEventListener('click', e => {
-        const btn = e.target.closest('.details-btn');
-        if(!btn) return;
-        e.preventDefault();
-        const folder = btn.dataset.product;
-        const data = productData[folder];
-        if(!data) return;
+grid.addEventListener('click', e => {
+    const btn = e.target.closest('.details-btn');
+    if (!btn) return;
+    e.preventDefault();
+    const folder = btn.dataset.product;
+    const data = productData[folder];
+    if (!data) return;
 
-        detailsTitle.textContent = data.title;
-        detailsPrice.textContent = data.price;
-        productInfo.textContent = data.description || 'No product info.';
-        warrantyInfo.textContent = data.warranty || 'No warranty info.';
-        shippingInfo.textContent = data.shipping || 'No shipping info.';
-        currentImages = data.images;
-        thumbnails.innerHTML = '';
-        currentImages.forEach((src,i)=>{
-            const t = document.createElement('img');
-            t.src = src;
-            t.className = i===0?'active':'';
-            t.addEventListener('click',()=>showImage(i));
-            thumbnails.appendChild(t);
-        });
-        showImage(0);
-        detailsModal.classList.add('active');
-
-        // ===== Collapsible Panels =====
-        document.querySelectorAll('.collapsible').forEach(c => {
-            c.addEventListener('click', () => {
-                document.querySelectorAll('.collapsible').forEach(other => {
-                    if(other !== c){
-                        other.classList.remove('active');
-                        const panel = other.nextElementSibling;
-                        if(panel) panel.style.display = 'none';
-                    }
-                });
-                c.classList.toggle('active');
-                const panel = c.nextElementSibling;
-                if(panel) panel.style.display = c.classList.contains('active') ? 'block' : 'none';
-            });
-        });
+    detailsTitle.textContent = data.title;
+    detailsPrice.textContent = data.price;
+    productInfo.textContent = data.description || 'No product info.';
+    warrantyInfo.textContent = data.warranty || 'No warranty info.';
+    shippingInfo.textContent = data.shipping || 'No shipping info.';
+    currentImages = data.images;
+    thumbnails.innerHTML = '';
+    currentImages.forEach((src, i) => {
+        const t = document.createElement('img');
+        t.src = src;
+        t.className = i === 0 ? 'active' : '';
+        t.addEventListener('click', () => showImage(i));
+        thumbnails.appendChild(t);
     });
-
+    showImage(0);
+    detailsModal.classList.add('active');
 });
+
+// ===== Collapsible Panels (Attach once only) =====
+document.querySelectorAll('.collapsible').forEach(c => {
+    c.addEventListener('click', () => {
+        document.querySelectorAll('.collapsible').forEach(other => {
+            if (other !== c) {
+                other.classList.remove('active');
+                const panel = other.nextElementSibling;
+                if (panel) panel.style.display = 'none';
+            }
+        });
+        c.classList.toggle('active');
+        const panel = c.nextElementSibling;
+        if (panel) panel.style.display = c.classList.contains('active') ? 'block' : 'none';
+    });
+});
+
+}); // <-- closes DOMContentLoaded listener properly
 </script>
+
 
 </body>
 </html>
