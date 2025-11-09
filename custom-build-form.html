@@ -138,8 +138,8 @@ input[type="text"] {
     <input type="text" id="limitedText" placeholder="Describe your limited edition shell" style="margin-top:5px; display:none;">
   </label>
     <label>
-    <input type="radio" name="shellColor" value="Transparent Clear, Pink, or Halo 3 Themed" data-price="170" id="limitedRadio"> Transparent Clear, Pink, or Halo 3 Themed (+$170)
-    <input type="text" id="limitedText" placeholder="Describe whether you want Clear, Pink, or Halo 3" style="margin-top:5px; display:none;">
+    <input type="radio" name="shellColor" value="Transparent Clear, Pink, or Halo 3 Themed" data-price="170" id="limitedRadio2"> Transparent Clear, Pink, or Halo 3 Themed (+$170)
+    <input type="text" id="limitedText2" placeholder="Clear, Pink, or Halo 3?" style="margin-top:5px; display:none;">
   </label>
 </div>
 
@@ -175,8 +175,10 @@ const summaryEl = document.getElementById('summary');
 const copyBtn = document.getElementById('copySummary');
 const slimShells = document.getElementById('slimShells');
 const phatShells = document.getElementById('phatShells');
-const limitedText = document.getElementById('limitedText');
-const limitedRadio = document.getElementById('limitedRadio');
+const limitedText1 = document.getElementById('limitedText');
+const limitedRadio1 = document.getElementById('limitedRadio');
+const limitedText2 = document.getElementById('limitedText2');
+const limitedRadio2 = document.getElementById('limitedRadio2');
 
 // Show relevant shell options and reset obsolete selections
 function updateShellDisplay() {
@@ -184,9 +186,10 @@ function updateShellDisplay() {
   slimShells.style.display = type === 'RGH Slim' ? 'block' : 'none';
   phatShells.style.display = type === 'RGH Phat' ? 'block' : 'none';
 
-  // Reset Limited Edition input if not Slim
+  // Reset Limited Edition inputs if not Slim
   if (type !== 'RGH Slim') {
-    limitedText.value = '';
+    limitedText1.value = '';
+    limitedText2.value = '';
   }
 
   // Reset shell selection if current shell is not visible
@@ -214,15 +217,25 @@ function limitCheckboxes(name, max) {
 limitCheckboxes('ringLED', 5);
 limitCheckboxes('fanLED', 3);
 
-// Show/hide Limited Edition text box
+// Show/hide Limited Edition text boxes
 form.querySelectorAll('input[name="shellColor"]').forEach(radio => {
   radio.addEventListener('change', () => {
-    if (limitedRadio.checked) {
-      limitedText.style.display = 'block';
+    // Limited Edition
+    if (limitedRadio1.checked) {
+      limitedText1.style.display = 'block';
     } else {
-      limitedText.style.display = 'none';
-      limitedText.value = '';
+      limitedText1.style.display = 'none';
+      limitedText1.value = '';
     }
+
+    // Transparent / Pink / Halo 3
+    if (limitedRadio2.checked) {
+      limitedText2.style.display = 'block';
+    } else {
+      limitedText2.style.display = 'none';
+      limitedText2.value = '';
+    }
+
     updateSummary();
   });
 });
@@ -245,8 +258,13 @@ function updateSummary() {
   const shellRadio = form.querySelector('input[name="shellColor"]:checked');
   let shell = shellRadio?.value || '';
   let shellExtra = parseFloat(shellRadio?.dataset.price || 0);
-  const limitedTextVal = limitedText.value.trim();
-  if (shell === 'Limited Edition' && limitedTextVal) shell = `${shell} (${limitedTextVal})`;
+
+  const text1 = limitedText1.value.trim();
+  const text2 = limitedText2.value.trim();
+
+  if (shell === 'Limited Edition' && text1) shell = `${shell} (${text1})`;
+  if (shell === 'Transparent Clear, Pink, or Halo 3 Themed' && text2) shell = `${shell} (${text2})`;
+
   total += shellExtra;
 
   // Shipping
@@ -276,5 +294,6 @@ copyBtn.addEventListener('click', () => {
 updateShellDisplay();
 updateSummary();
 </script>
+
 </body>
 </html>
