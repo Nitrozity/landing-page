@@ -26,18 +26,88 @@
 .btn.out-of-stock { background: #7a7a7a; color: #ccc; cursor: not-allowed; pointer-events: none; }
 .btn.out-of-stock:hover { background: #7a7a7a; }
 
-/* === Product Card === */
-.product-card {
-  background: #1a1a1a;
+/* ================= Product Card Styles ================= */
+
+/* ================= Product Card Styles ================= */
+
+/* Dark Mode (default) */
+body.dark-mode .product-card {
+  background-color: #1a1a1a;
   color: #fff;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: none;
   text-align: center;
   margin-bottom: 30px;
   width: 100%;
   max-width: 300px;
 }
+
+/* Light Mode - match header / bundle-info light blue */
+body.light-mode .product-card {
+  background-color: #cddff5; /* exact light blue */
+  color: #111;               /* dark text for readability */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: none;
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Images inside cards */
+.product-card img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: opacity 0.5s ease;
+}
+
+/* Buttons inside cards */
+.product-card .btn {
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin: 6px 8px 0 0;
+}
+
+/* Light mode adjustments for buttons */
+body.light-mode .product-card .btn {
+  background: #0070b0; /* slightly darker blue for contrast */
+  color: #fff;
+}
+body.light-mode .product-card .btn:hover {
+  background: #005080; /* hover darker */
+  transform: scale(1.03);
+}
+
+/* Dark mode hover */
+.product-card .btn:hover { 
+  background: #0056b3; 
+  transform: scale(1.03); 
+}
+
+/* Out-of-stock buttons (same for both modes) */
+.btn.out-of-stock { 
+  background: #7a7a7a; 
+  color: #ccc; 
+  cursor: not-allowed; 
+  pointer-events: none; 
+}
+.btn.out-of-stock:hover { 
+  background: #7a7a7a; 
+}
+
+
+
 .product-grid { display: grid; justify-content: center; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 42px; align-items: start; }
 .product-card img { width: 100%; max-height: 220px; object-fit: contain; border-radius: 10px; }
 
@@ -309,15 +379,17 @@ function parseInfoTxt(text){
 async function findImagesForFolder(folder){
     const images = [];
     let i = 1;
+    const cacheBuster = `?v=${Date.now()}`; // 👈 unique per page load
     while(true){
         const path = `products/${folder}/${i}.jpg`;
-        if(await exists(path)) images.push(path);
+        if(await exists(path)) images.push(`${path}${cacheBuster}`);
         else break;
         i++;
     }
-    if(!images.length) images.push(`images/console1.jpg`);
+    if(!images.length) images.push(`images/console1.jpg${cacheBuster}`);
     return images;
 }
+
 
 document.addEventListener('DOMContentLoaded', async () => {
 
