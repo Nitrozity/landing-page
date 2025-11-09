@@ -378,29 +378,25 @@ function parseInfoTxt(text){
 }
 async function findImagesForFolder(folder) {
     const images = [];
-    const cacheBuster = `?v=${Date.now()}`;
-    const maxImages = 24;
+    const cacheBuster = `?v=${Date.now()}`; // unique per page load
+    const maxImages = 24; // maximum expected images per product
 
     for (let i = 1; i <= maxImages; i++) {
         const path = `products/${folder}/${i}.jpg${cacheBuster}`;
+        // Attempt to load the image
         const img = new Image();
         img.src = path;
-
-        // Wrap in a Promise so we wait for load/error
-        const exists = await new Promise(resolve => {
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
+        await new Promise(resolve => {
+            img.onload = () => { images.push(path); resolve(); };
+            img.onerror = () => resolve(); // skip if it doesn't exist
         });
-
-        if (exists) images.push(path);
     }
 
-    // fallback
+    // fallback if no images found
     if (!images.length) images.push(`images/console1.jpg${cacheBuster}`);
 
     return images;
 }
-
 
 
 
