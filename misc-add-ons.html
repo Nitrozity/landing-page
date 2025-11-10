@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <header>
   <div class="logo">
-    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+    <a href="index.html"><img id="site-logo" src="images/logo.png" alt="RGH NATION"></a>
   </div>
 
   <!-- Theme toggle -->
@@ -31,7 +32,7 @@
 </header>
 
 <!-- Mobile Menu -->
-<nav id="mobile-menu">
+<nav id="mobile-menu" class="mobile-menu">
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About Us</a></li>
@@ -97,7 +98,7 @@
     <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
-<!-- Modal -->
+<!-- Contact Modal -->
 <div id="contactModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -127,16 +128,11 @@
 #contactModal.active {
     display: flex;
 }
+/* Contact modal: push it lower from the top */
 #contactModal .modal-content {
-    background: #1a1a1a;
-    color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    position: relative;
+    margin: 225px auto 20px auto; /* top | horizontal | bottom | horizontal */
 }
+
 #contactModal .close {
     position: absolute;
     top: 15px;
@@ -148,31 +144,9 @@
 }
 </style>
 
-<!-- Theme Toggle Script -->
+<!-- Scripts -->
 <script>
-const toggle = document.getElementById('theme-toggle');
-
-if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-mode');
-    toggle.textContent = '☀️';
-} else {
-    toggle.textContent = '🌙';
-}
-
-toggle?.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    if (document.body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
-        toggle.textContent = '☀️';
-    } else {
-        localStorage.setItem('theme', 'dark');
-        toggle.textContent = '🌙';
-    }
-});
-</script>
-
-<!-- Contact Modal Script -->
-<script>
+// Contact Modal
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('contactModal');
     const buttons = document.querySelectorAll('.btn-purchase');
@@ -190,19 +164,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) modal.classList.remove('active');
     });
 });
+
+// Theme Toggle + Logo Swap
+const themeToggle = document.getElementById('theme-toggle');
+const logo = document.getElementById('site-logo');
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.body.classList.remove('light-mode','dark-mode');
+document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+logo.src = savedTheme === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
+themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('dark-mode');
+    const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', current);
+    logo.src = current === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
+    themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
+});
+
+// Mobile menu
+const menuToggle = document.getElementById("menu-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
+menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("show");
+});
 </script>
-
-  </script>
-
-  <!-- Mobile Menu Script -->
-  <script>
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("show");
-    });
-  </script>
 
 </body>
 </html>
