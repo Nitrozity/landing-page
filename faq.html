@@ -1,16 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - RGH NATION</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ - RGH NATION</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode */
+body.light-mode {
+    background-color: #f2f8ff;
+    color: #000;
+}
+
+body.light-mode a {
+    color: #007bff;
+}
+
+/* FAQ Section */
+.faq {
+    padding: 60px 20px;
+    background-color: #111;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-mode .faq {
+    background-color: #f0f8ff;
+    color: #000;
+}
+
+.faq-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.faq-tab {
+    cursor: pointer;
+    padding: 10px 20px;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+/* Light mode FAQ tab colors */
+body.light-mode .faq-tab {
+    background-color: #d5e5f2; /* non-selected tab: white */
+    color: #000;            /* black text */
+}
+
+body.light-mode .faq-tab.active {
+    background-color: #00bfff; /* selected tab: blue */
+    color: #000;                /* black text */
+}
+
+.faq-tab.active {
+    background: #00bfff;
+    color: #000;
+}
+
+.faq-group {
+    display: none;
+}
+
+.faq-group.active {
+    display: block;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.faq-question {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.faq-answer {
+    display: none;
+    margin-left: 15px;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+/* Mobile menu */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+}
+
+.mobile-menu.show {
+    display: flex;
+    max-height: 500px;
+}
+
+.mobile-menu a {
+    padding: 14px 0;
+    text-decoration: none;
+    color: #fff;
+}
+
+.mobile-menu a:hover {
+    background-color: #222;
+}
+
+#menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #00bfff;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    header nav ul {
+        display: none;
+    }
+    #menu-toggle {
+        display: block;
+    }
+}
+</style>
 </head>
 <body>
-    <!-- Header / Top Banner -->
+
 <header>
   <div class="logo">
-    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+    <a href="index.html"><img id="site-logo" src="images/logo.png" alt="RGH NATION"></a>
   </div>
 
   <!-- Theme toggle -->
@@ -24,7 +159,7 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
-      <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+      <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
       <li><a href="sendin.html">Send-In Services</a></li>
       <li><a href="accessories.html">Accessories</a></li>
     </ul>
@@ -32,27 +167,25 @@
 </header>
 
 <!-- Mobile Menu -->
-<nav id="mobile-menu">
+<nav id="mobile-menu" class="mobile-menu">
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About Us</a></li>
-    <li><a href="prebuilt.html" class="active">Pre-Built Consoles</a></li>
+    <li><a href="prebuilt.html">Pre-Built Consoles</a></li>
     <li><a href="sendin.html">Send-In Services</a></li>
     <li><a href="accessories.html">Accessories</a></li>
   </ul>
 </nav>
 
-<!-- Hero Section -->
 <section class="page-hero">
     <div class="container">
         <h2>Frequently Asked Questions</h2>
         <p>Got questions? We've got answers. Check below for common inquiries regarding our services, consoles, and add-ons.</p>
-		<h2>‎ </h2>
     </div>
 </section>
+
 <section class="faq">
   <div class="container">
-  
     <!-- Tabs -->
     <div class="faq-tabs">
         <div class="faq-tab active" data-group="general">General Questions</div>
@@ -65,216 +198,119 @@
             <div class="faq-question">What is RGH modding?</div>
             <div class="faq-answer">RGH (Reset Glitch Hack) allows Xbox 360 consoles to run custom firmware and unsigned code.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">How can I order a pre-built console or send-in service?</div>
             <div class="faq-answer">Simply contact us with details regarding your order to get started. If you know what you're interested in, such as a pre-built console, please provide a product link or picture of it to make the process drastically quicker.</div>
         </div>
-
         <div class="faq-item">
             <div class="faq-question">What's the price of shipping?</div>
             <div class="faq-answer">We charge a flat rate of $15 for shipping. Typically, consoles are shipped with either USPS or UPS.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">How long does shipping usually take?</div>
             <div class="faq-answer">If you're going with our most popular shipping option, USPS Priority Mail, it's estimated between 1-3 days.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">Will I receive a tracking number after purchasing?</div>
             <div class="faq-answer">Absolutely, as soon as orders leave our hands we'll share the tracking link with the buyer.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">Can you ship pre-built consoles worldwide?</div>
             <div class="faq-answer">At this moment, no unfortunately. But we are shipping consoles within the United States.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">Can you help me setup my RGH?</div>
             <div class="faq-answer">Yes, all community members are welcome to use our #tech-support on Discord for any tech related questions. Although if you're a beginner, we strongly advise following RGH/JTAG guides & tutorials which can be easily found through a Google or YouTube search. Use trusted sources only!</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">Can I request a custom built console?</div>
-            <div class="faq-answer">Certainly. Please complete our <a href="custom-build-form.html">Custom Build Form</a> with your specifications and contact us to begin your custom order.
-		</div>
-
+            <div class="faq-answer">Certainly. Please complete our <a href="custom-build-form.html">Custom Build Form</a> with your specifications and contact us to begin your custom order.</div>
         </div>
-        
         <div class="faq-item">
             <div class="faq-question">Do you offer warranties? If so, what does it cover?</div>
             <div class="faq-answer">Yes! We include a 30 day warranty with all bundle deals unless stated otherwise. Warranties begin on the console's delivery date and cover any hardware related problems.</div>
         </div>
     </div>
 
+    <!-- Send-In Service Questions -->
     <div class="faq-group" id="sendin">
-       <div class="faq-item">
-    <div class="faq-question">How do I send in my console for modding?</div>
-    <div class="faq-answer">Carefully package your Xbox 360 and ship it to our address. Include a note with your order details and contact information so we can process it quickly.</div>
-</div>
-
-<div class="faq-item">
-    <div class="faq-question">Do I need to provide accessories like controllers or power cords?</div>
-    <div class="faq-answer">No, only the console is required. However, if you want any additional accessories installed or upgraded, include them and specify in your order note.</div>
-</div>
-
-<div class="faq-item">
-    <div class="faq-question">How long does a typical send-in service take?</div>
-    <div class="faq-answer">Most consoles are processed and returned within 3-7 business days, depending on the service requested and our current order volume.</div>
-</div>
-
-<div class="faq-item">
-    <div class="faq-question">Can I track my console while it’s being serviced?</div>
-    <div class="faq-answer">Yes! Once your console is received and processed, we’ll send you a tracking number so you can monitor its return shipping status.</div>
-</div>
-
-<div class="faq-item">
-    <div class="faq-question">Do you offer warranties on send-in services?</div>
-    <div class="faq-answer">Absolutely. All RGH installs done through our send-in service include a 30-day warranty covering any hardware or installation issues.</div>
-</div>
-
-<div class="faq-item">
-    <div class="faq-question">What should I do if my console arrives damaged during shipping?</div>
-    <div class="faq-answer">Contact us immediately. We recommend using a shipping service with insurance to cover any potential damage. We’ll guide you through filing a claim if necessary.</div>
-</div>
-
+        <div class="faq-item">
+            <div class="faq-question">How do I send in my console for modding?</div>
+            <div class="faq-answer">Carefully package your Xbox 360 and ship it to our address. Include a note with your order details and contact information so we can process it quickly.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Do I need to provide accessories like controllers or power cords?</div>
+            <div class="faq-answer">No, only the console is required. However, if you want any additional accessories installed or upgraded, include them and specify in your order note.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How long does a typical send-in service take?</div>
+            <div class="faq-answer">Most consoles are processed and returned within 3-7 business days, depending on the service requested and our current order volume.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Can I track my console while it’s being serviced?</div>
+            <div class="faq-answer">Yes! Once your console is received and processed, we’ll send you a tracking number so you can monitor its return shipping status.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Do you offer warranties on send-in services?</div>
+            <div class="faq-answer">Absolutely. All RGH installs done through our send-in service include a 30-day warranty covering any hardware or installation issues.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What should I do if my console arrives damaged during shipping?</div>
+            <div class="faq-answer">Contact us immediately. We recommend using a shipping service with insurance to cover any potential damage. We’ll guide you through filing a claim if necessary.</div>
+        </div>
     </div>
-    
   </div>
 </section>
 
-
-<!-- Footer -->
 <footer>
     <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Toggle individual FAQ items
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            item.classList.toggle('active');
-        });
-    });
-
-    // Toggle FAQ tabs
-    const faqTabs = document.querySelectorAll('.faq-tab');
-    const faqGroups = document.querySelectorAll('.faq-group');
-
-    faqTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            faqTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            // Hide all faq-groups
-            faqGroups.forEach(group => group.classList.remove('active'));
-
-            // Show the selected faq-group
-            const target = tab.getAttribute('data-group');
-            document.getElementById(target).classList.add('active');
-        });
+// FAQ collapsibles
+document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', () => {
+        item.classList.toggle('active');
     });
 });
-</script>
 
-<!-- Theme Toggle Script -->
-<script>
-const toggle = document.getElementById('theme-toggle');
+// FAQ tabs
+const faqTabs = document.querySelectorAll('.faq-tab');
+const faqGroups = document.querySelectorAll('.faq-group');
+faqTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        faqTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        faqGroups.forEach(g => g.classList.remove('active'));
+        document.getElementById(tab.getAttribute('data-group')).classList.add('active');
+    });
+});
 
-// Apply saved theme on page load
-if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-mode');
-    toggle.textContent = '☀️';
-} else {
-    toggle.textContent = '🌙';
-}
+// Theme Toggle + Logo swap
+const themeToggle = document.getElementById('theme-toggle');
+const logo = document.getElementById('site-logo');
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.body.classList.remove('light-mode','dark-mode');
+document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+logo.src = savedTheme === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
+themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
 
-// Toggle light/dark mode and save preference
-toggle?.addEventListener('click', () => {
+themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
-    if (document.body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
-        toggle.textContent = '☀️';
-    } else {
-        localStorage.setItem('theme', 'dark');
-        toggle.textContent = '🌙';
-    }
+    document.body.classList.toggle('dark-mode');
+    const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', current);
+    logo.src = current === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
+    themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
+});
+
+// Mobile menu
+const menuToggle = document.getElementById("menu-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
+menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("show");
 });
 </script>
-
-  </script>
-
-  <!-- Mobile Menu Script -->
-  <script>
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("show");
-    });
-  </script>
-
-/* ===== FAQ-style collapsibles for modal ===== */
-.modal-right .collapsible {
-    background: #121212;      /* matches FAQ dark bg */
-    color: #fff;
-    cursor: pointer;
-    padding: 16px 20px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 1.05rem;
-    margin-bottom: 8px;
-    border-radius: 5px;
-    transition: background 0.3s ease, box-shadow 0.2s ease;
-    position: relative;
-}
-
-/* Hover effect */
-.modal-right .collapsible:hover {
-    background: #222;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-/* Arrow */
-.modal-right .collapsible::after {
-    content: "▼";
-    position: absolute;
-    right: 20px;
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-
-/* Rotate arrow when active */
-.modal-right .collapsible.active::after {
-    transform: rotate(180deg);
-}
-
-/* Panel content */
-.modal-right .content-panel {
-    background: #1a1a1a;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0 16px;  /* padding will expand when open */
-    border-left: 3px solid #00bfff;
-    border-radius: 0 0 5px 5px;
-    margin-bottom: 10px;
-}
-
-/* Opened panel */
-.modal-right .collapsible.active + .content-panel {
-    padding: 12px 16px;
-    max-height: 500px; /* adjust as needed */
-}
-
 
 </body>
 </html>

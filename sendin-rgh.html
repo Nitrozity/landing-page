@@ -6,7 +6,24 @@
 <title>Send-In RGH Service - RGH NATION</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-/* --- Product Section & Tabs --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode */
+body.light-mode {
+    background-color: #f2f8ff;
+    color: #000;
+}
+
+body.light-mode a {
+    color: #007bff;
+}
+
+/* Product Section & Tabs */
 .product-section {
   display: flex;
   flex-wrap: wrap;
@@ -86,17 +103,73 @@
   margin-bottom: 8px;
 }
 
+body.light-mode .tab-buttons button {
+    background: #e0e0e0;
+    color: #000;
+}
+
+body.light-mode .tab-buttons button.active {
+    background: #00bfff;
+    color: #000;
+}
+
+body.light-mode .tab-content {
+    background: #cce6ff;
+    color: #000;
+}
+
 @media (max-width: 768px) {
   .product-section {
     flex-direction: column;
     text-align: center;
   }
+  header nav ul {
+      display: none;
+  }
+  #menu-toggle {
+      display: block;
+  }
+}
+
+/* Mobile menu */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+}
+
+.mobile-menu.show {
+    display: flex;
+    max-height: 500px;
+}
+
+.mobile-menu a {
+    padding: 14px 0;
+    text-decoration: none;
+    color: #fff;
+}
+
+.mobile-menu a:hover {
+    background-color: #222;
+}
+
+/* Header hamburger icon */
+#menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #00bfff;
+    font-size: 1.8rem;
+    cursor: pointer;
 }
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER (matches homepage) ===== -->
 <header>
   <div class="logo">
     <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
@@ -120,8 +193,8 @@
   </nav>
 </header>
 
-<!-- Mobile sliding menu -->
-<nav id="mobile-menu">
+<!-- Mobile Menu -->
+<nav id="mobile-menu" class="mobile-menu">
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About Us</a></li>
@@ -131,7 +204,6 @@
   </ul>
 </nav>
 
-<!-- ===== PRODUCT SECTION ===== -->
 <section class="product-section">
   <div class="product-image">
     <img src="images/sendin-rgh.jpg" alt="Send-In RGH Service">
@@ -241,12 +313,10 @@
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer>
   <p>&copy; 2025 RGH NATION. All Rights Reserved.</p>
 </footer>
 
-<!-- ===== SCRIPTS ===== -->
 <script>
 // Tabs functionality
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -260,30 +330,25 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 // Theme Toggle
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  if(savedTheme === 'light') document.body.classList.add('light-mode');
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.body.classList.remove('light-mode','dark-mode');
+document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
 
-  toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-
-  toggle.addEventListener('click', () => {
+themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
-    if(document.body.classList.contains('light-mode')) {
-      localStorage.setItem('theme', 'light');
-      toggle.textContent = '☀️';
-    } else {
-      localStorage.setItem('theme', 'dark');
-      toggle.textContent = '🌙';
-    }
-  });
+    document.body.classList.toggle('dark-mode');
+    const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', current);
+    themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
 });
 
-// Mobile Menu Toggle
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
+// Mobile Menu
+const menuToggle = document.getElementById("menu-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
+menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("show");
 });
 </script>
 
