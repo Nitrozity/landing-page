@@ -249,6 +249,23 @@ body.light-mode .product-card .btn:hover {
   .modal-content { flex-direction: column; padding: 24px; }
   .modal-left, .modal-right { width: 100%; }
 }
+
+/* Shift modals slightly left on mobile for better alignment */
+@media (max-width: 880px) {
+    #contactModal .modal-content {
+        margin-left: 4px;   /* nudge left */
+        margin-right: auto;  /* keep spacing flexible */
+    }
+}
+
+/* Shift "More Details" modal further left on mobile without affecting contact modal */
+@media (max-width: 880px) {
+    #detailsModal .modal-content {
+        margin-left: -7px;   /* move all the way left */
+        margin-right: auto;
+    }
+}
+
 </style>
 </head>
 <body>

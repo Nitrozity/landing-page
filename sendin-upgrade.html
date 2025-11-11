@@ -94,15 +94,43 @@ body.light-mode a {
   margin-top: 0;
 }
 
+/* General Lists */
 .tab-content ul {
   list-style-type: disc;
   margin-left: 20px;
+  padding-left: 0;
 }
 
 .tab-content ul li {
   margin-bottom: 8px;
 }
 
+.tab-content#repair-info > ul {
+    text-align: left;
+    padding-left: 30px;  /* same as Options tab */
+    margin-left: 0;       /* optional: remove extra default margin */
+}
+
+.tab-content#repair-info ul li {
+    margin-bottom: 8px;   /* keep spacing between items */
+    /* remove left or text-indent properties completely */
+}
+
+#options > ul {
+    list-style: none; /* removes bullets for top-level ul */
+}
+
+/* Bigger gap between Option 1,2,3 */
+.tab-content#options > ul > li {
+    margin-bottom: 35px;
+}
+
+/* Add gap between Option titles and their sub-items */
+.tab-content#options > ul > li > ul {
+    margin-top: 12px; /* increases space between the title and sub-list */
+}
+
+/* Light Mode Tabs */
 body.light-mode .tab-buttons button {
     background: #e0e0e0;
     color: #000;
@@ -154,19 +182,23 @@ body.light-mode .tab-content {
     cursor: pointer;
 }
 
+/* Mobile responsiveness */
 @media (max-width: 768px) {
-  header nav ul {
-      display: none;
-  }
-  #menu-toggle {
-      display: block;
-  }
   .product-section {
     flex-direction: column;
     text-align: center;
   }
+  #menu-toggle {
+      display: block;
+  }
+  .tab-content#options > ul {
+  list-style: none; 
+    text-align: left;
+    padding-left: 10px; /* keeps the slight left indent */
+  }
 }
 </style>
+
 </head>
 <body>
 
@@ -211,7 +243,7 @@ body.light-mode .tab-content {
 
   <div class="product-details">
     <h2>Modchip Upgrade Service</h2>
-    <p>Upgrade your pre-modded Xbox 360 with a professional modchip installation for improved performance and reduced boot times. Perfect for replacing old chips or enhancing your console’s RGH setup.</p>
+    <p>Upgrade your pre-modded Xbox 360 with a professional modchip installation for improved performance and reduced boot times. Perfect for replacing old chips or upgrading to RGH3.</p>
 
     <div class="tabs">
       <div class="tab-buttons">
@@ -225,8 +257,8 @@ body.light-mode .tab-content {
       </div>
 
       <div id="service-info" class="tab-content active">
-        <h3>Send us your Xbox 360 S or E!</h3>
-        <p>Expected turnaround time: <strong>3-7 days</strong>. We accept only tested and working consoles, except for disc drive issues in Option 2 or 3.</p>
+        <h3>Send us your Xbox 360!</h3>
+        <p>Expected turnaround time: <strong>3-7 days</strong>. Please note: We are not servicing DVD drives on PHAT models currently, as replacement lasers do not meet our quality standards.</p>
         <p>Payment accepted via: Zelle, Cash App, Venmo (Friends/Family), or Cash in Box. United States shipping only.</p>
         <p><strong>NOTICE:</strong> Save $10 when paying with cash! Mail your console with cash to receive the discount.</p>
       </div>
@@ -257,7 +289,7 @@ body.light-mode .tab-content {
             <ul>
               <li>RGH3 or RGH1.2 Install</li>
               <li>New Thermal Paste Applied</li>
-              <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+              <li>Disc Drive Cleaning & Refurbishing</li>
               <li>Custom Ring of Lights Installed</li>
               <li>Hard Drive Pre-Loading</li>
               <li>Cleaning & Sanitation</li>
@@ -268,7 +300,7 @@ body.light-mode .tab-content {
             <ul>
               <li>RGH3 or RGH1.2 Install</li>
               <li>New Thermal Paste Applied</li>
-              <li>Disc Drive Cleaning & Refurbishing (Repairs Included)</li>
+              <li>Disc Drive Cleaning & Refurbishing</li>
               <li>Custom Ring of Lights Installed</li>
               <li>Custom Fan LEDs Installed</li>
               <li>Hard Drive Pre-Loading</li>
@@ -287,12 +319,13 @@ body.light-mode .tab-content {
 
       <div id="repair-info" class="tab-content">
         <h3>Repair Info</h3>
-        <p>Disc Drive repairs are offered with Options 2 and 3 and cannot be ordered separately.</p>
+        <p>Disc Drive repairs are offered only with Options 2 and 3 and cannot be ordered separately. Our repairs can fix:</p>
         <ul>
-          <li>Open Tray Error</li>
-          <li>Unrecognized Disc</li>
           <li>Stuck Tray</li>
-          <li>Play DVD</li>
+          <li>Unpaired Disc Drive PCB (Applicable for PHAT models only)</li>
+          <li><del>Unrecognized Disc</del></li>
+          <li><del>Open Tray Error</del></li>
+          <li><del>Play DVD</del></li>
         </ul>
         <p>This service can also address issues caused by a low-quality RGH install, including:</p>
         <ul>
@@ -304,14 +337,14 @@ body.light-mode .tab-content {
 
       <div id="contact" class="tab-content">
         <h3>Contact Us</h3>
-        <p>Please contact us on <strong>Discord</strong> for the quickest response. Email orders are accepted, but Discord communication is preferred.</p>
+        <p>Discord is the fastest way to reach us. Email orders are accepted, but responses may be slower.</p>
         <p><a href="https://discord.gg/jnAgbzw" target="_blank" style="color:#00bfff;">Join our Discord</a></p>
         <p>By using this service, you agree to all terms above.</p>
       </div>
 
       <div id="faq" class="tab-content">
         <h3>Frequently Asked Questions</h3>
-        <p>You can find answers to common questions on our FAQ page. Click the "Send In Service Questions" tab to learn more.</p>
+		<p>You can find answers to common questions on our <a href="/faq.html" style="color:#00bfff;">FAQ page</a>. Click the "Send In Service Questions" tab to learn more.</p>
       </div>
     </div>
   </div>
