@@ -118,33 +118,20 @@ body.light-mode .tab-content {
     color: #000;
 }
 
-@media (max-width: 768px) {
-  .product-section {
-    flex-direction: column;
-    text-align: center;
-  }
-  header nav ul {
-      display: none;
-  }
-  #menu-toggle {
-      display: block;
-  }
-}
-
 /* Mobile menu */
 .mobile-menu {
-    display: none;
     flex-direction: column;
     background-color: #111;
     text-align: center;
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.4s ease;
+    padding: 0;
+    transition: max-height 0.4s ease, padding 0.4s ease;
 }
 
 .mobile-menu.show {
-    display: flex;
-    max-height: 500px;
+    max-height: 500px; /* adjust if needed */
+    padding: 14px 0;
 }
 
 .mobile-menu a {
@@ -166,20 +153,33 @@ body.light-mode .tab-content {
     font-size: 1.8rem;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  header nav ul {
+      display: none;
+  }
+  #menu-toggle {
+      display: block;
+  }
+  .product-section {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a>
+    <a href="index.html"><img id="site-logo" src="images/logo.png" alt="RGH NATION"></a>
   </div>
 
   <!-- Theme toggle -->
   <button id="theme-toggle" style="cursor:pointer; background:none; border:none; color:#00bfff; font-size:1.2rem;">🌙</button>
 
   <!-- Hamburger Icon -->
-  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <button class="menu-toggle" id="menu-toggle">☰</button>
 
   <!-- Desktop nav -->
   <nav id="desktop-nav">
@@ -333,11 +333,13 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// Theme Toggle
+// Theme Toggle + Logo swap
 const themeToggle = document.getElementById('theme-toggle');
+const logo = document.getElementById('site-logo');
 const savedTheme = localStorage.getItem('theme') || 'dark';
 document.body.classList.remove('light-mode','dark-mode');
 document.body.classList.add(savedTheme === 'light' ? 'light-mode' : 'dark-mode');
+logo.src = savedTheme === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
 themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
 
 themeToggle.addEventListener('click', () => {
@@ -345,6 +347,7 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
     localStorage.setItem('theme', current);
+    logo.src = current === 'light' ? 'images/logo.png' : 'images/logo-dark.png';
     themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
 });
 
