@@ -3,25 +3,444 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Screen Image</title>
+<title>Xbox 360 Blades Replica</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000; /* fallback color */
-  }
+:root{
+  --bg:#0b0b0b;
+  --accent1:#f3b36b;
+  --accent2:#d67a10;
+  --text-light:#fff;
+}
 
-  img {
-    width: 100%;
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;width:100%;font-family:"Segoe UI", Roboto, system-ui; background:linear-gradient(#070707,#0c0c0c); color:var(--text-light); overflow:hidden;}
+
+/* Blades container */
+.blades-wrap{position:relative;height:100vh;width:100vw;perspective:1200px;display:flex;align-items:center;justify-content:center;}
+
+/* Track */
+.panel-track{
+  display:flex;
+  height:100%;
+  transition: transform 0.7s cubic-bezier(.22,.9,.33,1);
+  will-change: transform;
+}
+
+/* Blade full screen */
+.blade{
+  flex:0 0 100%;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(#101010, #1a1a1a);
+  overflow:hidden;
+}
+
+/* Mask left side of Blade 0 */
+.blade[data-index="0"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;           /* start from the very left */
+    width: 180px;      /* adjust how much of the left side you want hidden */
     height: 100%;
-    object-fit: cover; /* fills screen without stretching */
-    object-position: center; /* keeps image centered */
-  }
+    background: linear-gradient(#070707, #0c0c0c); /* match page background */
+    z-index: 0;        /* behind content but above blade background */
+    pointer-events: none;
+}
+
+/* Center content sits between the center-left and center-right tabs */
+.blade-center {
+  display: flex;
+  width: calc(100% - 520px); /* adjust based on the gap between the nearest left & right tabs */
+  height: 88%;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 18px;
+  background: transparent;
+  box-shadow: none;
+  margin: 0 auto; /* centers it */
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional: add subtle inner shadow to help it blend with tabs */
+.blade-center::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  border-radius: 18px;
+  box-shadow: inset 10px 0 20px rgba(0,0,0,0.1), inset -10px 0 20px rgba(0,0,0,0.1);
+  display: none !important;
+  pointer-events: none;
+}
+
+/* Columns */
+.main-column{
+  flex:1.3;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.side-column{
+  flex:0.6;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  background: rgba(255,255,255,0.05);
+  border-radius:12px;
+  padding:16px;
+  box-shadow: inset 0 0 12px rgba(255,255,255,0.08);
+}
+
+/* Typography */
+h1{font-size:2em;font-weight:600;color:#fff;margin-bottom:8px;}
+h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
+.lead{font-size:1em;opacity:0.9;}
+
+/* Cards */
+.info-card{
+  background: rgba(255,255,255,0.08);
+  border-radius:8px;
+  padding:12px;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.1);
+}
+.achievement-icons, .achievement-list{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:6px;
+  background: rgba(0,0,0,0.12);
+  background-size:cover;
+}
+.hint-box{
+  font-size:13px;
+  text-align:center;
+  background: rgba(255,255,255,0.06);
+  padding:8px;
+  border-radius:6px;
+  color:#fff;
+}
+
+/* Side Tabs - horizontal layout, image-only */
+.side-tabs{
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  transform:translateY(-50%);
+  display:flex;
+  justify-content:space-between;
+  pointer-events:none;
+  z-index:20;
+}
+.tab-left, .tab-right{
+  display:flex;
+  flex-direction:row; /* horizontal */
+  gap:12px;
+  pointer-events:auto;
+  align-items:center;
+}
+.tab-left{ margin-left:12px; }
+.tab-right{ margin-right:12px; }
+
+/* Make side-tabs not constrain size */
+.tab-left, .tab-right {
+  display: flex;
+  flex-direction: row;
+  gap: 0; /* remove gap */
+  pointer-events: auto;
+  align-items: flex-start;
+}
+
+/* optional: use negative margins to slightly overlap them */
+.tab-left .tab:not(:first-child),
+.tab-right .tab:not(:first-child) {
+  margin-left: -45px; /* pull tabs closer together */
+}
+
+/* Right tabs — pull closer together */
+.tab-right {
+  display: flex;
+  flex-direction: row;
+  gap: 0; /* remove default gap */
+  pointer-events: auto;
+  align-items: flex-start;
+}
+
+/* Negative margin between right tabs only */
+.tab-right .tab:not(:first-child) {
+  margin-left: -45px; /* tweak to desired spacing */
+}
+
+/* Prevent tabs from moving on hover */
+.tab-right .tab:hover,
+.tab-right .tab.active {
+  transform: none;
+}
+
+/* Keep left tabs untouched */
+.tab-left .tab:hover,
+.tab-left .tab.active {
+  transform: translateX(6px); /* optional: keep left hover effect */
+}
+
+/* Tabs themselves */
+.tab {
+  background: transparent;
+  padding: 0;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible; /* allow natural size */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+/* Images */
+.tab img {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  max-height: none; /* remove any max-height constraints */
+}
+
+.tab:hover{ transform: translateX(6px); }
+.tab.active{ transform: translateX(12px); }
+
+/* Controls */
+.controls{position:absolute;top:50%;left:0;width:100%;display:flex;justify-content:space-between;pointer-events:none;transform:translateY(-50%);}
+.btn{pointer-events:auto;background:rgba(0,0,0,0.38);border-radius:10px;color:#fff;padding:12px 18px;margin:0 18px;cursor:pointer;font-weight:600; transition:transform .18s, background .18s;}
+.btn:hover{background: rgba(255,255,255,0.06);}
+.btn:active{transform:translateY(1px);}
+.hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,0.6);}
+
+/* Responsive tweaks */
+@media(max-width:1000px){
+  .blade-center{flex-direction:column;}
+  .side-column{display:none;}
+  .tab img{height:80px;}
+}
+
+
 </style>
 </head>
 <body>
-  <img src="images/blades.jpg" alt="Full Screen Image">
+<div class="blades-wrap">
+
+  <!-- Panel Track -->
+  <div class="panel-track" id="track">
+
+<!-- BLADE 0 -->
+<div class="blade" data-index="0" style="background: linear-gradient(135deg, #f3b36b 0%, #d67a10 100%);">
+  <div class="blade-center">
+    <!-- LEFT HALF -->
+    <div class="main-column" style="gap:16px;">
+
+      <!-- CREATE PROFILE BOX -->
+      <div class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:50%;gap:12px;position:relative;overflow:hidden;">
+
+        <strong style="font-size:1.2em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Create Profile</strong>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px;height:48px;display:flex;justify-content:center;align-items:center;background: transparent;border-radius:6px;border: 1px solid rgba(255,255,255,0.2);margin-left:12px;">
+            <img src="images/blades/gamer_icon.png" style="width:40px; height:40px;" alt="Gamer Icon">
+          </div>
+          <p style="margin:0;font-size:1.2em;font-weight:600;font-family:'Segoe UI', Roboto, system-ui;color:#000;line-height:1.2;">No Profiles Found</p>
+
+        </div>
+
+      </div>
+      <!-- END CREATE PROFILE BOX -->
+
+      <!-- Additional options under Create Profile -->
+      <div style="display:flex; flex-direction:column; gap:8px; padding:16px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <img src="images/blades/xbl_join_icon.png" style="width:24px; height:24px;"> Join Xbox LIVE
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <img src="images/blades/xbl_recover_icon.png" style="width:24px; height:24px;"> Recover Gamertag from Xbox LIVE
+        </div>
+      </div>
+
+      <!-- Xbox LIVE logo -->
+      <div style="display:flex; justify-content:flex-start; align-items:center; margin-top:8px;">
+        <img src="images/blades/xbl_logo.png" alt="Xbox LIVE Logo">
+      </div>
+
+    </div>
+
+    <!-- RIGHT HALF -->
+    <div class="side-column" style="background:transparent; box-shadow:none; padding:0;">
+      <div style="display:flex; justify-content:flex-start; align-items:center; margin-bottom:16px;">
+        <img src="images/blades/xbl_logo2.png" alt="Xbox LIVE Logo">
+      </div>
+      <div style="display:flex; gap:12px; align-items:center; padding:12px;">
+        <div style="flex-shrink:0;">
+          <img src="images/game_icon.png" style="width:48px; height:48px;" alt="Game Icon">
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column;">
+          <strong>Assassin's Creed</strong>
+          <span>Gamerscore: 0</span>
+          <span>Recent Achievements:</span>
+          <div class="achievement-icons">
+            <div class="icon" style="background-image:url('images/achv1.png');"></div>
+            <div class="icon" style="background-image:url('images/achv2.png');"></div>
+            <div class="icon" style="background-image:url('images/achv3.png');"></div>
+            <div class="icon" style="background-image:url('images/achv4.png');"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* Centered circular glow inside Create Profile box with fade */
+.create-profile-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 80%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  z-index: 0; /* behind content */
+}
+
+/* Expand the glowing gradient on hover */
+.create-profile-box:hover::before {
+  width: 390px;   /* how far the glow spreads */
+  height: 300px;
+  opacity: 200;   /* adjust intensity */
+}
+</style>
+
+
+
+    <!-- BLADE 1 -->
+    <div class="blade" data-index="1">
+      <div class="blade-center">
+        <div class="main-column">
+          <h1>Games</h1>
+          <p class="lead">Library · Recent · Installed</p>
+          <div class="info-card"><img src="images/game1.jpg" style="width:100%;border-radius:8px;"></div>
+          <div class="info-card"><img src="images/game2.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+        <div class="side-column">
+          <h2>Now Playing</h2>
+          <div class="info-card"><img src="images/nowplaying.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLADE 2 -->
+    <div class="blade" data-index="2">
+      <div class="blade-center">
+        <div class="main-column">
+          <h1>Media</h1>
+          <p class="lead">Music, Videos & Apps</p>
+          <div class="info-card"><img src="images/media1.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+        <div class="side-column">
+          <h2>Now Playing</h2>
+          <div class="info-card"><img src="images/nowplaying_media.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLADE 3 -->
+    <div class="blade" data-index="3">
+      <div class="blade-center">
+        <div class="main-column">
+          <h1>System</h1>
+          <p class="lead">Settings · Profile · Storage</p>
+          <div class="info-card"><img src="images/settings.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+        <div class="side-column">
+          <h2>Storage</h2>
+          <div class="info-card"><img src="images/storage.jpg" style="width:100%;border-radius:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- panel-track -->
+
+  <!-- Side Tabs -->
+  <div class="side-tabs">
+    <div class="tab-left">
+      <div class="tab" data-target="0"><img src="images/blades/marketplace_icon.png" alt="Marketplace"></div>
+      <div class="tab" data-target="1"><img src="images/blades/xbl_icon.png" alt="Xbox LIVE"></div>
+    </div>
+    <div class="tab-right">
+      <div class="tab" data-target="2"><img src="images/blades/games_icon.png" alt="Games"></div>
+      <div class="tab" data-target="3"><img src="images/blades/media_icon.png" alt="Media"></div>
+      <div class="tab" data-target="4"><img src="images/blades/system_icon.png" alt="System"></div>
+    </div>
+  </div>
+  
+  
+
+  <!-- Decorative images outside the tabs -->
+  <img src="images/blades/left_decor.png" style="position:absolute; left:85px; top:50%; transform:translate(-90%,-50%); width:400px; pointer-events:none; z-index:15;" alt="Left Decor">
+  <img src="images/blades/right_decor.png" style="position:absolute;right:0;top:50%;transform:translate(50%,-50%);pointer-events:none;z-index:5;" alt="Right Decor">
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="btn" id="prevBtn">◀</div>
+    <div class="btn" id="nextBtn">▶</div>
+  </div>
+
+  <div class="hint">Use ← → or click the side tabs to navigate</div>
+</div>
+
+<script>
+(function(){
+  const track = document.getElementById('track');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const blades = Array.from(document.querySelectorAll('.blade'));
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+  const max = blades.length-1;
+
+  function goTo(index){
+    current = Math.max(0, Math.min(max,index));
+    track.style.transform = `translateX(-${current*100}%)`;
+    tabs.forEach(t=> t.classList.toggle('active', Number(t.dataset.target)===current));
+  }
+
+  tabs.forEach(t=> t.addEventListener('click',()=> goTo(Number(t.dataset.target))));
+  prevBtn.addEventListener('click', ()=> goTo(current-1));
+  nextBtn.addEventListener('click', ()=> goTo(current+1));
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight') goTo(current+1);
+    if(e.key==='ArrowLeft') goTo(current-1);
+  });
+
+  // touch
+  let startX=0;
+  track.addEventListener('touchstart', e=> startX=e.touches[0].clientX);
+  track.addEventListener('touchend', e=>{
+    const diff = e.changedTouches[0].clientX - startX;
+    if(diff>40) goTo(current-1);
+    if(diff<-40) goTo(current+1);
+  });
+
+  goTo(0);
+})();
+</script>
 </body>
 </html>
