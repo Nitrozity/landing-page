@@ -106,6 +106,13 @@ body.light-mode .product-card .btn:hover {
   background: #7a7a7a; 
 }
 
+/* Disabled buttons while product is still loading */
+.btn.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 
 
 .product-grid { display: grid; justify-content: center; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 42px; align-items: start; }
@@ -266,9 +273,83 @@ body.light-mode .product-card .btn:hover {
     }
 }
 
+/* Ensure "X" close button is always clickable on mobile */
+@media (max-width: 880px) {
+  #detailsModal .close {
+    z-index: 9999;
+    position: relative;
+  }
+}
+
+/* Fix "X" button position for More Details modal on mobile */
+@media (max-width: 880px) {
+  #detailsModal .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;  /* move it to the far right edge */
+    font-size: 26px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1001; /* ensure it's on top of everything */
+  }
+}
+
+/* === Loading Overlay === */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  color: #00bfff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Simple spinning animation */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #333;
+  border-top-color: #00bfff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hide product grid initially */
+.product-grid {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.product-grid.visible {
+  opacity: 1;
+}
+
+
+
+
 </style>
 </head>
 <body>
+
+<div id="loader">
+  <div class="spinner"></div>
+  <p>Loading product cards...</p>
+</div>
+
 
 <header>
   <div class="logo"><a href="index.html"><img src="images/logo.png" alt="RGH NATION"></a></div>
@@ -476,18 +557,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         const oosText = await tryFetchText(`products/${folder}/oos.txt`);
 		const isOOS = oosText !== null;
 
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML=`<img src="${images[0]}" alt="${data.title}">
-          <h4>${data.title}</h4>
-          <p class="price">${data.price}</p>
-          <div class="card-buttons" style="display:flex;justify-content:center;gap:0px;flex-wrap:wrap;">
-            ${isOOS
-              ? `<a href="#" class="btn out-of-stock">Out of Stock</a>`
-              : `<a href="#" class="btn details-btn" data-product="${folder}">More Details</a>
-                 <a href="#" class="btn contact-btn" data-product="${folder}">Contact to Purchase</a>`}
-          </div>`;
-        grid.appendChild(card);
+// After creating the card:
+const card = document.createElement('div');
+card.className = 'product-card';
+card.innerHTML = `
+  <img src="${images[0]}" alt="${data.title}">
+  <h4>${data.title}</h4>
+  <p class="price">${data.price}</p>
+  <div class="card-buttons" style="display:flex;justify-content:center;gap:0px;flex-wrap:wrap;">
+    ${isOOS
+      ? `<a href="#" class="btn out-of-stock">Out of Stock</a>`
+      : `<a href="#" class="btn details-btn disabled" data-product="${folder}">Loading...</a>
+         <a href="#" class="btn contact-btn disabled" data-product="${folder}">Loading...</a>`
+    }
+  </div>
+`;
+
+// Append card to grid
+grid.appendChild(card);
+
+// ✅ Wait for all images to fully load before enabling buttons
+if (!isOOS) {
+    const detailsBtn = card.querySelector('.details-btn');
+    const contactBtn = card.querySelector('.contact-btn');
+
+    // Preload all images for this product
+    Promise.all(images.map(src => new Promise(res => {
+        const img = new Image();
+        img.src = src;
+        img.onload = img.onerror = res;
+    }))).then(() => {
+        detailsBtn.textContent = 'More Details';
+        contactBtn.textContent = 'Contact to Purchase';
+        detailsBtn.classList.remove('disabled');
+        contactBtn.classList.remove('disabled');
+    });
+}
+
+
 
         // Hover swap
         const imgEl = card.querySelector('img');
@@ -505,6 +612,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+	
+	// ===== AFTER products finish loading =====
+const loader = document.getElementById('loader');
+
+// Wait for all images across all products to load
+const allImages = Array.from(document.images);
+Promise.all(
+  allImages.map(img =>
+    img.complete
+      ? Promise.resolve()
+      : new Promise(res => (img.onload = img.onerror = res))
+  )
+).then(() => {
+  // Hide loader and reveal grid
+  loader.classList.add('hidden');
+  grid.classList.add('visible');
+});
+
 
     // ===== Contact Modal =====
     const contactModal = document.getElementById('contactModal');
@@ -522,26 +647,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ===== Details Modal =====
 const detailsModal = document.getElementById('detailsModal');
 
-// Close modal + reset dropdown states
+// --- Close modal + reset dropdowns ---
 const closeDetails = () => {
-    // Close modal
-    detailsModal.classList.remove('active');
-
-    // Reset all collapsible dropdowns so they start fresh next time
-    document.querySelectorAll('.collapsible').forEach(c => {
-        c.classList.remove('active');
-        const panel = c.nextElementSibling;
-        if (panel) panel.style.display = 'none';
-    });
+  detailsModal.classList.remove('active');
+  document.querySelectorAll('.collapsible').forEach(c => {
+    c.classList.remove('active');
+    const panel = c.nextElementSibling;
+    if (panel) panel.style.display = 'none';
+  });
 };
 
 // Close when clicking X or outside modal
-detailsModal.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeDetails));
+detailsModal.querySelectorAll('.close').forEach(btn => {
+  btn.addEventListener('click', closeDetails);
+});
 window.addEventListener('click', e => {
-    if (e.target === detailsModal) closeDetails();
+  if (e.target === detailsModal) closeDetails();
 });
 
-// Image + details setup
+// --- Setup image + details ---
 const detailsImage = document.getElementById('detailsImage');
 const detailsTitle = document.getElementById('detailsTitle');
 const detailsPrice = document.getElementById('detailsPrice');
@@ -549,48 +673,85 @@ const productInfo = document.getElementById('productInfo');
 const warrantyInfo = document.getElementById('warrantyInfo');
 const shippingInfo = document.getElementById('shippingInfo');
 const thumbnails = document.getElementById('thumbnails');
+const prevArrow = document.getElementById('prevImage');
+const nextArrow = document.getElementById('nextImage');
 
 let currentImages = [];
 let currentIndex = 0;
 
-// Image navigation (with active thumbnail highlighting)
+// --- Function to show image and highlight active thumbnail ---
 const showImage = i => {
-    currentIndex = i;
-    detailsImage.src = currentImages[i];
-    thumbnails.querySelectorAll('img').forEach((t, idx) =>
-        t.classList.toggle('active', idx === i)
-    );
+  currentIndex = i;
+  detailsImage.src = currentImages[i];
+  thumbnails.querySelectorAll('img').forEach((t, idx) => {
+    t.classList.toggle('active', idx === i);
+  });
 };
 
+// --- Arrows click handlers ---
+prevArrow.addEventListener('click', () => {
+  showImage((currentIndex - 1 + currentImages.length) % currentImages.length);
+});
+nextArrow.addEventListener('click', () => {
+  showImage((currentIndex + 1) % currentImages.length);
+});
 
-    document.getElementById('prevImage').addEventListener('click', () => showImage((currentIndex-1+currentImages.length)%currentImages.length));
-    document.getElementById('nextImage').addEventListener('click', () => showImage((currentIndex+1)%currentImages.length));
+// --- Update arrows visibility (universal for all devices) ---
+function updateArrowVisibility() {
+  if (currentImages.length > 1) {
+    prevArrow.style.display = 'block';
+    nextArrow.style.display = 'block';
+    thumbnails.style.display = 'flex';
+  } else {
+    prevArrow.style.display = 'none';
+    nextArrow.style.display = 'none';
+    thumbnails.style.display = 'none';
+  }
+}
 
+// --- Open details modal (safe version) ---
 grid.addEventListener('click', e => {
     const btn = e.target.closest('.details-btn');
     if (!btn) return;
-    e.preventDefault();
+
+    e.preventDefault(); // always prevent default scrolling
+
+    // Do nothing if button is still disabled
+    if (btn.classList.contains('disabled')) return;
+
     const folder = btn.dataset.product;
     const data = productData[folder];
     if (!data) return;
 
+    // Fill modal info
     detailsTitle.textContent = data.title;
     detailsPrice.textContent = data.price;
     productInfo.textContent = data.description || 'No product info.';
     warrantyInfo.textContent = data.warranty || 'No warranty info.';
     shippingInfo.textContent = data.shipping || 'No shipping info.';
     currentImages = data.images;
+
+    // Build thumbnails
     thumbnails.innerHTML = '';
     currentImages.forEach((src, i) => {
         const t = document.createElement('img');
         t.src = src;
-        t.className = i === 0 ? 'active' : '';
+        if (i === 0) t.classList.add('active');
         t.addEventListener('click', () => showImage(i));
         thumbnails.appendChild(t);
     });
+
+    // Show first image
     showImage(0);
+
+    // Apply universal arrow visibility
+    updateArrowVisibility();
+
+    // Open modal
     detailsModal.classList.add('active');
 });
+
+
 
 // ===== Collapsible Panels (Attach once only) =====
 document.querySelectorAll('.collapsible').forEach(c => {
