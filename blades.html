@@ -457,7 +457,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
   height: 100vh;
   z-index: 9999;
   transition: left 0.4s ease;
-  display: flex; /* split menu horizontally */
+  display: flex;
   overflow: hidden;
 ">
 
@@ -472,11 +472,17 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     clip-path: path('M0,0 H100% 
                      C90%,50% 90%,50% 100%,100% 
                      H0 Z');
+    position: relative; /* needed for absolutely positioned image */
 ">
-    <h2 style="margin-bottom:16px;">Profile Menu</h2>
-    <p>Option 1</p>
-    <p>Option 2</p>
-    <p>Option 3</p>
+    <!-- IMAGE IN LEFT MENU AT TRUE SIZE -->
+    <img src="images/blades/menu_header_image.png" 
+         alt="Decorative" 
+         style="
+             position: absolute;
+             top: 0px;     /* adjust vertical position */
+             right: 65px;   /* adjust horizontal position */
+             pointer-events: none; /* allows clicks through image */
+         ">
 </div>
 
 <!-- RIGHT CURVED IMAGE -->
@@ -488,30 +494,28 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     margin-left: -60px; /* fine-tune overlap */
 "></div>
 
+
+
 </div>
 
-
 <script>
-// Get the profile box, overlay, and menu
 const profileBox = document.getElementById('createProfileBox');
-const menu = document.querySelector('body > #slideMenu'); // ensure it's the body-level menu
+const menu = document.querySelector('body > #slideMenu');
 const overlay = document.getElementById('menuOverlay');
 
 profileBox.addEventListener('click', (e) => {
-  e.stopPropagation(); // prevent immediate closing
-  menu.style.left = '0';        // slide in from far left
+  e.stopPropagation();
+  menu.style.left = '0';
   overlay.style.opacity = '1';
   overlay.style.pointerEvents = 'auto';
 });
 
-// Close menu when clicking overlay
 overlay.addEventListener('click', () => {
   menu.style.left = '-45%';
   overlay.style.opacity = '0';
   overlay.style.pointerEvents = 'none';
 });
 
-// Optional: close if clicking anywhere outside profile box
 document.addEventListener('click', (e) => {
   if (!menu.contains(e.target) && !profileBox.contains(e.target)) {
     menu.style.left = '-45%';
@@ -520,6 +524,7 @@ document.addEventListener('click', (e) => {
   }
 });
 </script>
+
 
 </body>
 </html>
