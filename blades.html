@@ -201,12 +201,12 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 <div class="blade" data-index="0" style="background: linear-gradient(135deg, #f3b36b 0%, #d67a10 100%);">
   <div class="blade-center" style="position: relative;"> <!-- Position relative for absolute images -->
 
-<!-- TOP CENTERED IMAGE ABOVE LEFT/RIGHT SECTIONS -->
-<div style="position: absolute; top: -44px; left: 50.6%; transform: translateX(-50%); z-index:1;">
-  <img src="images/blades/top_image.png" 
-       alt="Top Image"
-       style="transform: scaleX(0.91); transform-origin: center;"> <!-- 0.8 squeezes inward -->
-</div>
+    <!-- TOP CENTERED IMAGE ABOVE LEFT/RIGHT SECTIONS -->
+    <div style="position: absolute; top: -44px; left: 50.6%; transform: translateX(-50%); z-index:1;">
+      <img src="images/blades/top_image.png" 
+           alt="Top Image"
+           style="transform: scaleX(0.91); transform-origin: center;">
+    </div>
 
     <!-- LEFT HALF -->
     <div class="main-column" style="gap:16px; margin-top:20px;">
@@ -214,8 +214,8 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
       <!-- CREATE PROFILE BOX WRAPPER -->
       <div style="position: relative; top: 20px;"> <!-- Adjust top to move box down -->
 
-        <!-- CREATE PROFILE BOX -->
-        <div class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:390px;gap:12px;position:relative;overflow:hidden; height:136px;">
+        <!-- CREATE PROFILE BOX (clickable) -->
+        <div id="createProfileBox" class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:390px;gap:12px;position:relative;overflow:hidden; height:136px; cursor:pointer;">
 
           <strong style="font-size:1.6em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Sign In</strong>
 
@@ -233,7 +233,6 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 
       <!-- Options Container -->
       <div style="display:flex; flex-direction:column; width:60%; margin-top:12px; position:relative; height:160px;"> 
-        <!-- Container is relative so absolute dividers can be positioned -->
 
         <!-- Top line (Join Xbox LIVE) -->
         <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
@@ -288,18 +287,14 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
       <img src="images/blades/center_image.png" alt="Center Image">
     </div>
 
-<!-- BOTTOM CENTERED IMAGE BELOW CENTER IMAGE -->
-<div style="position: absolute; top: 598px; left: 50.5%; transform: translateX(-50%); z-index:1;">
-  <img src="images/blades/bottom_image.png" 
-       alt="Bottom Image"
-       style="transform: scaleX(0.92); transform-origin: center;"> <!-- 0.8 squeezes inward -->
-</div>
+    <!-- BOTTOM CENTERED IMAGE BELOW CENTER IMAGE -->
+    <div style="position: absolute; top: 598px; left: 50.5%; transform: translateX(-50%); z-index:1;">
+      <img src="images/blades/bottom_image.png" alt="Bottom Image" style="transform: scaleX(0.92); transform-origin: center;">
+    </div>
+
 
   </div>
 </div>
-
-
-
 
 
 <style>
@@ -439,5 +434,92 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
   goTo(0);
 })();
 </script>
+
+<!-- ================= SLIDING MENU & OVERLAY ================= -->
+<div id="menuOverlay" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9998;
+"></div>
+
+<div id="slideMenu" style="
+  position: fixed;
+  top: 0;
+  left: -45%;
+  width: 45%;
+  height: 100vh;
+  z-index: 9999;
+  transition: left 0.4s ease;
+  display: flex; /* split menu horizontally */
+  overflow: hidden;
+">
+
+<!-- LEFT MENU CONTENT WITH SMOOTH INWARD CURVE -->
+<div style="
+    flex: 1;
+    background: #b8b8b8;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    clip-path: path('M0,0 H100% 
+                     C90%,50% 90%,50% 100%,100% 
+                     H0 Z');
+">
+    <h2 style="margin-bottom:16px;">Profile Menu</h2>
+    <p>Option 1</p>
+    <p>Option 2</p>
+    <p>Option 3</p>
+</div>
+
+<!-- RIGHT CURVED IMAGE -->
+<div style="
+    width: 120px;
+    flex-shrink: 0;
+    background: url('images/blades/menu_right_curve.png') no-repeat center top;
+    background-size: contain;
+    margin-left: -60px; /* fine-tune overlap */
+"></div>
+
+</div>
+
+
+<script>
+// Get the profile box, overlay, and menu
+const profileBox = document.getElementById('createProfileBox');
+const menu = document.querySelector('body > #slideMenu'); // ensure it's the body-level menu
+const overlay = document.getElementById('menuOverlay');
+
+profileBox.addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent immediate closing
+  menu.style.left = '0';        // slide in from far left
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'auto';
+});
+
+// Close menu when clicking overlay
+overlay.addEventListener('click', () => {
+  menu.style.left = '-45%';
+  overlay.style.opacity = '0';
+  overlay.style.pointerEvents = 'none';
+});
+
+// Optional: close if clicking anywhere outside profile box
+document.addEventListener('click', (e) => {
+  if (!menu.contains(e.target) && !profileBox.contains(e.target)) {
+    menu.style.left = '-45%';
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+  }
+});
+</script>
+
 </body>
 </html>
