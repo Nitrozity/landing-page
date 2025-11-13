@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Xbox 360 Blades Replica</title>
 <style>
+/* ===================== ADD CONVECTION FONT ===================== */
+@font-face {
+    font-family: 'ConvectionUI';
+    src: url('fonts/convection-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ===================== ROOT & VARIABLES ===================== */
 :root{
   --bg:#0b0b0b;
   --accent1:#f3b36b;
@@ -12,14 +21,21 @@
   --text-light:#fff;
 }
 
-/* Reset */
+/* ===================== RESET ===================== */
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;width:100%;font-family:"Segoe UI", Roboto, system-ui; background:linear-gradient(#070707,#0c0c0c); color:var(--text-light); overflow:hidden;}
+html,body{
+    height:100%;
+    width:100%;
+    font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui; 
+    background:linear-gradient(#070707,#0c0c0c); 
+    color:var(--text-light); 
+    overflow:hidden;
+}
 
-/* Blades container */
+/* ===================== BLADES CONTAINER ===================== */
 .blades-wrap{position:relative;height:100vh;width:100vw;perspective:1200px;display:flex;align-items:center;justify-content:center;}
 
-/* Track */
+/* ===================== PANEL TRACK ===================== */
 .panel-track{
   display:flex;
   height:100%;
@@ -27,7 +43,7 @@ html,body{height:100%;width:100%;font-family:"Segoe UI", Roboto, system-ui; back
   will-change: transform;
 }
 
-/* Blade full screen */
+/* ===================== BLADE ===================== */
 .blade{
   flex:0 0 100%;
   position:relative;
@@ -43,30 +59,30 @@ html,body{height:100%;width:100%;font-family:"Segoe UI", Roboto, system-ui; back
     content: "";
     position: absolute;
     top: 0;
-    left: 0;           /* start from the very left */
-    width: 180px;      /* adjust how much of the left side you want hidden */
+    left: 0;
+    width: 180px;
     height: 100%;
-    background: linear-gradient(#070707, #0c0c0c); /* match page background */
-    z-index: 0;        /* behind content but above blade background */
+    background: linear-gradient(#070707, #0c0c0c);
+    z-index: 0;
     pointer-events: none;
 }
 
-/* Center content sits between the center-left and center-right tabs */
+/* Center content */
 .blade-center {
   display: flex;
-  width: calc(100% - 520px); /* adjust based on the gap between the nearest left & right tabs */
+  width: calc(100% - 520px);
   height: 88%;
   gap: 24px;
   padding: 32px;
   border-radius: 18px;
   background: transparent;
   box-shadow: none;
-  margin: 0 auto; /* centers it */
+  margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
-/* Optional: add subtle inner shadow to help it blend with tabs */
+/* Optional inner shadow */
 .blade-center::before {
   content: "";
   position: absolute;
@@ -96,9 +112,9 @@ html,body{height:100%;width:100%;font-family:"Segoe UI", Roboto, system-ui; back
 }
 
 /* Typography */
-h1{font-size:2em;font-weight:600;color:#fff;margin-bottom:8px;}
-h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
-.lead{font-size:1em;opacity:0.9;}
+h1{font-size:2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
+h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
+.lead{font-size:1em;opacity:0.9;font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
 
 /* Cards */
 .info-card{
@@ -106,6 +122,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
   border-radius:8px;
   padding:12px;
   box-shadow: inset 0 1px 2px rgba(255,255,255,0.1);
+  font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;
 }
 .achievement-icons, .achievement-list{
   display:flex;
@@ -126,9 +143,10 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
   padding:8px;
   border-radius:6px;
   color:#fff;
+  font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;
 }
 
-/* Side Tabs - horizontal layout, image-only */
+/* Side Tabs */
 .side-tabs{
   position:absolute;
   top:50%;
@@ -142,86 +160,28 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
 }
 .tab-left, .tab-right{
   display:flex;
-  flex-direction:row; /* horizontal */
+  flex-direction:row;
   gap:12px;
   pointer-events:auto;
   align-items:center;
 }
 .tab-left{ margin-left:12px; }
 .tab-right{ margin-right:12px; }
-
-/* Make side-tabs not constrain size */
-.tab-left, .tab-right {
-  display: flex;
-  flex-direction: row;
-  gap: 0; /* remove gap */
-  pointer-events: auto;
-  align-items: flex-start;
-}
-
-/* optional: use negative margins to slightly overlap them */
-.tab-left .tab:not(:first-child),
-.tab-right .tab:not(:first-child) {
-  margin-left: -45px; /* pull tabs closer together */
-}
-
-/* Right tabs — pull closer together */
-.tab-right {
-  display: flex;
-  flex-direction: row;
-  gap: 0; /* remove default gap */
-  pointer-events: auto;
-  align-items: flex-start;
-}
-
-/* Negative margin between right tabs only */
-.tab-right .tab:not(:first-child) {
-  margin-left: -45px; /* tweak to desired spacing */
-}
-
-/* Prevent tabs from moving on hover */
-.tab-right .tab:hover,
-.tab-right .tab.active {
-  transform: none;
-}
-
-/* Keep left tabs untouched */
-.tab-left .tab:hover,
-.tab-left .tab.active {
-  transform: translateX(6px); /* optional: keep left hover effect */
-}
-
-/* Tabs themselves */
-.tab {
-  background: transparent;
-  padding: 0;
-  width: auto;
-  height: auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  overflow: visible; /* allow natural size */
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-/* Images */
-.tab img {
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  max-height: none; /* remove any max-height constraints */
-}
-
+.tab-left, .tab-right { display: flex; flex-direction: row; gap: 0; pointer-events: auto; align-items: flex-start;}
+.tab-left .tab:not(:first-child), .tab-right .tab:not(:first-child) { margin-left: -45px; }
+.tab-right .tab:hover, .tab-right .tab.active { transform: none; }
+.tab-left .tab:hover, .tab-left .tab.active { transform: translateX(6px); }
+.tab { background: transparent; padding: 0; width: auto; height: auto; display: flex; align-items: flex-start; justify-content: center; overflow: visible; cursor: pointer; transition: transform 0.3s; font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
+.tab img { width: auto; height: auto; object-fit: contain; max-height: none; }
 .tab:hover{ transform: translateX(6px); }
 .tab.active{ transform: translateX(12px); }
 
 /* Controls */
 .controls{position:absolute;top:50%;left:0;width:100%;display:flex;justify-content:space-between;pointer-events:none;transform:translateY(-50%);}
-.btn{pointer-events:auto;background:rgba(0,0,0,0.38);border-radius:10px;color:#fff;padding:12px 18px;margin:0 18px;cursor:pointer;font-weight:600; transition:transform .18s, background .18s;}
+.btn{pointer-events:auto;background:rgba(0,0,0,0.38);border-radius:10px;color:#fff;padding:12px 18px;margin:0 18px;cursor:pointer;font-weight:600; transition:transform .18s, background .18s; font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
 .btn:hover{background: rgba(255,255,255,0.06);}
 .btn:active{transform:translateY(1px);}
-.hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,0.6);}
+.hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,0.6); font-family:'ConvectionUI', "Segoe UI", Roboto, system-ui;}
 
 /* Responsive tweaks */
 @media(max-width:1000px){
@@ -229,8 +189,6 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
   .side-column{display:none;}
   .tab img{height:80px;}
 }
-
-
 </style>
 </head>
 <body>
@@ -241,45 +199,69 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
 
 <!-- BLADE 0 -->
 <div class="blade" data-index="0" style="background: linear-gradient(135deg, #f3b36b 0%, #d67a10 100%);">
-  <div class="blade-center">
+  <div class="blade-center" style="position: relative;"> <!-- Position relative for absolute images -->
+
+<!-- TOP CENTERED IMAGE ABOVE LEFT/RIGHT SECTIONS -->
+<div style="position: absolute; top: -44px; left: 50.6%; transform: translateX(-50%); z-index:1;">
+  <img src="images/blades/top_image.png" 
+       alt="Top Image"
+       style="transform: scaleX(0.91); transform-origin: center;"> <!-- 0.8 squeezes inward -->
+</div>
+
     <!-- LEFT HALF -->
-    <div class="main-column" style="gap:16px;">
+    <div class="main-column" style="gap:16px; margin-top:20px;">
 
-      <!-- CREATE PROFILE BOX -->
-      <div class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:50%;gap:12px;position:relative;overflow:hidden;">
+      <!-- CREATE PROFILE BOX WRAPPER -->
+      <div style="position: relative; top: 20px;"> <!-- Adjust top to move box down -->
 
-        <strong style="font-size:1.2em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Create Profile</strong>
+        <!-- CREATE PROFILE BOX -->
+        <div class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:390px;gap:12px;position:relative;overflow:hidden; height:136px;">
 
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px;height:48px;display:flex;justify-content:center;align-items:center;background: transparent;border-radius:6px;border: 1px solid rgba(255,255,255,0.2);margin-left:12px;">
-            <img src="images/blades/gamer_icon.png" style="width:40px; height:40px;" alt="Gamer Icon">
+          <strong style="font-size:1.6em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Sign In</strong>
+
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:48px;height:48px;display:flex;justify-content:center;align-items:center;background: transparent;border-radius:6px;border: 1px solid rgba(255,255,255,0.2);margin-left:25px; margin-top:8px;">
+              <img src="images/blades/gamer_icon.png" style="width:79px; height:67px;" alt="Gamer Icon">
+            </div>
+            <p style="margin-left:25px; margin-top:8px;font-size:1.6em;font-weight:510;font-family:'Segoe UI', Roboto, system-ui;color:#000;line-height:1.2;">1 Profile Found</p>
           </div>
-          <p style="margin:0;font-size:1.2em;font-weight:600;font-family:'Segoe UI', Roboto, system-ui;color:#000;line-height:1.2;">No Profiles Found</p>
 
         </div>
+        <!-- END CREATE PROFILE BOX -->
 
+      </div> <!-- END WRAPPER -->
+
+      <!-- Options Container -->
+      <div style="display:flex; flex-direction:column; width:60%; margin-top:12px; position:relative; height:160px;"> 
+        <!-- Container is relative so absolute dividers can be positioned -->
+
+        <!-- Top line (Join Xbox LIVE) -->
+        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+          <img src="images/blades/xbl_join_icon.png" style="max-width:64px; max-height:64px;">
+          <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Join Xbox LIVE</span>
+        </div>
+
+        <!-- Middle line (Recover Gamertag...) -->
+        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+          <img src="images/blades/xbl_recover_icon.png" style="max-width:64px; max-height:64px;">
+          <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Recover Gamertag<br>from Xbox LIVE</span>
+        </div>
+
+        <!-- Dividers (3 lines, each 79px apart) -->
+        <div style="position:absolute; top:0; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
+        <div style="position:absolute; top:79px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
+        <div style="position:absolute; top:158px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
       </div>
-      <!-- END CREATE PROFILE BOX -->
 
-      <!-- Additional options under Create Profile -->
-      <div style="display:flex; flex-direction:column; gap:8px; padding:16px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <img src="images/blades/xbl_join_icon.png" style="width:24px; height:24px;"> Join Xbox LIVE
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <img src="images/blades/xbl_recover_icon.png" style="width:24px; height:24px;"> Recover Gamertag from Xbox LIVE
-        </div>
-      </div>
-
-      <!-- Xbox LIVE logo -->
-      <div style="display:flex; justify-content:flex-start; align-items:center; margin-top:8px;">
-        <img src="images/blades/xbl_logo.png" alt="Xbox LIVE Logo">
+      <!-- Xbox LIVE Logo -->
+      <div style="position: relative; display:flex; justify-content:flex-start; align-items:flex-start; margin-top:-6px;">
+        <img src="images/blades/xbl_logo.png" alt="Xbox LIVE Logo" style="position: relative; left: 0px; width: 390px; height: 103px;">  
       </div>
 
     </div>
 
     <!-- RIGHT HALF -->
-    <div class="side-column" style="background:transparent; box-shadow:none; padding:0;">
+    <div class="side-column" style="background:transparent; box-shadow:none; padding:0; position:relative; top:90px;">
       <div style="display:flex; justify-content:flex-start; align-items:center; margin-bottom:16px;">
         <img src="images/blades/xbl_logo2.png" alt="Xbox LIVE Logo">
       </div>
@@ -301,8 +283,24 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
       </div>
     </div>
 
+    <!-- CENTER IMAGE UNDER LEFT & RIGHT SECTIONS -->
+    <div style="position: absolute; top:494px; left: 50%; transform: translateX(-50%); z-index:1;">
+      <img src="images/blades/center_image.png" alt="Center Image">
+    </div>
+
+<!-- BOTTOM CENTERED IMAGE BELOW CENTER IMAGE -->
+<div style="position: absolute; top: 598px; left: 50.5%; transform: translateX(-50%); z-index:1;">
+  <img src="images/blades/bottom_image.png" 
+       alt="Bottom Image"
+       style="transform: scaleX(0.92); transform-origin: center;"> <!-- 0.8 squeezes inward -->
+</div>
+
   </div>
 </div>
+
+
+
+
 
 <style>
 /* Centered circular glow inside Create Profile box with fade */
@@ -403,7 +401,6 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;}
     <div class="btn" id="nextBtn">▶</div>
   </div>
 
-  <div class="hint">Use ← → or click the side tabs to navigate</div>
 </div>
 
 <script>
