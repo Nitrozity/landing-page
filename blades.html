@@ -442,7 +442,6 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
   tabs.forEach(t=> t.addEventListener('click',()=> goTo(Number(t.dataset.target))));
   prevBtn.addEventListener('click', ()=> goTo(current-1));
   nextBtn.addEventListener('click', ()=> goTo(current+1));
-  document.addEventListener('keydown', e=>{
     if(e.key==='ArrowRight') goTo(current+1);
     if(e.key==='ArrowLeft') goTo(current-1);
   });
@@ -677,31 +676,6 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 }
 </style>
 
-<script>
-const centerBox = document.getElementById('centerBox');
-const signInContainer = document.getElementById('signInContainer');
-
-centerBox.addEventListener('click', () => {
-    signInContainer.style.display = 'flex';
-});
-</script>
-
-
-
-<script>
-const centerBox = document.getElementById('centerBox');
-const signInContainer = document.getElementById('signInContainer');
-
-centerBox.addEventListener('click', () => {
-    signInContainer.style.display = 'flex'; // show text + console icon
-});
-</script>
-
-
-
-
-
-
 
 <!-- RIGHT CURVED IMAGE -->
 <div style="
@@ -729,30 +703,158 @@ centerBox.addEventListener('click', () => {
 </div>
 
 <script>
-const profileBox = document.getElementById('createProfileBox');
-const menu = document.querySelector('body > #slideMenu');
-const overlay = document.getElementById('menuOverlay');
+(function(){
+  const track = document.getElementById('track');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const blades = Array.from(document.querySelectorAll('.blade'));
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
 
-profileBox.addEventListener('click', (e) => {
-  e.stopPropagation();
-  menu.style.left = '0';
-  overlay.style.opacity = '1';
-  overlay.style.pointerEvents = 'auto';
-});
+  const profileBox = document.getElementById('createProfileBox');
+  const menuProfileBox = document.getElementById('centerBox'); // Slide menu profile
+  const signInContainer = document.getElementById('signInContainer');
+  const menu = document.getElementById('slideMenu');
+  const overlay = document.getElementById('menuOverlay');
 
-overlay.addEventListener('click', () => {
-  menu.style.left = '-45%';
-  overlay.style.opacity = '0';
-  overlay.style.pointerEvents = 'none';
-});
+  let current = 0;
+  const max = blades.length - 1;
+  let signedIn = false;
 
-document.addEventListener('click', (e) => {
-  if (!menu.contains(e.target) && !profileBox.contains(e.target)) {
+  // ====== HELPER FUNCTION: Sign In Process ======
+  async function signInProcess() {
+    // Show loader
+    signInContainer.style.display = 'flex';
+
+    // Wait 2 seconds (loader visible)
+    await new Promise(r => setTimeout(r, 2000));
+
+    // Update Blade profile box
+    profileBox.querySelector('strong').textContent = 'Nitrozity';
+// Replace gamer icon with gamerpic in the exact same location
+const gamerImg = profileBox.querySelector('div > img');
+if (gamerImg) {
+    gamerImg.src = 'images/blades/gamerpic.png';
+    gamerImg.style.marginLeft = '-10px'; // position
+    gamerImg.style.marginTop = '5px';  // position
+    gamerImg.style.width = '79px';       // same size as gamer_icon
+    gamerImg.style.height = '67px';      // same size as gamer_icon
+}
+
+
+   const statsP = profileBox.querySelector('p');
+if (statsP) {
+    statsP.innerHTML = `
+        Games: 0<br>
+        Gamerscore: 0<br>
+        Achievements: 117
+    `;
+    statsP.style.position = 'absolute';  // make it positionable
+    statsP.style.top = '29px';           // adjust vertical
+    statsP.style.left = '120px';         // adjust horizontal
+}
+
+    // Replace options under profile box
+    const optionsContainer = profileBox.nextElementSibling;
+    if (optionsContainer) {
+      optionsContainer.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
+            <img src="images/blades/msg_icon.png" style="max-width:64px; max-height:64px;">
+            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Messages</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
+            <img src="images/blades/friends_icon.png" style="max-width:64px; max-height:64px;">
+            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Friends</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
+            <img src="images/blades/chat_icon.png" style="max-width:64px; max-height:64px;">
+            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Chat & IM</span>
+        </div>
+      `;
+    }
+
+    // Switch to blade 0
+    goTo(0);
+
+    // Mark signed in
+    signedIn = true;
+
+    // Close slide menu AFTER 2 seconds but keep loader visible
+    setTimeout(() => {
+      menu.style.left = '-45%';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+
+      // Hide loader AFTER menu closes (adjust delay to match your CSS transition)
+      setTimeout(() => {
+        signInContainer.style.display = 'none';
+      }, 300);
+
+    }, 2000);
+  }
+
+  // ====== OPEN SLIDE MENU ======
+  function openSlideMenu() {
+    menu.style.left = '0';
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'auto';
+  }
+
+  // ====== NAVIGATION FUNCTION ======
+  function goTo(index){
+    current = Math.max(0, Math.min(max,index));
+    track.style.transform = `translateX(-${current*100}%)`;
+    tabs.forEach(t=> t.classList.toggle('active', Number(t.dataset.target)===current));
+  }
+
+  // ====== TABS ======
+  tabs.forEach(t => t.addEventListener('click', () => goTo(Number(t.dataset.target))));
+
+  // ====== BUTTONS ======
+  prevBtn.addEventListener('click', ()=> goTo(current-1));
+  nextBtn.addEventListener('click', ()=> goTo(current+1));
+
+  // ====== KEYBOARD ======
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight') goTo(current+1);
+    if(e.key==='ArrowLeft') goTo(current-1);
+  });
+
+  // ====== TOUCH ======
+  let startX=0;
+  track.addEventListener('touchstart', e=> startX=e.touches[0].clientX);
+  track.addEventListener('touchend', e=>{
+    const diff = e.changedTouches[0].clientX - startX;
+    if(diff>40) goTo(current-1);
+    if(diff<-40) goTo(current+1);
+  });
+
+  // ====== PROFILE BOX CLICK HANDLERS ======
+  profileBox.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(!signedIn){
+      // Not signed in → open slide menu
+      openSlideMenu();
+    }
+  });
+
+  menuProfileBox.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(!signedIn){
+      // Sign in process from slide menu
+      signInProcess();
+    }
+  });
+
+  // ====== OVERLAY CLICK CLOSE MENU ======
+  overlay.addEventListener('click', ()=>{
     menu.style.left = '-45%';
     overlay.style.opacity = '0';
     overlay.style.pointerEvents = 'none';
-  }
-});
+  });
+
+  // ====== INITIALIZE ======
+  goTo(0);
+})();
 </script>
 
 
