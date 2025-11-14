@@ -201,6 +201,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 <div class="blade" data-index="0" style="background: linear-gradient(135deg, #f3b36b 0%, #d67a10 100%);">
   <div class="blade-center" style="position: relative;"> <!-- Position relative for absolute images -->
 
+
     <!-- TOP CENTERED IMAGE ABOVE LEFT/RIGHT SECTIONS -->
     <div style="position: absolute; top: -44px; left: 50.6%; transform: translateX(-50%); z-index:1;">
       <img src="images/blades/top_image.png" 
@@ -215,7 +216,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
       <div style="position: relative; top: 20px;"> <!-- Adjust top to move box down -->
 
         <!-- CREATE PROFILE BOX (clickable) -->
-        <div id="createProfileBox" class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:390px;gap:12px;position:relative;overflow:hidden; height:136px; cursor:pointer;">
+        <div id="createProfileBox" class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:400px;gap:12px;position:relative;overflow:hidden; height:136px; cursor:pointer;">
 
           <strong style="font-size:1.6em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Sign In</strong>
 
@@ -253,34 +254,58 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
       </div>
 
       <!-- Xbox LIVE Logo -->
-      <div style="position: relative; display:flex; justify-content:flex-start; align-items:flex-start; margin-top:-6px;">
-        <img src="images/blades/xbl_logo.png" alt="Xbox LIVE Logo" style="position: relative; left: 0px; width: 390px; height: 103px;">  
-      </div>
+<div style="position: relative; display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:16px;">
+    <img src="images/blades/xbl.gif" 
+     alt="Xbox LIVE Logo" 
+     style="
+        width: 385px; 
+        height: 100px; 
+        object-fit: cover;
+        border: 8px solid #535555;
+        border-radius: 14px;
+     "> 
+</div>
 
     </div>
 
     <!-- RIGHT HALF -->
-    <div class="side-column" style="background:transparent; box-shadow:none; padding:0; position:relative; top:90px;">
-      <div style="display:flex; justify-content:flex-start; align-items:center; margin-bottom:16px;">
-        <img src="images/blades/xbl_logo2.png" alt="Xbox LIVE Logo">
-      </div>
-      <div style="display:flex; gap:12px; align-items:center; padding:12px;">
-        <div style="flex-shrink:0;">
-          <img src="images/game_icon.png" style="width:48px; height:48px;" alt="Game Icon">
-        </div>
-        <div style="flex:1; display:flex; flex-direction:column;">
-          <strong>Assassin's Creed</strong>
-          <span>Gamerscore: 0</span>
-          <span>Recent Achievements:</span>
-          <div class="achievement-icons">
-            <div class="icon" style="background-image:url('images/achv1.png');"></div>
-            <div class="icon" style="background-image:url('images/achv2.png');"></div>
-            <div class="icon" style="background-image:url('images/achv3.png');"></div>
-            <div class="icon" style="background-image:url('images/achv4.png');"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="side-column" style="background:transparent; box-shadow:none; padding:0; position:relative; top:90px;">
+  <div style="display:flex; justify-content:flex-start; align-items:center; margin-bottom:16px;">
+    <img src="images/blades/xbl_logo2.png" 
+         alt="Xbox LIVE Logo" 
+         style="
+             position: relative;   /* allows shifting */
+             top: -26px;            /* adjust vertical */
+             left: -111px;           /* adjust horizontal */
+             width: 210px; 
+             height: 99px; 
+             object-fit: contain;
+         ">
+  </div>
+
+  <div style="position: relative; padding: 0; margin-top: -6px;">
+    <p style="
+        position: absolute;
+        top: -24px;
+        left: -190px;
+        font-size: 1.99em;
+        color: #000;
+        line-height: 1.25;
+        font-weight: 599;
+        text-align: left;
+        margin: 0;
+        width: 460px;
+        word-wrap: break-word;
+    ">
+        Xbox Live <br>
+        Games. Tournaments.<br>
+        Entertainment. All the rewards.<br>
+        Endless possibilities. What are<br>
+        you waiting for?
+    </p>
+  </div>
+</div>
+
 
     <!-- CENTER IMAGE UNDER LEFT & RIGHT SECTIONS -->
     <div style="position: absolute; top:494px; left: 50%; transform: translateX(-50%); z-index:1;">
