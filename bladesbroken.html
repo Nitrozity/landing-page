@@ -3,25 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Screen Image</title>
+<title>Blades Button with Circle and Symbols</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000; /* fallback color */
+  body {
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
-  img {
+  /* Main button wrapper */
+  .blades-button-wrapper {
+    position: relative;
+    width: 1024px;
+    height: 64px; /* button height */
+    border-radius: 47px; /* pill shape */
+    background-color: transparent;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3); /* inner shadow */
+    border: 2px solid rgba(0,0,0,0.5); /* slightly transparent black border */
+  }
+
+  /* Circle on the left */
+  .blades-button-wrapper::before {
+    content: '';
+    position: absolute;
+    left: -24px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid rgba(0,0,0,0.5); 
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3); 
+  }
+
+  /* Button content */
+  .blades-button-wrapper button {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* fills screen without stretching */
-    object-position: center; /* keeps image centered */
+    border: none; 
+    border-radius: 47px;
+    background-color: transparent;
+    color: #000;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 130px; /* space from circle to text */
+
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+
+    position: relative;
+    z-index: 1;
   }
+
+  /* Arrow + bar container */
+  .blades-button-wrapper button .left-symbols {
+    position: absolute;
+    left: 24px; /* adjust to move both symbols together */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2px; /* space between arrow and bar */
+    color: rgba(0,0,0,0.5); /* slightly transparent */
+  }
+
+  .left-symbols .arrow {
+    font-size: 20px; /* smaller than button text */
+    line-height: 1;
+  }
+
+  .left-symbols .bar {
+    font-size: 16px; /* slightly smaller than arrow */
+    line-height: 1;
+  }
+
+  /* Hover effect */
+  .blades-button-wrapper button:hover .left-symbols {
+    color: rgba(0,0,0,0.8); /* darker on hover */
+  }
+
+  .blades-button-wrapper button:hover {
+    color: #000; /* keep button text same, adjust if needed */
+  }
+
 </style>
 </head>
 <body>
-  <img src="images/blades.jpg" alt="Full Screen Image">
+
+<div class="blades-button-wrapper">
+  <button>
+    <span class="left-symbols">
+      <span class="arrow">◀</span>
+      <span class="bar">▎</span>
+    </span>
+    Open Tray
+  </button>
+</div>
+
 </body>
 </html>
