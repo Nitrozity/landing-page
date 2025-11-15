@@ -197,7 +197,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     height: 64px;
     border-radius: 47px;
     background-color: transparent;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 9px rgba(0,0,0,0.3);
     border: 3px solid rgba(0,0,0,0.29);
 }
 
@@ -266,10 +266,49 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 }
 
 
+/* ===== MOBILE BLOCKER ===== */
+#mobile-block {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #fff;
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    font-family: 'ConvectionUI', "Segoe UI", Roboto, system-ui;
+    font-size: 1.6em;
+    line-height: 1.4;
+}
+
+/* Show blocker on any screen smaller than 900px width */
+@media (max-width: 900px) {
+    #mobile-block {
+        display: flex;
+    }
+
+    /* Hide all page content behind it */
+    .blades-wrap {
+        display: none !important;
+    }
+}
+
+
+
 
 </style>
 </head>
 <body>
+
+<div id="mobile-block">
+  <div class="mobile-message">
+    This page is for desktop viewing only. Jit.
+  </div>
+</div>
+
+
 <div class="blades-wrap">
 
   <!-- Panel Track -->
@@ -298,7 +337,7 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
        style="display:flex; flex-direction:column; padding:0 16px 16px 0; 
               background: transparent; border: 2px solid rgba(0,0,0,0.2); 
               border-radius:12px; width:400px; gap:12px; position:relative; 
-              overflow:hidden; height:136px; cursor:pointer;">
+              overflow:hidden; height:141px; cursor:pointer;">
 
     <strong style="font-size:1.6em; padding:4px 8px; 
                    border-top-left-radius:12px; border-top-right-radius:12px; 
@@ -310,8 +349,8 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     <div style="display:flex; align-items:center; gap:12px;">
       <div style="width:48px; height:48px; display:flex; justify-content:center; align-items:center; 
                   background: transparent; border-radius:6px; border: 1px solid rgba(255,255,255,0.2); 
-                  margin-left:25px; margin-top:8px;">
-        <img src="images/blades/gamer_icon.png" style="width:79px; height:67px;" alt="Gamer Icon">
+                  margin-left:25px; margin-top:11px;">
+        <img src="images/blades/gamer_icon.png" style="width:79px; height:75px;" alt="Gamer Icon">
       </div>
       <p style="margin-left:25px; margin-top:8px; font-size:1.6em; font-weight:510; 
                 font-family:'Segoe UI', Roboto, system-ui; color:#000; line-height:1.2;">1 Profile Found</p>
@@ -326,13 +365,13 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 <div id="profileOptions" style="display:flex; flex-direction:column; width:60%; margin-top:12px; position:relative; height:160px;">
 
   <!-- Top line (Join Xbox LIVE) -->
-  <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+<div class="option-shine" style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
     <img src="images/blades/xbl_join_icon.png" style="max-width:64px; max-height:64px;">
     <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Join Xbox LIVE</span>
   </div>
 
   <!-- Middle line (Recover Gamertag) -->
-  <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+<div class="option-shine" style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
     <img src="images/blades/xbl_recover_icon.png" style="max-width:64px; max-height:64px;">
     <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Recover Gamertag<br>from Xbox LIVE</span>
   </div>
@@ -787,6 +826,68 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     from { transform: rotate(0deg) translate(20px) rotate(0deg); }
     to   { transform: rotate(360deg) translate(20px) rotate(-360deg); }
 }
+
+/* Persistent white shine inside option items */
+.option-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Add radial shine effect */
+.option-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  z-index: 0; /* behind content */
+}
+
+/* Expand shine when hovered */
+.option-item:hover::before {
+  width: 180%;   /* adjust to cover section width */
+  height: 180%;  /* adjust to cover section height */
+  opacity: 1;
+}
+
+
+/* Shine effect only inside the option rows */
+.option-shine {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.option-shine::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.45s ease, height 0.45s ease, opacity 0.45s ease;
+  opacity: 0;
+  z-index: 0; /* stays behind the text */
+}
+
+.option-shine:hover::before {
+  width: 160%;
+  height: 160%;
+  opacity: 1;
+}
+
+
+
 </style>
 
 
@@ -847,62 +948,79 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
 const gamerImg = profileBox.querySelector('div > img');
 if (gamerImg) {
     gamerImg.src = 'images/blades/gamerpic.png';
-    gamerImg.style.marginLeft = '-10px'; // position
+    gamerImg.style.marginLeft = '-3.5px'; // position
     gamerImg.style.marginTop = '5px';  // position
     gamerImg.style.width = '79px';       // same size as gamer_icon
-    gamerImg.style.height = '67px';      // same size as gamer_icon
+    gamerImg.style.height = '75px';      // same size as gamer_icon
 }
 
-
-   const statsP = profileBox.querySelector('p');
+const statsP = profileBox.querySelector('p');
 if (statsP) {
     statsP.innerHTML = `
-        Games: 0<br>
-        Gamerscore: 0<br>
-        Achievements: 117
+        <div style="display:flex; justify-content:space-between; width:287px; font-family:ConvectionUI; font-weight:590;">
+            <span>Games</span>
+            <span style="font-family:ConvectionUI, monospace; font-size:26.5px; font-weight:590;">0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; width:287px; align-items:center; font-family:ConvectionUI; font-weight:590;">
+            <span>
+                <img src="images/blades/g_icon.png" style="width:29px; height:29px; vertical-align:middle;">
+                <span style="margin-left:-4.9px; font-size:26.5px; line-height:21px; position:relative; top:2px; font-family:ConvectionUI; font-weight:590;">amerscore</span>
+            </span>
+            <span style="font-family:ConvectionUI, monospace; font-size:26.5px; font-weight:590;">0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; width:287px; font-family:ConvectionUI; font-weight:590;">
+            <span>Achievements</span>
+            <span style="font-family:ConvectionUI, monospace; font-size:26.5px; font-weight:590;">117</span>
+        </div>
     `;
-    statsP.style.position = 'absolute';  // make it positionable
-    statsP.style.top = '29px';           // adjust vertical
-    statsP.style.left = '120px';         // adjust horizontal
+    statsP.style.position = 'absolute';
+    statsP.style.top = '31px';
+    statsP.style.left = '65px';
+    statsP.style.fontSize = '26.5px';
+    statsP.style.fontWeight = '590';
+    statsP.style.fontFamily = 'ConvectionUI';
 }
+
+
+
 // Replace options under profile box during sign-in
 const optionsContainer = document.getElementById('profileOptions');
 if (optionsContainer) {
-  optionsContainer.innerHTML = `
-    <div style="display:flex; flex-direction:column; width:390px;">
+optionsContainer.innerHTML = `
+  <div style="display:flex; flex-direction:column; width:390px; margin-top: 6px;"> <!-- adjust margin-top -->
+    
+    <!-- Divider above Messages -->
+    <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
 
-      <!-- Divider above Messages -->
-      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+    <!-- Messages -->
+<div class="option-item" style="display:flex; align-items:center; gap:25px; padding:6px 12px; position:relative; overflow:hidden;">
+  <img src="images/blades/msgs_icon.png" style="max-width:48px; max-height:48px;">
+  <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Messages</span>
+</div>
 
-      <!-- Messages -->
-      <div style="display:flex; align-items:center; gap:25px; padding:6px 12px;">
-        <img src="images/blades/msgs_icon.png" style="max-width:48px; max-height:48px;">
-        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Messages</span>
-      </div>
+    <!-- Divider between Messages & Friends -->
+    <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
 
-      <!-- Divider between Messages & Friends -->
-      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+    <!-- Friends -->
+<div class="option-item" style="display:flex; align-items:center; gap:23px; padding:6px 12px; position:relative; overflow:hidden;">
+  <img src="images/blades/friends_icon.png" style="max-width:48px; max-height:48px;">
+  <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Friends</span>
+</div>
 
-      <!-- Friends -->
-      <div style="display:flex; align-items:center; gap:23px; padding:6px 12px;">
-        <img src="images/blades/friends_icon.png" style="max-width:48px; max-height:48px;">
-        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Friends</span>
-      </div>
+    <!-- Divider between Friends & Chat & IM -->
+    <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
 
-      <!-- Divider between Friends & Chat & IM -->
-      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+    <!-- Chat & IM -->
+<div class="option-item" style="display:flex; align-items:center; gap:25px; padding:6px 12px; position:relative; overflow:hidden;">
+  <img src="images/blades/chatandim_icon.png" style="max-width:48px; max-height:48px;">
+  <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Chat and IM</span>
+</div>
 
-      <!-- Chat & IM -->
-      <div style="display:flex; align-items:center; gap:25px; padding:6px 12px;">
-        <img src="images/blades/chatandim_icon.png" style="max-width:48px; max-height:48px;">
-        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Chat and IM</span>
-      </div>
+    <!-- Divider below Chat & IM -->
+    <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
 
-      <!-- Divider below Chat & IM -->
-      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
-
-    </div>
-  `;
+  </div>
+`;
 }
 
 
