@@ -290,59 +290,67 @@ h2{font-size:1.2em;font-weight:600;color:#fff;margin-bottom:8px;font-family:'Con
     <!-- LEFT HALF -->
     <div class="main-column" style="gap:16px; margin-top:20px;">
 
-      <!-- CREATE PROFILE BOX WRAPPER -->
-      <div style="position: relative; top: 20px;"> <!-- Adjust top to move box down -->
+<!-- CREATE PROFILE BOX WRAPPER -->
+<div style="position: relative; top: 20px;"> <!-- Adjust top to move box down -->
 
-        <!-- CREATE PROFILE BOX (clickable) -->
-        <div id="createProfileBox" class="create-profile-box" style="display:flex;flex-direction:column;padding:0 16px 16px 0;background: transparent;border: 2px solid rgba(0,0,0,0.2);border-radius:12px;width:400px;gap:12px;position:relative;overflow:hidden; height:136px; cursor:pointer;">
+  <!-- CREATE PROFILE BOX (clickable) -->
+  <div id="createProfileBox" class="create-profile-box" 
+       style="display:flex; flex-direction:column; padding:0 16px 16px 0; 
+              background: transparent; border: 2px solid rgba(0,0,0,0.2); 
+              border-radius:12px; width:400px; gap:12px; position:relative; 
+              overflow:hidden; height:136px; cursor:pointer;">
 
-          <strong style="font-size:1.6em;padding:4px 8px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:0;background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%);color:#000;align-self:flex-start;margin:0;display:block;width:105%;box-sizing:border-box;">Sign In</strong>
+    <strong style="font-size:1.6em; padding:4px 8px; 
+                   border-top-left-radius:12px; border-top-right-radius:12px; 
+                   border-bottom-right-radius:12px; border-bottom-left-radius:0; 
+                   background: linear-gradient(to right, rgba(145,145,145,0.4) 0%, rgba(145,145,145,0) 85%); 
+                   color:#000; align-self:flex-start; margin:0; display:block; width:105%; 
+                   box-sizing:border-box;">Sign In</strong>
 
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div style="width:48px;height:48px;display:flex;justify-content:center;align-items:center;background: transparent;border-radius:6px;border: 1px solid rgba(255,255,255,0.2);margin-left:25px; margin-top:8px;">
-              <img src="images/blades/gamer_icon.png" style="width:79px; height:67px;" alt="Gamer Icon">
-            </div>
-            <p style="margin-left:25px; margin-top:8px;font-size:1.6em;font-weight:510;font-family:'Segoe UI', Roboto, system-ui;color:#000;line-height:1.2;">1 Profile Found</p>
-          </div>
-
-        </div>
-        <!-- END CREATE PROFILE BOX -->
-
-      </div> <!-- END WRAPPER -->
-
-      <!-- Options Container -->
-      <div style="display:flex; flex-direction:column; width:60%; margin-top:12px; position:relative; height:160px;"> 
-
-        <!-- Top line (Join Xbox LIVE) -->
-        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
-          <img src="images/blades/xbl_join_icon.png" style="max-width:64px; max-height:64px;">
-          <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Join Xbox LIVE</span>
-        </div>
-
-        <!-- Middle line (Recover Gamertag...) -->
-        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
-          <img src="images/blades/xbl_recover_icon.png" style="max-width:64px; max-height:64px;">
-          <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Recover Gamertag<br>from Xbox LIVE</span>
-        </div>
-
-        <!-- Dividers (3 lines, each 79px apart) -->
-        <div style="position:absolute; top:0; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
-        <div style="position:absolute; top:79px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
-        <div style="position:absolute; top:158px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div style="width:48px; height:48px; display:flex; justify-content:center; align-items:center; 
+                  background: transparent; border-radius:6px; border: 1px solid rgba(255,255,255,0.2); 
+                  margin-left:25px; margin-top:8px;">
+        <img src="images/blades/gamer_icon.png" style="width:79px; height:67px;" alt="Gamer Icon">
       </div>
+      <p style="margin-left:25px; margin-top:8px; font-size:1.6em; font-weight:510; 
+                font-family:'Segoe UI', Roboto, system-ui; color:#000; line-height:1.2;">1 Profile Found</p>
+    </div>
 
-      <!-- Xbox LIVE Logo -->
-<div style="position: relative; display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:16px;">
-    <img src="images/blades/xbl.gif" 
-     alt="Xbox LIVE Logo" 
-     style="
-        width: 385px; 
-        height: 100px; 
-        object-fit: cover;
-        border: 8px solid #535555;
-        border-radius: 14px;
-     "> 
+  </div>
+  <!-- END CREATE PROFILE BOX -->
+
+</div> <!-- END WRAPPER -->
+
+<!-- OPTIONS CONTAINER -->
+<div id="profileOptions" style="display:flex; flex-direction:column; width:60%; margin-top:12px; position:relative; height:160px;">
+
+  <!-- Top line (Join Xbox LIVE) -->
+  <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+    <img src="images/blades/xbl_join_icon.png" style="max-width:64px; max-height:64px;">
+    <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Join Xbox LIVE</span>
+  </div>
+
+  <!-- Middle line (Recover Gamertag) -->
+  <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0; position:relative; z-index:1;">
+    <img src="images/blades/xbl_recover_icon.png" style="max-width:64px; max-height:64px;">
+    <span style="font-size:1.5em; font-weight:510; color:#000; display:inline-block; transform: scaleX(1.2); transform-origin: left;">Recover Gamertag<br>from Xbox LIVE</span>
+  </div>
+
+  <!-- Dividers (exact spacing as original) -->
+  <div style="position:absolute; top:0; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
+  <div style="position:absolute; top:79px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
+  <div style="position:absolute; top:158px; left:0; width:390px; border-top:2px solid rgba(0,0,0,0.4);"></div>
 </div>
+
+<!-- Xbox LIVE Logo -->
+<div style="position: relative; display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:16px;">
+  <img src="images/blades/xbl.gif" 
+       alt="Xbox LIVE Logo" 
+       style="width: 385px; height: 100px; object-fit: cover; 
+              border: 8px solid #535555; border-radius: 14px;">
+</div>
+
 
     </div>
 
@@ -857,25 +865,47 @@ if (statsP) {
     statsP.style.top = '29px';           // adjust vertical
     statsP.style.left = '120px';         // adjust horizontal
 }
+// Replace options under profile box during sign-in
+const optionsContainer = document.getElementById('profileOptions');
+if (optionsContainer) {
+  optionsContainer.innerHTML = `
+    <div style="display:flex; flex-direction:column; width:390px;">
 
-    // Replace options under profile box
-    const optionsContainer = profileBox.nextElementSibling;
-    if (optionsContainer) {
-      optionsContainer.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
-            <img src="images/blades/msg_icon.png" style="max-width:64px; max-height:64px;">
-            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Messages</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
-            <img src="images/blades/friends_icon.png" style="max-width:64px; max-height:64px;">
-            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Friends</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px; height:80px; padding:12px 0;">
-            <img src="images/blades/chat_icon.png" style="max-width:64px; max-height:64px;">
-            <span style="font-size:1.5em; font-weight:510; color:#000; transform: scaleX(1.2);">Chat & IM</span>
-        </div>
-      `;
-    }
+      <!-- Divider above Messages -->
+      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+
+      <!-- Messages -->
+      <div style="display:flex; align-items:center; gap:25px; padding:6px 12px;">
+        <img src="images/blades/msgs_icon.png" style="max-width:48px; max-height:48px;">
+        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Messages</span>
+      </div>
+
+      <!-- Divider between Messages & Friends -->
+      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+
+      <!-- Friends -->
+      <div style="display:flex; align-items:center; gap:23px; padding:6px 12px;">
+        <img src="images/blades/friends_icon.png" style="max-width:48px; max-height:48px;">
+        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Friends</span>
+      </div>
+
+      <!-- Divider between Friends & Chat & IM -->
+      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+
+      <!-- Chat & IM -->
+      <div style="display:flex; align-items:center; gap:25px; padding:6px 12px;">
+        <img src="images/blades/chatandim_icon.png" style="max-width:48px; max-height:48px;">
+        <span style="font-size:1.5em; font-weight:550; color:#000; transform: scaleX(1.2);">Chat and IM</span>
+      </div>
+
+      <!-- Divider below Chat & IM -->
+      <div style="border-top:2px solid rgba(0,0,0,0.4);"></div>
+
+    </div>
+  `;
+}
+
+
 
     // Switch to blade 0
     goTo(0);
